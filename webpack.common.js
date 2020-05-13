@@ -1,6 +1,13 @@
+const path = require('path')
+const globEntry = require('webpack-glob-entry')
 const ManifestPlugin = require('webpack-manifest-plugin')
 
 module.exports = {
+	entry: globEntry('./src/*.js'),
+	output: {
+		path: path.resolve(__dirname, 'dist'),
+		publicPath: '/dist/'
+	},
 	plugins: [
 		new ManifestPlugin({
 			basePath: '',

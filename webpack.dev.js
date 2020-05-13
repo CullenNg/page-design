@@ -1,5 +1,5 @@
 const merge = require('webpack-merge')
-const common = require('./common.js')
+const common = require('./webpack.common.js')
 const SimpleProgressWebpackPlugin = require('simple-progress-webpack-plugin') // 打包进度条
 
 module.exports = merge(common, {

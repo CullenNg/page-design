@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "dev": "webpack-dev-server --config webpack-config/dev.js --inline --hot --mode development",
-    "build": "webpack --config webpack-config/production.js"
+    "dev": "webpack-dev-server --config webpack.dev.js --inline --hot --mode development",
+    "build": "webpack --config webpack.prod.js"
   },
   "author": "cullen.ng@hotmail.com",
   "license": "ISC",
