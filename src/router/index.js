@@ -6,15 +6,8 @@ import { message } from 'ant-design-vue';
 Vue.use(Router);
 
 export const constantRouterMap = [
-    {
-        path: '/',
-        redirect: '/design',
-    },
-    {
-        path: '/design',
-        meta: { name: '装修页' },
-        component: () => import('../views/design/index.vue')
-    },
+    { path: '/', redirect: '/design', },
+    { path: '/design', meta: { name: '装修页' }, component: () => import('../views/design/index.vue') },
     { path: '*', redirect: '/404', hidden: true }
 ]
 

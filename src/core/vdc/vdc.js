@@ -1,5 +1,5 @@
 /**
- * Virtual deisgn component
+ * Virtual component for design
  */
 export default class Vdc {
     /**

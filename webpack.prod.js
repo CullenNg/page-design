@@ -2,6 +2,8 @@ const merge = require('webpack-merge')
 const common = require('./webpack.common.js')
 const SimpleProgressWebpackPlugin = require( 'simple-progress-webpack-plugin') // 打包进度条
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = htmlWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = merge(common, {
 	mode: 'production',
@@ -22,13 +24,26 @@ module.exports = merge(common, {
 	},
 	plugins: [
 		new CleanWebpackPlugin(
-			['dist/*.js', 'dist/*.map'],
-			{
-				verbose: true,
-				dry: false,
-			}
+			['dist/*'],
+			{ verbose: true, dry: false, }
 		),
-		new SimpleProgressWebpackPlugin()
+		new SimpleProgressWebpackPlugin(),
+		new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: './src/html/index.html',
+            inject: true,
+            chunks: ['main'],
+            // 路径源修改
+            static: '/',
+            timestamp: new Date().getTime(),
+            minify: {
+                //删除html的注释
+                removeComments: true,
+                //删除空格
+                collapseWhitespace: true
+            }
+		}),
+		new BundleAnalyzerPlugin()
 	],
 	optimization: {
 		splitChunks: {
@@ -49,26 +64,6 @@ module.exports = merge(common, {
 					minSize: 30000,
 					minChunks: 1,
 					enforce: true,
-					reuseExistingChunk: true // 可设置是否重用该chunk
-				},
-				bundle: {
-					chunks: "initial",
-					name: 'common',
-					priority: 1,
-					minSize: 30000,
-					minChunks: 1,
-					enforce: true,
-					reuseExistingChunk: true // 可设置是否重用该chunk
-				},
-				async: {
-					chunks: "async",
-					name: 'async_views',
-					priority: 0,
-					minSize: 30000,
-					minChunks: 1,
-					enforce: true,
-					maxAsyncRequests: 5, // 最大异步请求数， 默认1
-					maxInitialRequests : 3, // 最大初始化请求书，默认1
 					reuseExistingChunk: true // 可设置是否重用该chunk
 				},
 			}

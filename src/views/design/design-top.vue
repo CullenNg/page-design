@@ -109,7 +109,7 @@
                 </a-select>
 
                 <a href="javascript:void(0);" class="save" @click="handle_page_save">保存并继续</a>
-                <a href="javascript:void(0);" class="release">发布</a>
+                <a href="javascript:void(0);" class="release" @click="handle_page_release">发布</a>
             </a-col>
 
         </a-row>
@@ -192,6 +192,13 @@ export default {
          */
         handle_page_save () {
             this.$store.dispatch('design/page_save');
+        },
+
+        /**
+         * 发布页面
+         */
+        handle_page_release () {
+            this.$message.success('发布成功');
         }
     },
 
