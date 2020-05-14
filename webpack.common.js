@@ -5,8 +5,8 @@ const ManifestPlugin = require('webpack-manifest-plugin')
 module.exports = {
 	entry: globEntry('./src/*.js'),
 	output: {
-		path: path.resolve(__dirname, 'dist'),
-		publicPath: '/dist/'
+		path: path.resolve(__dirname, 'page-design-demo'),
+		publicPath: '/page-design-demo/'
 	},
 	plugins: [
 		new ManifestPlugin({
