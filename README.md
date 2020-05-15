@@ -1,5 +1,5 @@
 # 可视化页面装修
-基于vue+ant-design+vue-draggable实现
+基于 ```vue``` + ```ant-design``` + ```vue-draggable``` 实现
 
 
 #### DEMO:
