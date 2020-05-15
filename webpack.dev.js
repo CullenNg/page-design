@@ -10,7 +10,7 @@ module.exports = merge(common, {
     },
     devServer: {
 		contentBase: __dirname + "/develop/",
-		host: "www.geshop.com.wujianeng.dev.local.com",
+		host: "localhost",
 		port: 3001,
 		historyApiFallback: false,
 		inline: true,
@@ -19,7 +19,7 @@ module.exports = merge(common, {
 		progress: true,
 		proxy: {
 			'/proxy/': {
-				target: 'http://www.geshop.com.wujianeng.dev.local.com/',
+				target: 'http://localhost/',
 				changeOrigin: true,
 				pathRewrite: {
 					'^/proxy/': ''

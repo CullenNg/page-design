@@ -43,13 +43,13 @@
 </template>
 
 <script>
-import Vdc from '../../core/vdc/vdc';
+import Vdc from '@/core/vdc/vdc';
 import draggable from 'vuedraggable'
 
 import {
     // 组件列表接口
     design_get_component_list
-} from '../../interface/index';
+} from '@/interface/index';
 
 export default {
     data () {

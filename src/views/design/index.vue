@@ -28,13 +28,13 @@
 
 import {
     get_native_apis
-} from '../../interface/index';
+} from '@/interface/index';
 
-import layoutTop from './design-top.vue'; // 头部区域
-import layoutPreview from './preview/index.vue'; // 组件预览区域
+import layoutTop from './layout/top.vue'; // 头部区域
+import layoutPreview from './layout-preview/index.vue'; // 组件预览区域
 import layoutForm from './form/index.vue'; // 组件表单区域
-import layoutComponentList from './design-component-list.vue'; // 组件列表区域
-import layoutSortable from './design-sortable.vue'; // 组件顺序区域
+import layoutComponentList from './layout/left.vue'; // 组件列表区域
+import layoutSortable from './layout/right.vue'; // 组件顺序区域
 
 export default {
     components: {

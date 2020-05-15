@@ -21,6 +21,7 @@
  * 颜色选择器
  */
 import { ColorPicker } from 'element-ui';
+import 'element-ui/lib/theme-chalk/color-picker.css';
 
 export default {
     props: ['value', 'config'],

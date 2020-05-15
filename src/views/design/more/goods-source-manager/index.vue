@@ -63,25 +63,14 @@
 
 <script>
 
-/**
- * 参考流程图
- * https://www.processon.com/view/link/5df8ad06e4b0c4255ea00256
- */
-
 // 自填 SKU 模块
 import enterSku from './enter-sku.vue';
-// 商品运营平台模块（选品）
-import esSystem from './es-system.vue';
-// 秒杀ID 模块
-import flashsale from './flashsale-id';
 
 export default {
     name: 'goods-source-manager',
 
     components: {
-        esSystem,
         enterSku,
-        flashsale
     },
 
     props: {
@@ -125,8 +114,8 @@ export default {
             mode: 2,
             mode_list: [
                 { name: '商品SKU', value: 1, disabled: true },
-                { name: '商品运营平台', value: 2, disabled: true },
-                { name: '秒杀ID', value: 3, disabled: true }
+                { name: '其他1', value: 2, disabled: true },
+                { name: '其他2', value: 3, disabled: true }
             ],
             // 自填SKU的
             enterSku: {

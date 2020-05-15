@@ -39,19 +39,12 @@ Vue.prototype.$px2rem = function (pixel = 0) {
     return (pixel / 75) + 'rem';
 };
 
-// 统一校验，依赖store的page模块的参数
-// import GEShopCommonValidFn from './library/geshop-common-validate';
-// Vue.prototype.$valid = new GEShopCommonValidFn({ store });
-
 // 页面入口
 import App from './layout/index.vue'
 
-/* exported GESHOP_VM */
-const GESHOP_VM = new Vue({
+new Vue({
     el: '#app',
     router,
     store,
     render: h => h(App)
 });
-window.GESHOP_VM = GESHOP_VM;
-window.GESHOP_STORE = store;
