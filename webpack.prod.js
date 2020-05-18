@@ -9,7 +9,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = merge(common, {
 	mode: 'production',
 	output: {
-		path: path.resolve(__dirname, 'doc'),
+		path: path.resolve(__dirname, 'docs'),
 		publicPath: '/page-demo/',
 		filename: '[name]_[hash:8].js'
 	},
