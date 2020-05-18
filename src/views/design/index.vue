@@ -65,13 +65,6 @@ export default {
             this.$store.state.design.selected_id = null;
             this.$store.state.design.show_component_form = false;
             
-            /**
-             * 获取页面API接口数据
-             */
-            // const res = await get_native_apis({ group_id, pipeline, lang, platform });
-            window.GESHOP_INTERFACE = [];
-            window.GESHOP_URL_SOP_ADD_RULE = [];
-    
             // 请求页面数据
             this.$store.dispatch('design/page_load', {});
         }

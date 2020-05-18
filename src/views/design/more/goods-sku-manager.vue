@@ -58,7 +58,10 @@
                     <div class="title" style="margin-bottom: 4px;">商品SKU</div>
                     <a-textarea
                         v-model="dialogAdd.skus"
-                        name="goods-sku" class="skus" placeholder="请请输入商品编号(SKU ID), 编号之间用英文逗号隔开" :rows="8"/>
+                        name="goods-sku"
+                        class="skus"
+                        placeholder="请请输入商品编号(SKU ID), 编号之间用英文逗号隔开"
+                        :rows="8"/>
                 </div>
 
             </design-dialog>

@@ -27,13 +27,8 @@
 // 商品管理模块
 import goodsSkuManager from '../goods-sku-manager.vue'
 
-// API
-import {
-    ZF_goodsTplList
-} from '../../../../interface/index'
-
 export default {
-    name: 'es-system',
+    name: 'enter-sku',
     props: ['sku', 'value'],
     data () {
         return {
@@ -74,14 +69,7 @@ export default {
          * 点击商品管理
          */
         handle_goods_manage () {
-            if (this.form.sku == '') {
-                this.$message.error('请添写商品SKU!');
-                return false;
-            }
-            // 校验结果
-            this.sku_validate(this.form.sku, () => {
-                this.goodsSkuManager.visible = true;
-            });
+            this.goodsSkuManager.visible = true;
         },
 
         /**
@@ -90,23 +78,6 @@ export default {
         async get_goods_list (callback) {
             const goodsSKU = this.component_goodsSKU;
             let goodsInfoList = []; // 暂存商品列表
-
-            // 判断是否有sku
-            if (this.form.sku != '') {
-                const info = this.$store.state.page.info;
-                const request = {
-                    page: 1,
-                    limit: 100,
-                    skus: this.form.sku,
-                    lang: info.lang,
-                    pageId: info.page_id,
-                    pipeline: info.pipeline
-                };
-                const res = await ZF_goodsTplList(request); // 获取商品列表数据
-                if (res.code == 0) {
-                    goodsInfoList = [...res.data];
-                }
-            }
 
             // 更新数据
             callback && callback({
@@ -117,48 +88,12 @@ export default {
         },
 
         /**
-         * 校验SKU
-         */
-        sku_validate (sku, callback) {
-            this.$valid.designCommonValid({
-                sku: sku,
-                success: () => {
-                    callback && callback();
-                },
-                update: (sku) => {
-                    this.form.sku = sku;
-                },
-                filter: (sku) => {
-                    this.form.sku = sku;
-                },
-                error: () => {
-                    this.$emit('update:loading', false);
-                }
-            });
-        },
-
-        /**
          * 确认按钮
+         * @param {Functon} callback
          */
         async handle_confirm (callback) {
-            this.$emit('update:loading', true);
-            // 如果有公共校验函数
-            this.$valid.designCommonValid({
-                sku: this.form.sku,
-                success: (res) => {
-                    this.$emit('update:loading', false);
-                    this.get_goods_list(callback);
-                },
-                update: (sku) => {
-                    this.form.sku = sku;
-                },
-                filter: (sku) => {
-                    this.form.sku = sku;
-                },
-                error: () => {
-                    this.$emit('update:loading', false);
-                }
-            });
+            this.$emit('update:loading', false);
+            this.get_goods_list(callback);
         },
     }
 }

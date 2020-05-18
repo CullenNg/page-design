@@ -37,25 +37,6 @@
                     :loading.sync="loading">
                 </enter-sku>
             </div>
-
-            <!-- 选品方式第三方平台 -->
-            <div class="content" v-if="mode == 2">
-                <es-system
-                    ref="esSystem"
-                    :visible="visible"
-                    :sop_rule_id="esSystem.sop_rule_id"
-                    :sop_rule_name="esSystem.sop_rule_name">
-                </es-system>
-            </div>
-
-            <!-- 秒杀ID -->
-            <div class="content" v-if="mode == 3">
-                <flashsale
-                    ref="flashsale"
-                    :price_sys_ids="flashsale.id"
-                    :loading.sync="loading">
-                </flashsale>
-            </div>
         </div>
 
     </design-dialog>
@@ -87,12 +68,6 @@ export default {
             default: ''
         },
 
-        // 数据涞源类型， local/store, default=vuex
-        origin: {
-            type: String,
-            default: 'vuex'
-        },
-
         // 可用选项，默认全开
         able: {
             type: Array,
@@ -111,24 +86,15 @@ export default {
             // 加载状态
             loading: false,
             // 数据模式
-            mode: 2,
+            mode: 1,
             mode_list: [
-                { name: '商品SKU', value: 1, disabled: true },
+                { name: '商品SKU', value: 1, disabled: false },
                 { name: '其他1', value: 2, disabled: true },
                 { name: '其他2', value: 3, disabled: true }
             ],
             // 自填SKU的
             enterSku: {
                 sku: '',
-            },
-            // 商品运营平台的数据
-            esSystem: {
-                sop_rule_id: '',
-                sop_rule_name: '',
-            },
-            // 秒杀ID
-            flashsale: {
-                id: ''
             },
             // 自定义回调函数
             callback: null
@@ -154,24 +120,12 @@ export default {
         /**
          * 初始化
          * params 传参用于老装修页JS调用，原生APP新装修页不需要传参
-         * 根据字段 origin 判断数据来源
-         * origin = vuex 则用的 vuex 的数据
-         * origin = local 直接用 params 的数据，兼容老装修页
          */
         init (params = {}) {
             
             let data = {};
-            if (this.origin == 'vuex') {
-                data = this.get_store_data_by_id(this.data_source_id);
-                this.component_id = this.store_component_id;
-            }
-            if (this.origin == 'local') {
-                data = params;
-                // 更新数据源ID
-                this.data_source_id = data.id;
-                // 查看是否有
-                this.component_id = data.component_id || 0;
-            }
+            data = this.get_store_data_by_id(this.data_source_id);
+            this.component_id = this.store_component_id;
 
             // 开启模式选择项，props 的数据和传参数据合并
             const able_merge = this.able.concat(data.able || []);
@@ -182,9 +136,6 @@ export default {
 
             // 其他参数
             this.enterSku.sku = data.sku || '';
-            this.esSystem.sop_rule_id = data.sop_rule_id || '';
-            this.esSystem.sop_rule_name = data.sop_rule_name || '';
-            this.flashsale.id = data.price_sys_ids || '';
 
             // 判断是否有自定义回调
             if (data.callback) {
@@ -217,8 +168,8 @@ export default {
          * create by Cullen 2019/12/17
          * @param {Number} type 当前选中的模式
          * 1=SKU
-         * 2=商品运营平台
-         * 3=秒杀ID
+         * 2=...
+         * 3=...
          */
         init_mode_selected (type = 0) {
             const selected_type = parseInt(type);
@@ -252,24 +203,6 @@ export default {
                     this.update_store_data(res);
                 });
             }
-            // 选品系统
-            if (this.mode == 2) {
-                this.$refs.esSystem.handle_confirm((res) => {
-                    // 更新数据中心
-                    this.update_store_data(res);
-                });
-            }
-            // 秒杀ID
-            if (this.mode == 3) {
-                this.$refs.flashsale.handle_confirm((res) => {
-                    // 更新数据中心
-                    if (res != null) {
-                        this.update_store_data(res);
-                    } else {
-                        this.$emit('update:visible', false);
-                    }
-                });
-            }
         },
 
         /**
@@ -298,12 +231,11 @@ export default {
         /**
          * 更新 store/local 的数据
          * @param {Number} type 数据模式
-         * @param {String} sku 自填的 SKUS
-         * @param {String} sop_rule_id 选品规则ID
+         * @param {String} sku 自填的 SKU
          * @param {String} sop_rule_name 选品规则名字
          * @param {String} price_sys_ids 秒杀ID
          */
-        async update_store_data ({ type = 2, sku = '', sop_rule_id = '', sop_rule_name = '', price_sys_ids = '' }) {
+        async update_store_data ({ type = 1, sku = '' }) {
             this.loading = true;
 
             // 创建新的数据
@@ -311,10 +243,7 @@ export default {
                 id: this.data_source_id || new Date().getTime(),
                 type,
                 component_id: this.component_id, // 绑定的组件ID
-                sku,
-                sop_rule_id,
-                sop_rule_name,
-                price_sys_ids
+                sku
             };
 
             // 统一获取商品数据
@@ -330,20 +259,10 @@ export default {
             // 更新数据
             data.goodsInfo = [...res.data[0].goodsInfo || []];
 
-            // 如果是秒杀ID的，增加额外的字段
-            if (type == 3) {
-                data.tsk_info = res.data[0].tsk_info || {};
-            }
-
-            // 存放 vuex 的数据
-            switch (this.origin) {
-                case 'vuex':
-                    // 过滤已存在的
-                    this.$store.state.page.goodsSKU = this.$store.state.page.goodsSKU.filter(x => x.id != this.data_source_id);
-                    // 追加到 store 里面
-                    this.store_goods_source.push(data);
-                    break;
-            }
+            // 过滤已存在的
+            this.$store.state.page.goodsSKU = this.$store.state.page.goodsSKU.filter(x => x.id != this.data_source_id);
+            // 追加到 store 里面
+            this.store_goods_source.push(data);
 
             // 关闭弹窗, 向父组件更新数据源数据
             this.$emit('confirm', data);
@@ -362,50 +281,14 @@ export default {
          */ 
         async get_goods_by_type (data) {
             // 判断是否引用 store 模块
-            let request = {};
-            if (this.$store) {
-                request = {
-                    page_id: this.$store.state.page.info.page_id,
-                    site_code: this.$store.state.page.info.site_code,
-                    pipeline: this.$store.state.page.info.pipeline,
-                    lang: this.$store.state.page.info.lang
-                };
-            } else {
-                request = {
-                    page_id: 0,
-                    site_code: window.GESHOP_SITECODE,
-                    pipeline: window.GESHOP_PIPELINE,
-                    lang: window.GESHOP_LANG
-                };
-            }
-
+            let request = {
+                page_id: this.$store.state.page.info.page_id,
+                pipeline: this.$store.state.page.info.pipeline,
+                lang: this.$store.state.page.info.lang
+            };
             return new Promise((resolve, reject) => {
-                const sku_info = {
-                    id: data.id,
-                    type: data.type,
-                    component_id: data.component_id,
-                    sku: data.sku,
-                    sop_rule_id: data.sop_rule_id,
-                    price_sys_ids: data.price_sys_ids
-                }
-                $.ajax({
-                    url: window.GESHOP_INTERFACE.geshopApi_design_goodsInfo.url,
-                    type: 'POST',
-                    dataType: 'jsonp',
-                    data: {
-                        page_id: request.page_id,
-                        site_code: request.site_code,
-                        pipeline: request.pipeline,
-                        lang: request.lang,
-                        sku_info: JSON.stringify([sku_info])
-                    },
-                    success: (res) => {
-                        resolve(res);
-                    },
-                    error: (err) => {
-                        reject(err);
-                    }
-                });
+                const res = {};
+                resolve(res);
             });
         }
     }

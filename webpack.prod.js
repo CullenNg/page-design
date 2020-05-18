@@ -1,3 +1,4 @@
+const path = require('path')
 const merge = require('webpack-merge')
 const common = require('./webpack.common.js')
 const SimpleProgressWebpackPlugin = require( 'simple-progress-webpack-plugin') // 打包进度条
@@ -8,6 +9,8 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = merge(common, {
 	mode: 'production',
 	output: {
+		path: path.resolve(__dirname, 'doc'),
+		publicPath: '/page-demo/',
 		filename: '[name]_[hash:8].js'
 	},
 	module: {
