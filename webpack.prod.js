@@ -10,7 +10,7 @@ module.exports = merge(common, {
 	mode: 'production',
 	output: {
 		path: path.resolve(__dirname, 'docs'),
-		publicPath: '/page-demo/',
+		publicPath: '/page-design/',
 		filename: '[name]_[hash:8].js'
 	},
 	module: {
