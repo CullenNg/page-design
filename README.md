@@ -3,7 +3,7 @@
 
 
 #### DEMO:
-https://cullenng.github.io/page-design-demo/
+https://cullenng.github.io/page-design
 
 #### 参考:  
 https://cn.vuejs.org/  
