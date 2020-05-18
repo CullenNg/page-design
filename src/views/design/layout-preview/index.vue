@@ -33,7 +33,7 @@
 
             <!-- 空信息 -->
             <div class="is-empty" v-if="layouts.length <= 0">
-                <img src="https://geshopimg.logsss.com/uploads/HguJsXhUjdbMSBARmtv1KPz9cLEq85OI.png" alt="">
+                <img :src="images.emptyImage">
                 哎哟，您还没有放置组件哦~
             </div>
             
@@ -45,6 +45,7 @@
 <script>
 import draggable from 'vuedraggable'
 import controller  from './controller.vue';
+import emptyImage from '@/resource/images/empty-preview.png';
 
 export default {
     components: {
@@ -65,6 +66,9 @@ export default {
             },
             // 当前页面布局信息
             layouts: [], 
+            images: {
+                emptyImage 
+            }
         };
     },
 
@@ -150,11 +154,6 @@ export default {
     }
 }
 </script>
-
-<style lang="less">
-    // @import '../../../less/zaful-font.less';
-    // @import '../../../less/zaful.less';
-</style>
 
 <style lang="less" scoped>
 

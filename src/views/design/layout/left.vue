@@ -32,7 +32,7 @@
                         v-for="(item, index) in category.components"
                         :key="index"
                         :data-key="item.component_key">
-                        <i :class="`iconfont geshop-icon ${item.icon}`"></i>
+                        <i :class="`iconfont ${item.icon}`"></i>
                         <p>{{ item.component_title }}</p>
                     </li>
                 </draggable>
@@ -86,7 +86,7 @@ export default {
                     id: item.id,
                     component_key: item.component_key,
                     component_title: item.name,
-                    icon: item.icon || 'geshop-icon-zhandian',
+                    icon: item.icon || '',
                     template_id: Number(item.tpl_id) || 0,
                 }
 

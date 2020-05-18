@@ -1,24 +1,22 @@
 <template>
-    <div class="design-dialog">
-        <a-modal
-            class="geshop-dialog"
-            :wrapClassName="wrapClassName"
-            :width="width"
-            :visible="visible"
-            :title="title"
-            :zIndex="zIndex"
-            :centered="centered"
-            :okText="okText"
-            :cancelText="cancelText"
-            :confirmLoading="confirmLoading"
-            @cancel="handleCancel"
-            @ok="handleOk">
-            <slot></slot>
-            <template slot="footer">
-                <slot name="footer"></slot>
-            </template>
-        </a-modal>
-    </div>
+    <a-modal
+        class="design-dialog"
+        :wrapClassName="wrapClassName"
+        :width="width"
+        :visible="visible"
+        :title="title"
+        :zIndex="zIndex"
+        :centered="centered"
+        :okText="okText"
+        :cancelText="cancelText"
+        :confirmLoading="confirmLoading"
+        @cancel="handleCancel"
+        @ok="handleOk">
+        <slot></slot>
+        <template slot="footer">
+            <slot name="footer"></slot>
+        </template>
+    </a-modal>
 </template>
 
 <script>
@@ -87,18 +85,30 @@ export default {
 </script>
 
 <style lang="less">
-    .geshop-dialog .ant-modal-header .ant-modal-title {
+.design-dialog {
+    .ant-modal-body {
+        font-size: 13px;
+    }
+    .ant-modal-footer {
+        border-top: none;
+        text-align: center;
+        padding-top: 8px;
+        padding-bottom: 32px;
+        .ant-btn {
+            padding: 0 32px;
+        }
+    }
+    .ant-modal-header .ant-modal-title {
         color: #3F4245;
         font-weight: 600;
     }
-
-    .geshop-dialog .ant-modal-footer {
+    .ant-modal-footer {
         border-top: none;
         text-align: center;
         padding-bottom: 40px;
     }
-
-    .geshop-dialog .ant-modal-footer button + button{
+    .ant-modal-footer button + button{
         margin-left: 16px;
     }
+}
 </style>

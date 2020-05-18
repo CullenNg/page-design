@@ -44,25 +44,25 @@
 
                     <!-- 上移 -->
                     <i
-                        class="iconfont geshop-icon unit-tab-up"
+                        class="iconfont unit-tab-up"
                         v-show="tabIndex > 0"
                         @click="handle_up(tabIndex)"/>
 
                     <!-- 下移 -->
                     <i
-                        class="iconfont geshop-icon unit-tab-down"
+                        class="iconfont unit-tab-down"
                         v-show="(tabIndex < list.length - 1) && list.length > 1"
                         @click="handle_down(tabIndex)"/>
 
                     <!-- 删除 -->
                     <i
-                        class="iconfont geshop-icon unit-tab-delete"
+                        class="iconfont unit-tab-delete"
                         v-show="list.length > 1"
                         @click="handle_remove(tabIndex)"/>
 
                     <!-- 增加 -->
                     <i
-                        class="iconfont geshop-icon unit-tab-add"
+                        class="iconfont unit-tab-add"
                         @click="handle_add(tabIndex)"/>
 
                 </div>

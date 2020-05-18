@@ -41,7 +41,7 @@
                         :selectedKeys.sync="selected_folder_keys"
                         @select="handle_folder_selecte">
                         <template slot="folder" slot-scope="{selected}">
-                            <i class="iconfont geshop-icon design-folder" style="color: #81BFFF; font-size: 20px;"></i>
+                            <i class="iconfont design-folder" style="color: #81BFFF; font-size: 20px;"></i>
                         </template>
                     </a-tree>
                 </div>

@@ -8,7 +8,7 @@
         <!-- 组件删除 -->
         <div class="controller-aside">
             <button class="button-remove" @click="handle_component_delete(id)">
-                <i class="iconfont geshop-icon design-delete"></i>
+                <i class="iconfont design-delete"></i>
             </button>
         </div>
 

@@ -4,7 +4,7 @@
             <a-col :span="7" class="left">
 
                 <!--logo-->
-                <div class="geshop-logo">
+                <div class="layout-logo">
                     <a href="/"><i class="iconfont logo"></i></a>
                 </div>
 
@@ -20,7 +20,7 @@
 
                         <a-icon
                             slot="suffixIcon"
-                            type=" iconfont geshop-icon design-arrow-down">
+                            type=" iconfont design-arrow-down">
                         </a-icon>
 
                         <a-select-option
@@ -43,7 +43,7 @@
 
                         <a-icon
                             slot="suffixIcon"
-                            type=" iconfont geshop-icon design-arrow-down">
+                            type=" iconfont design-arrow-down">
                         </a-icon>
 
                         <a-select-option
@@ -70,15 +70,15 @@
                         @change="handleClientChange">
                         <a-icon
                             slot="suffixIcon"
-                            type=" iconfont geshop-icon design-arrow-down">
+                            type=" iconfont design-arrow-down">
                         </a-icon>
 
                         <a-select-option
                             v-for="(item, index) in select_options.platforms"
                             :key="index"
                             :value="item.code">
-                            <i class="iconfont geshop-icon design-platform-pc" v-if="item.code == 'pc'"></i>
-                            <i class="iconfont geshop-icon design-platform-wap" v-else></i>
+                            <i class="iconfont design-platform-pc" v-if="item.code == 'pc'"></i>
+                            <i class="iconfont design-platform-wap" v-else></i>
                             <span class="title">{{ item.code == 'pc' ?  item.name : '移动端' }}</span>
                         </a-select-option>
 
@@ -99,7 +99,7 @@
                     @change="handleMoreChange">
                     <a-icon
                         slot="suffixIcon"
-                        type=" iconfont geshop-icon design-arrow-down"></a-icon>
+                        type=" iconfont design-arrow-down"></a-icon>
                     <a-select-option
                         v-for="(item, index) in more_actions"
                         :key="index"
@@ -341,7 +341,7 @@ export default {
         align-items: center;
         min-width: 450px;
 
-        .geshop-logo {
+        .layout-logo {
             width: 52px;
             border-right: 1px solid #E8EAEC;
             a {

@@ -20,37 +20,6 @@
 </template>
 
 <script>
-
-/**
- * 获取排序列表
- * @param {String} site_code 站点
- * @param {String} pipeline 渠道
- * @param {String} lang 语言
- * @returns {Array} 选项列表
- */
-const get_sort_list = ({ site_code, pipeline, lang }) => {
-    const url = GESHOP_INTERFACE.gesApi_design_esSearchSortByList.url;
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            url,
-            data: {
-                site_code,
-                pipeline,
-                lang
-            },
-            dataType: 'jsonp',
-            success (res) {
-                if (res && res.code == 0) {
-                    resolve(res.data);
-                } else {
-                    resolve([]);
-                }
-            }
-        });
-    });
-};
-
-// Main code
 export default {
     name: 'unit-sort',
     props: {
@@ -91,12 +60,7 @@ export default {
 
     async created () {
         // 获取列表
-        const page_info = this.$store.state.page.info;
-        this.options = await get_sort_list({
-            site_code: page_info.site_code,
-            pipeline: page_info.pipeline,
-            lang: page_info.lang
-        });
+        this.options = [];
 
         // 取消loading状态
         this.loading = false;

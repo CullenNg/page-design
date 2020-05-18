@@ -27,7 +27,7 @@ module.exports = merge(common, {
 	},
 	plugins: [
 		new CleanWebpackPlugin(
-			['dist/*'],
+			['dist/*', 'docs/*'],
 			{ verbose: true, dry: false, }
 		),
 		new SimpleProgressWebpackPlugin(),

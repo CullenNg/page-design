@@ -197,7 +197,6 @@ const design = {
                  * 0. layouts 数据和 components 数据做校验，是否对应
                  * 1. 每个组件增加 lastmodify 字段
                  * 2. ID 强制转为 Number 类型
-                 * 3. 将组件包含的数据源抽出来，单独存放（11-10版本删除此条，改为通过 GESHOP-API 获取）
                  */
                 try {
                     // 1.1 校验 layouts 数据

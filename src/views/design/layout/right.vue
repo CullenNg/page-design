@@ -4,7 +4,7 @@
         <!-- 悬浮按钮 -->
         <div class="sortable-aside">
             <button :class="{ active: show }" @click="handle_show_sortable">
-                <i class="iconfont geshop-icon design-sortable"></i>
+                <i class="iconfont design-sortable"></i>
                 <p>楼层</p>
             </button>
         </div>
@@ -14,7 +14,7 @@
             <h2 class="sortable-head">楼层管理</h2>
 
             <div class="is-empty" v-if="layouts.length <= 0">
-                <img src="https://geshopimg.logsss.com/uploads/FjIzBPKsuU7pxCLoqHZaM5myJScEiV4Q.png" alt="">
+                <img :src="images.emptySort">
                 没有组件，这里空空如也~
             </div>
         
@@ -58,10 +58,10 @@
                                 <div class="buttons">
                                     <!-- 删除 -->
                                     <span class="ignore-elements" @click.stop="handle_component_copy(item.id, item.component_key, index)">
-                                        <i class="iconfont geshop-icon design-copy" />
+                                        <i class="iconfont design-copy" />
                                     </span>
                                     <span class="ignore-elements" @click.stop="handle_component_delete(item.id)">
-                                        <i class="iconfont geshop-icon design-delete-2" />
+                                        <i class="iconfont design-delete-2" />
                                     </span>
                                 </div>
                             </li>
@@ -79,7 +79,8 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
+import draggable from 'vuedraggable';
+import emptySort from '@/resource/images/empty-sort.png';
 
 export default {
     data () {
@@ -97,7 +98,10 @@ export default {
             inDrag: false, // 是否正在拖拽
             inHover: 0, // 鼠标 hover 的 <li> 的 component_id
             // 布局数据
-            layouts: []
+            layouts: [],
+            images: {
+                emptySort
+            }
         };
     },
 

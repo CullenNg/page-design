@@ -5,7 +5,7 @@
                 :key="template.id"
                 :class="{ 'active': template_id == template.id }"
                 @click="handle_change_template(template)">
-                <i :class="`iconfont geshop-icon icon-${component_key}-${template_name_en}`"></i>
+                <i :class="`iconfont icon-${component_key}-${template_name_en}`"></i>
             </li>
         </template>
     </ul>
@@ -31,24 +31,6 @@ export default {
             // 当前选中的模版ID
             template_id: 0, 
             template_name_en: 'template1',
-            // 模版列表字段: [
-            //     {
-            //         "id": 510,
-            //         "name_en": "template1",
-            //         "name": "模版一",
-            //         "status": 1,
-            //         "is_vue_ssr": 0,
-            //         "is_async": 1,
-            //         "pic": "https://geshop.s3.amazonaws.com/uploads/Qb3CnSX49rdzpeEtuIs2B6GNy0q578MF.png",
-            //         "component_key": "U000244",
-            //         "create_user": "wujianeng",
-            //         "create_time": 1566895923,
-            //         "update_user": "wujianeng",
-            //         "update_time": 1567733413,
-            //         "is_delete": 0,
-            //         "place": 1
-            //     }
-            // ]
         }; 
     },
 

@@ -44,16 +44,16 @@
 </template>
 
 <script>
-// import goodsListSkeleton from './goods-list-skeleton.vue';
 
 // 加载失败的组件
 import ErrorComponent from './load-error.vue';
+import defaultGoods from '@/resource/images/default-goods.png';
 
 // 默认的商品数据
 const default_goods_item = {
     goods_sn: "269004202",
-    goods_title: "ZAFUL Asymmetric Striped Slit Shirt Dress - Dark Gree",
-    goods_img: "https://geshopimg.logsss.com/uploads/zglsiWnvmpOy9XQF74CLkdfbTj8x3oaY.png",
+    goods_title: "Asymmetric Striped Slit Shirt Dress - Dark Gree",
+    goods_img: defaultGoods,
     tsk_price: 9.99, // 秒杀价格
     shop_price: 9.99, // 销售价
     market_price: 19.99, // 市场价
