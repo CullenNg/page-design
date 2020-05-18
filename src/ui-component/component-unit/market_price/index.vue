@@ -19,7 +19,7 @@
  * 其他网站 my_shop_price
  */
 export default {
-    name: 'market-price-zaful',
+    name: 'unit-market-price',
     props: {
         // 价格
         value: {

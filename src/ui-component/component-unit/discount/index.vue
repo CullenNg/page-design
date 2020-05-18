@@ -23,7 +23,7 @@
 
 <script>
 export default {
-    name: 'discount-zaful-m',
+    name: 'unit-discount',
     props: {
         value: {
             default: 0

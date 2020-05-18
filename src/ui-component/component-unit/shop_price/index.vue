@@ -10,7 +10,7 @@
 
 <script>
 export default {
-    name: 'shop-price-zaful',
+    name: 'unit-shop-price',
     props: {
         // 价格
         value: {

@@ -15,7 +15,7 @@
                 <swiper-slide v-for="(item, idx) in list" :key="idx">
                     <div class="list-image">
                         <a :href="item.link_m == '' ? 'javascript:void(0);' : item.link_m">
-                            <goods-image-zaful
+                            <unit-goods-image
                                 :default_img="defaultUrl"
                                 :src="item.image"
                                 :index="idx" />

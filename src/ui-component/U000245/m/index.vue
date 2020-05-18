@@ -8,7 +8,7 @@
         <ul>
             <li v-for="(item, index) in list" :key="`${index}-${item.goods_sn}`">
                 <!--折扣标-->
-                <discount-zaful-m
+                <unit-discount
                     :value="item.discount"
                     :config="styles" />
 
@@ -17,7 +17,7 @@
                     
                     <a :href="item.goods_number > 0 ? item.url_title: 'javascript:void(0);'">
                         <div class="image-goods">
-                            <goods-image-zaful
+                            <unit-goods-image
                                 :src="item.goods_img"
                                 :sku="item.goods_sn"
                                 :index="index" />
@@ -42,19 +42,19 @@
                             <div class="shop-title">{{ styles.shop_price_title }}</div>
                             <span class="shop-title-block"></span>
                             <div class="shop-price">
-                                <shop-price-zaful
+                                <unit-shop-price
                                     :value="item.shop_price"
                                     :config="styles">
-                                </shop-price-zaful>
+                                </unit-shop-price>
                             </div>
                         </div>
                         <!--市场价-->
                         <div class="item-market">
-                            <market-price-zaful
+                            <unit-market-price
                                 :value="item.market_price"
                                 :shop-price="item.shop_price"
                                 :config="styles">
-                            </market-price-zaful>
+                            </unit-market-price>
                         </div>
                     </div>
                 </div>

@@ -12,7 +12,7 @@
 import defaultImg from '@/resource/images/default-goods.png';
 
 export default {
-    name: 'goods-image-zaful',
+    name: 'unit-goods-image',
     props: {
         // 商品图片
         src: {

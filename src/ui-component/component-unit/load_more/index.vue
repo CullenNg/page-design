@@ -15,7 +15,7 @@
 <script>
 
 export default {
-    name: 'load-more-zf',
+    name: 'unit-load-more',
     props: {
         // 业务组件的ID
         cid: {
