@@ -15,7 +15,7 @@ import {
 const load_component_config = (key, template = 'template1') => {
     return new Promise((resolve, reject) => {
         // 读取 config 配置文件
-        require([`../../components/ui-component/${key}/m/form/index.js`], (module) => {
+        require([`../../ui-component/${key}/m/form/index.js`], (module) => {
             // deep clone object
             const data = JSON.parse(JSON.stringify(module.config));
             resolve(data);

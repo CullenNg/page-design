@@ -19,7 +19,7 @@ import router from './router/index.js'
 import store from './store/index.js'
 
 // 新统一样式弹出层
-import dialog from './components/dialog/dialog.vue'
+import dialog from './system-components/dialog/dialog.vue'
 Vue.component('design-dialog', dialog);
 
 // 接口
@@ -27,7 +27,10 @@ import api from './interface/index.js'
 Vue.prototype.$api = api;
 
 // 所有的UI组件的公共控件
-import All_ui_unit from './components/form-unit/index.js';
+import All_form_unit from './system-components/form-unit/index.js';
+Vue.use(All_form_unit);
+
+import All_ui_unit from './ui-component/component-unit/index.js'; // 所有的UI组件的公共控件
 Vue.use(All_ui_unit);
 
 // 组件级别懒加载

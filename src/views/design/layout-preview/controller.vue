@@ -38,7 +38,7 @@
 <script>
 
 // 组件加载主体
-import loadComponent from '../../../components/ui-component-load/index.vue';
+import loadComponent from '../../../system-components/ui-component-load/index.vue';
 
 export default {
     // 传入组件ID

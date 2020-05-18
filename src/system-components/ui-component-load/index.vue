@@ -230,7 +230,7 @@ export default {
     created () {
         this.module = () => ({
             // 需要加载的组件 (应该是一个 `Promise` 对象)
-            component: import(`../ui-component/${this.uikey}/m/index.vue`),
+            component: import(`../../ui-component/${this.uikey}/m/index.vue`),
             // 异步组件加载时使用的组件
             // loading: LoadingComponent,
             // 加载失败时使用的组件
