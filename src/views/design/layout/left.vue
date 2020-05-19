@@ -77,10 +77,10 @@ export default {
          * 获取组件列表数据
          */
         async get_components_data () {
-            let remote_list = await design_get_component_list();
-
+            let res = await design_get_component_list();
+            
             // 数据字段统一
-            const list = remote_list.map(item => {
+            const list = res.data.map(item => {
                 // 提取必要的字段
                 const cmpt = {
                     id: item.id,
@@ -108,7 +108,7 @@ export default {
             this.category_list[0].components = [...list];
 
             // 数据更新到 store 里面
-            this.$store.commit('design/update_avavible_components', remote_list);
+            this.$store.commit('design/update_avavible_components', res.data);
         },
 
         /**
