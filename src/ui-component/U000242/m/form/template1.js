@@ -4,7 +4,7 @@ export default {
     datas: [
         {
             title: '数据配置',
-            groups: ['title', 'jump_link', 'navigator_title' ]
+            groups: ['title', 'jump_link']
         }
     ],
     // 样式

@@ -96,7 +96,6 @@
 
 <script>
 import EditableCell from './EditableCell.vue'
-import { ZF_goodsTplList, ZF_getTplGoodsExists } from '../../../interface/index.js'
 
 const columns = [
     {
@@ -232,7 +231,7 @@ export default {
                 pageId: page_id
             }
             // 请求AJAX
-            const res = await ZF_goodsTplList(request);
+            const res = {}
             if (res.code == 0) {
                 const list = helper.update_table_index(res.data);
                 this.goodsSku = [...list];
@@ -420,7 +419,7 @@ export default {
                     if (request.skus == '') {
                         return false;
                     }
-                    const res = await ZF_getTplGoodsExists(request);
+                    const res = {}
                     if (res.code == 0) {
                         // 重新获取列表
                         this.dialogAdd.visible = false;
@@ -440,7 +439,7 @@ export default {
                         self.$message.error('商品SKU ' + request.skus + ' 已存在');
                         return false;
                     }
-                    const data = await ZF_getTplGoodsExists(request);
+                    const data = {}
                     if (data.code == 0) {
                         // 重新获取列表
                         this.replaceSku.visible = false;
@@ -516,7 +515,7 @@ export default {
                 lang: info.lang,
                 pageId: info.page_id
             };
-            const res = await ZF_goodsTplList(request);
+            const res = {}
             if (res.code == 0) {
                 try {
                     let image = res.data[0].goods_img;

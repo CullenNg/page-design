@@ -5,11 +5,6 @@ const datas = {
         type: 'text',
         value: 'Title',
     },
-    navigator_title: {
-        title: '文案导航命名',
-        type: 'text',
-        value: 'Title',
-    },
     jump_link: {
         title: '跳转链接',
         type: 'text',

@@ -9,11 +9,6 @@ const datas = {
             { label: '新用户', value: '1' },
             { label: '老用户', value: '2' }
         ]
-    },
-    connection: {
-        title: '组件绑定',
-        type: 'connection',
-        value: ''
     }
 };
 
