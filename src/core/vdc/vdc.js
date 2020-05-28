@@ -8,6 +8,8 @@ export default class Vdc {
      * @param {String} component_key 组件唯一KEY
      * @param {String} component_title 组件名字
      * @param {Number} template_id 模版ID
+     * @param {Number} template_name 模版文件夹名称
+     * @param {Number} template_title 模版中文名称
      * @param {Array} template_list 拥有的模版列表
      * @param {Object} remote_data 数据库存的值
      * @param {Object} remote_style 数据库存的值
@@ -17,6 +19,8 @@ export default class Vdc {
         component_key = 'U000001',
         component_title = '测试组件',
         template_id = 0,
+        template_name = 'template1',
+        template_title = '默认模版',
         template_list = [],
         remote_data = {},
         remote_style = {},
@@ -25,6 +29,8 @@ export default class Vdc {
         this.component_key = component_key;
         this.component_title = component_title;
         this.template_id = Number(template_id);
+        this.template_name = template_name;
+        this.template_title = template_title;
         this.template_list = template_list;
         this.config = {};
         this.is_loaded_config = false;

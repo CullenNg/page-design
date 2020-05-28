@@ -47,8 +47,8 @@ import Vdc from '@/core/vdc/vdc';
 import draggable from 'vuedraggable'
 
 import {
-    // 组件列表接口
-    design_get_component_list
+    design_get_component_list, // 组件列表接口
+    design_get_component_template_list // 获取模版列表
 } from '@/interface/index';
 
 export default {
@@ -77,7 +77,8 @@ export default {
          * 获取组件列表数据
          */
         async get_components_data () {
-            let res = await design_get_component_list();
+            const res = await design_get_component_list();
+            const template_list = await design_get_component_template_list();
             
             // 数据字段统一
             const list = res.data.map(item => {
@@ -88,27 +89,18 @@ export default {
                     component_title: item.name,
                     icon: item.icon || '',
                     template_id: Number(item.tpl_id) || 0,
+                    template_list: template_list.data.filter(tmp => tmp.component_key == item.component_key)
                 }
-
-                // 判断是否有默认模版，以及模版数据
-                if (cmpt.template_id > 0 && Array.isArray(item.tplList) == true) {
-                    const list = item.tplList.filter(tpl => {
-                        return tpl.id === item.tpl_id;
-                    });
-                    // 如有匹配的模版，则读取信息
-                    if (list.length > 0) {
-                        cmpt.template_title = list[0].name || '模版一',
-                        cmpt.template_name = list[0].name_en || 'template1'
-                    }
+                // 取第一个模版信息
+                if (cmpt.template_list.length > 0) {
+                    cmpt.template_title = cmpt.template_list[0].name || '模版一',
+                    cmpt.template_name = cmpt.template_list[0].name_en || 'template1'
                 }
                 return cmpt;
             });
 
             // 过滤可用的组件
             this.category_list[0].components = [...list];
-
-            // 数据更新到 store 里面
-            this.$store.commit('design/update_avavible_components', res.data);
         },
 
         /**
@@ -134,6 +126,9 @@ export default {
                 component_key: dragData.component_key,
                 component_title: dragData.component_title,
                 template_id: dragData.template_id,
+                template_name: dragData.template_name,
+                template_title: dragData.template_title,
+                template_list: dragData.template_list
             });
             return vdc;
         }

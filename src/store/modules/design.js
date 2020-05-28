@@ -43,18 +43,10 @@ const design = {
         preview_in_drag: false, // 预览区域是否在拖拽中
         selected_id: 0, // 选中的组件ID，打开form表单
         show_component_form: false, // 是否展示组件配置项,
-        avavible_components: [], // 当前页面可用的组件信息
     },
 
     mutations: {
-        /**
-         * 更新页面可用组件和模版
-         * @param {object} state 
-         * @param {array} list 可用的组件列表
-         */
-        update_avavible_components (state, list) {
-            state.avavible_components = [...list];
-        }
+        
     },
 
     actions: {

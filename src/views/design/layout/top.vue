@@ -10,7 +10,7 @@
 
                 <!--渠道-->
                 <div class="channel">
-                    <span class="tip">渠道：</span>
+                    <span class="tip">站点：</span>
                     <a-select
                         class="select-channel"
                         :value="current_pipeline"

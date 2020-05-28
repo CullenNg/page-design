@@ -78,16 +78,7 @@ export default {
 
         // 获取模版列表
         template_list () {
-            // 获取组件KEY
-            const component_key = this.current_component.component_key;
-            // 根据KEY获取模版列表
-            const cmpt_list = this.$store.state.design.avavible_components.filter(x => x.component_key === component_key);
-            if (cmpt_list[0]) {
-                // 返回组件的模版列表
-                return cmpt_list[0].tplList;
-            } else {
-                return [];
-            }
+            return this.current_component.template_list;
         }
         
     },
