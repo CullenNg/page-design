@@ -155,13 +155,30 @@ export default {
         }
 
         // 图片选择器
-        .image-picker-wrapper {
-            .ant-input-group-addon {
+        .image-picker {
+            display: flex;
+            height: 40px;
+            img {
+                flex-shrink: 0;
+                width: 38px;
+                height: 38px;
                 cursor: pointer;
-                padding: 0px;
-                width: 40px;
-                text-align: center;
-                background: #fff;
+                border: solid 1px #ddd;
+                border-right: none;
+                border-top-left-radius: 4px;
+                border-bottom-left-radius: 4px;
+            }
+            input {
+                padding: 6px 11px;
+                border: solid 1px #ddd;
+                width: 100%;
+                outline: none;
+                border-radius: 4px;
+                border-top-left-radius: 0px;
+                border-bottom-left-radius: 0px;
+                &:active, &:hover, &:focus {
+                    border-color: #1890ff;
+                }
             }
         }
     }

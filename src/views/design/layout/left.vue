@@ -77,11 +77,11 @@ export default {
          * 获取组件列表数据
          */
         async get_components_data () {
-            const res = await design_get_component_list();
+            const component_list = await design_get_component_list();
             const template_list = await design_get_component_template_list();
             
             // 数据字段统一
-            const list = res.data.map(item => {
+            const list = component_list.data.map(item => {
                 // 提取必要的字段
                 const cmpt = {
                     id: item.id,
@@ -99,7 +99,7 @@ export default {
                 return cmpt;
             });
 
-            // 过滤可用的组件
+            // 存放到分类里面，目前还没处理分类数据
             this.category_list[0].components = [...list];
         },
 
