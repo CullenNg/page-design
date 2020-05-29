@@ -10,7 +10,7 @@
 
 <script>
 // 图片选择器
-import imagePicker from '../unit-image.vue';
+import imagePicker from './unit-image.vue';
 
 const components = {
     image: imagePicker

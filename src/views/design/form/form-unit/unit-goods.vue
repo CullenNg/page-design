@@ -39,7 +39,7 @@
 <script>
 
 // 商品数据弹窗
-import goodsSourceManager from '../more/goods-source-manager/index';
+import goodsSourceManager from '../../more/goods-source-manager/index';
 
 // Main code
 export default {

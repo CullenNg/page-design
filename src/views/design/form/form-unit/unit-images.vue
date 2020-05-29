@@ -27,7 +27,7 @@
 <script>
 
 // 图片管理弹窗
-import imagesManager from "../more/images-manager/index";
+import imagesManager from "../../more/images-manager/index";
 
 // Main code
 export default {

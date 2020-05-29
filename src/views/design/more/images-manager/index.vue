@@ -43,12 +43,8 @@
                                     :rootConfig="rootConfig" />
                             </div>
                             <div class="form-item">
-                                <label>M端跳转链接</label>
-                                <a-input v-model="item.link_m" size="large" placeholder="请输入" />
-                            </div>
-                            <div class="form-item">
-                                <label>APP端跳转链接</label>
-                                <a-input v-model="item.link_app" size="large" placeholder="请输入" />
+                                <label>跳转链接</label>
+                                <a-input v-model="item.link" size="large" placeholder="请输入" />
                             </div>
                         </div>
                     </div>
@@ -66,7 +62,7 @@
 <script>
 
 // 单个图片选择器
-import unitImage from '../../form/unit-image.vue';
+import unitImage from '../../form/form-unit/unit-image.vue';
 
 // 拖拽
 import draggable from 'vuedraggable'
@@ -274,7 +270,7 @@ export default {
 
 // 表单列
 .form-item {
-    width: 274px;
+    width: 425px;
     label {
         display: block;
         margin-bottom: 4px;

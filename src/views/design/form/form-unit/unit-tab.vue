@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import unitEntry from './form-unit/index.vue';
+import unitEntry from './index.vue';
 
 export default {
     props: ['id', 'value', 'config', 'rootConfig'],

@@ -1,9 +1,9 @@
 <template>
     <div class="design-form-body">
 
-        <!-- 样式选择 -->
+        <!-- 模版样式选择 -->
         <unit-panel title="组件样式" :desc="template_title">
-            <tab-template
+            <template-selector
                 :component_id="id"
                 :list="template_list"
                 @update="handle_update_template"/>
@@ -14,7 +14,7 @@
             <div :key="index" v-if="template_id == tmp.id">
 
                 <!-- 数据配置界面 -->
-                <tab-styles
+                <template-config-detail
                     :id="id"
                     :layout="layout[index].datas"
                     type="datas"
@@ -24,7 +24,7 @@
                 <hr class="form-line" />
 
                 <!-- 样式配置界面 -->
-                <tab-styles
+                <template-config-detail
                     :id="id"
                     :layout="layout[index].styles"
                     type="styles"
@@ -39,18 +39,18 @@
 <script>
 
 // 容器组件
-import tabTemplate from './tab-template';
-import unitPanel from './unit-panel';
+import templateSelector from './template-selector';
+import unitPanel from './form-unit/unit-panel';
 // 配置项编译器
-import tabStyles from './tab-styles.vue';
+import templateConfigDetail from './template-config-detail.vue';
 
 export default {
     props: ['id'],
 
     components: {
-        tabStyles,
+        templateConfigDetail,
         unitPanel,
-        tabTemplate,
+        templateSelector,
     },
 
     data () {

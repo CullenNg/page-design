@@ -10,11 +10,11 @@
             <template v-for="id in layouts">
 
                 <!-- 组件表单 -->
-                <form-wrapper
+                <form-content
                     v-if="id === selected_id"
                     :id="id"
                     :key="id">
-                </form-wrapper>
+                </form-content>
 
             </template>
 
@@ -25,12 +25,12 @@
 
 <script>
 
-import formWrapper from './wrapper.vue';
+import formContent from './tab-content.vue';
 
 export default {
 
     components: {
-        formWrapper
+        formContent
     },
 
     data () {

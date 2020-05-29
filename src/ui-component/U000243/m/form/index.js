@@ -6,8 +6,7 @@ const datas = {
         value: [
             {
                 image: '',
-                link_m: '',
-                link_app: ''
+                link: '',
             }
         ],
         options: {
@@ -18,13 +17,8 @@ const datas = {
                 width: 'styles.width',
                 height: 'styles.height',
             },
-            link_m: {
-                title: 'M端跳转连接',
-                type: 'text',
-                value: '',
-            },
-            link_app: {
-                title: 'APP端跳转连接',
+            link: {
+                title: '跳转连接',
                 type: 'text',
                 value: '',
             }
