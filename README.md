@@ -7,7 +7,7 @@
 
 
 ## 目录
-* DEMO(https://cullenng.github.io/page-design)
+* [DEMO](https://cullenng.github.io/page-design)
 * 安装(https://github.com/CullenNg/page-design#安装)
 * 使用(https://github.com/CullenNg/page-design#使用)
 * 目前支持组件列表
