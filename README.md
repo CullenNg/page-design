@@ -8,16 +8,16 @@
 
 ## 目录
 * [DEMO](https://cullenng.github.io/page-design)
-* 安装(https://github.com/CullenNg/page-design#安装)
-* 使用(https://github.com/CullenNg/page-design#使用)
+* [安装](https://github.com/CullenNg/page-design#安装)
+* [使用](https://github.com/CullenNg/page-design#使用)
 * 目前支持组件列表
-* * 标题栏(https://github.com/CullenNg/page-design#标题栏)
-* * 轮播图(https://github.com/CullenNg/page-design#轮播图)
-* * 商品列表(https://github.com/CullenNg/page-design#商品列表)
-* * 分类排序(https://github.com/CullenNg/page-design#分类排序)
-* 新增组件(https://github.com/CullenNg/page-design#新增组件)
-* 组件配置项(https://github.com/CullenNg/page-design#组件配置项)
-* 更新日志(https://github.com/CullenNg/page-design#更新日志)
+* 1. [标题栏](https://github.com/CullenNg/page-design#标题栏)
+* 2. [轮播图](https://github.com/CullenNg/page-design#轮播图)
+* 3. [商品列表](https://github.com/CullenNg/page-design#商品列表)
+* 4. [分类排序](https://github.com/CullenNg/page-design#分类排序)
+* [新增组件](https://github.com/CullenNg/page-design#新增组件)
+* [组件配置项](https://github.com/CullenNg/page-design#组件配置项)
+* [更新日志](https://github.com/CullenNg/page-design#更新日志)
 
 ## 安装
 ```
