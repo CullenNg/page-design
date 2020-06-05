@@ -3,10 +3,7 @@
         :data-id="id"
         :data-key="uikey"
         :data-theme="template"
-        class="js-growingio"
-        :data-growingio-id="id"
-        ref="dom"
-        v-if="check_userGroup">
+        ref="dom">
 
         <component 
             v-if="component"
@@ -17,6 +14,7 @@
             :goodsSKU="goodsSKU"
             :languages="languages"
             @loaded="after_componnet_loaded">
+            <slot></slot>
         </component>
     
         <!-- skeleton component -->
@@ -34,10 +32,6 @@
                     </div>
                 </div>
             </template>
-            <!-- 列表 -->
-            <!-- <template v-if="uikey === 'U000245'">
-                <goodsListSkeleton ></goodsListSkeleton>
-            </template> -->
         </div>
         
     </div>
@@ -72,21 +66,6 @@ const default_goods_list = [
     default_goods_item
 ];
 
-/**
- * 检查分页功能是否开启
- * @param {string} env 当前页面环境, 1,2,3
- * @param {object} styles 组件的样式配置项
- * @returns {Boolean}
- * @date 2019-11-07
- * @author Cullen
- */
-const check_page_set = (env, config) => {
-    // 装修页不开启分页功能
-    if (env == 1) return false;
-    // 检查配置项
-    return config && config.page && config.page.status == 1;
-};
-
 export default {
     props: {
         // 组件ID
@@ -104,6 +83,9 @@ export default {
             type: String,
             required: true,
             default: 'template1'
+        },
+        vdc: {
+            type: Object
         }
     },
 
@@ -115,7 +97,6 @@ export default {
     data () {
         return {
             module: null, // 组件模块
-            is_page_set: false, // 是否开启分页
         };
     },
 
@@ -126,7 +107,7 @@ export default {
         },
         // 当前组件信息
         component () {
-            return this.$store.state.page.components.filter(x => x.id === Number(this.id))[0];
+            return this.vdc;
         },
         // 功能数据
         datas () {
@@ -195,25 +176,6 @@ export default {
          */
         languages () {
             return this.$store.state.page.languages || {};
-        },
-
-        // 新老用户判断
-        check_userGroup () {
-            const isNewGuys = this.$store.state.page.isNewGuys;
-            const configValue = Number(this.datas['userGroup']) || 0;
-            // 装修页不做处理
-            if (this.env === 1) return true;
-            // 所有用户
-            if (configValue === 0) return true;
-            // 如果是新用户
-            if (configValue === 1) {
-                return isNewGuys;
-            }
-            // 老用户
-            if (configValue === 2) {
-                return !isNewGuys;
-            }
-            return true;
         }
     },
 
@@ -222,8 +184,7 @@ export default {
          * 当子组件加载完毕
          */
         after_componnet_loaded () {
-            // 加入埋点(装修页不执行)
-            this.env != 1 && this.$store.dispatch('growingio/bind_browser_event', this.$refs.dom);
+           
         }
     },
 
@@ -241,9 +202,6 @@ export default {
             // 则使用加载失败时使用的组件。默认值是：`Infinity`
             // timeout: 3000
         });
-
-        // 判断是否有分页功能
-        this.is_page_set = check_page_set(this.env, this.datas);
     }
 };
 </script>

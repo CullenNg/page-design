@@ -24,6 +24,7 @@ const page = {
         // 布局和组件基础数据
         components: {}, // 组件信息
         layouts: [], // 布局信息
+        new_layouts: [],
 
         // 存放API层的数据
         goodsSKU: [], // 当前页面所有组件的商品类型数据源
@@ -48,6 +49,10 @@ const page = {
             state.layouts = layouts.map(x => x.id);
         },
 
+        update_new_layout (state, layouts) {
+            state.new_layouts = layouts;
+        },
+
         /**
          * 增加组件
          * @param {Object} state 
@@ -55,18 +60,6 @@ const page = {
          */
         component_add (state, data) {
             state.components.push(data);
-        },
-        
-        /**
-         * 删除组件
-         * @param {object} state 
-         * @param {number} id 组件ID
-         */
-        component_delete (state, id) {
-            // 删除组件数据
-            state.components = state.components.filter(x => x.id !== id);
-            // 删除组件布局
-            state.layouts = state.layouts.filter(xid => xid !== id);
         },
 
         /**

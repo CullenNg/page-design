@@ -59,11 +59,16 @@ export default {
             category_list: [
                 {
                     category_id: 1,
-                    category_title: '基础组件',
+                    category_title: '基础功能',
+                    components: []
+                },
+                {
+                    category_id: 2,
+                    category_title: '组件',
                     components: []
                 }
             ], 
-            selected_categorys: [], // 选中的分类ID，判断是否展示分类的组件
+            selected_categorys: [1,2], // 选中的分类ID，判断是否展示分类的组件
         }
     },
 
@@ -89,7 +94,8 @@ export default {
                     component_title: item.name,
                     icon: item.icon || '',
                     template_id: Number(item.tpl_id) || 0,
-                    template_list: template_list.data.filter(tmp => tmp.component_key == item.component_key)
+                    template_list: template_list.data.filter(tmp => tmp.component_key == item.component_key),
+                    category_id: item.category_id
                 }
                 // 取第一个模版信息
                 if (cmpt.template_list.length > 0) {
@@ -99,8 +105,14 @@ export default {
                 return cmpt;
             });
 
-            // 存放到分类里面，目前还没处理分类数据
-            this.category_list[0].components = [...list];
+            // 存放到分类里面
+            this.category_list.map(cat => {
+                list.map(x => {
+                    if (x.category_id == cat.category_id) {
+                        cat.components.push(x);
+                    }
+                });
+            });
         },
 
         /**
@@ -130,6 +142,9 @@ export default {
                 template_title: dragData.template_title,
                 template_list: dragData.template_list
             });
+            if (vdc.component_key == 'L000001') {
+                vdc['tasks'] = [];
+            }
             return vdc;
         }
     },

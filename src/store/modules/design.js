@@ -42,6 +42,7 @@ const design = {
         loading: false, // 页面是否加载中
         preview_in_drag: false, // 预览区域是否在拖拽中
         selected_id: 0, // 选中的组件ID，打开form表单
+        selected_vdc: {}, // 选中的组件数据对象，打开form表单
         show_component_form: false, // 是否展示组件配置项,
     },
 
@@ -52,28 +53,23 @@ const design = {
     actions: {
         /**
          * 打开form表单
-         * @param {number} id 表单ID
+         * @param {Object} vdc 组件数据对象
          */
-        async form_open ({ state, rootState, commit }, id) {
+        async form_open ({ state, rootState, commit }, vdc) {
             // 避免多次点击
-            if (id === state.selected_id) return false;
-
-            // 获取组件vdc对象
-            const vdc = rootState.page.components.filter(x => x.id === id)[0];
+            if (vdc.id === state.selected_vdc.id) return false;
 
             // 如果组件没有读取配置项，则读取 config.js 文件
             if (vdc.is_loaded_config == false) {
-
                 // 读取组件的配置项
                 const config = await load_component_config(vdc.component_key, vdc.template_name);
                 vdc.update_set('config', config);
-
                 // 存到全局变量里面
                 commit('page/component_update', vdc, { root: true });
             }
-
             // 展示 form
-            state.selected_id = id;
+            state.selected_vdc = null;
+            state.selected_vdc = vdc;
             state.show_component_form = true;
         },
 
@@ -97,27 +93,6 @@ const design = {
 
             // 存到全局变量里面
             commit('page/component_add', vdc, { root: true });
-        },
-
-        /**
-         * 删除组件
-         * @description
-         *  1. 触发 confrim 弹窗
-         *  2. 请求 AJAX
-         *  3. 自定义回调
-         * @param {Number} id 当前页面组件的唯一ID
-         */
-        component_delete ({ state, commit }, id) {
-            // 弹层
-            Modal.confirm({
-                title: '确认删除该组件？',
-                onOk () {
-                    commit('page/component_delete', id, { root: true });
-                    // 如果删除的组件，是当前打开表单的组件，则关闭表单区域，并且清空选择值
-                    state.selected_id = null;
-                    state.show_component_form = false;
-                }
-            });
         },
 
         /**
@@ -357,6 +332,10 @@ const design = {
          */
         page_update_layout ({ commit }, layouts) {
             commit('page/update_layout', layouts, { root: true });
+        },
+
+        page_update_layout_v2 ({ commit }, layouts) {
+            commit('page/update_new_layout', layouts, { root: true });
         },
 
         /**

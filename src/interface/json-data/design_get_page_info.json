@@ -1,0 +1,23 @@
+{
+    "code": 0,
+    "data": {
+        "pageId": "1", 
+        "groupId": "1",
+        "pipeline": "zf",
+        "lang": "en",
+        "siteCode": "zf",
+        "platform": "m",
+        "pageTitle": "Demo",
+        "relations": {
+            "list": []
+        },
+        "activityInfo": {
+            "id": "1",
+            "allLangList": []
+        },
+        "languages": [],
+        "preview_url": "",
+        "env": 1,
+        "goodsSKU": []
+    }
+}

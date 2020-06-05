@@ -1,37 +1,55 @@
 <template>
-    <div class="component-controller" v-if="component">
+    <div class="component-controller" v-if="vdc">
         <!-- 组件标题 -->
         <div class="controller-title">
-            {{ component.component_title }}-{{ component.template_title }}
+            {{ vdc.component_title }}-{{ vdc.template_title }}
         </div>
 
         <!-- 组件删除 -->
         <div class="controller-aside">
-            <button class="button-remove" @click="handle_component_delete(id)">
+            <button class="button-remove" @click="handle_component_delete">
                 <i class="iconfont design-delete"></i>
             </button>
         </div>
 
+        <!-- 布局组件的控制器 -->
+
+        <template v-if="isPanel">
+            <div
+                class="controller-panel"
+                @click="handle_component_select">
+                拖拽区域
+            </div>
+            <load-component
+                :vdc="vdc"
+                :id="vdc.id"
+                :uikey="vdc.component_key"
+                :template="vdc.template_name || 'template1'">
+                <slot></slot>
+            </load-component>
+        </template>
+
         <!-- UI组件的入口 -->
         <div
+            v-else
             :class="{
                 'design-component': true,
-                'is-active': design_selected_id === id,
-                'is-hover': in_drag == false && mouse_hover_id === id
+                'is-active': design_selected_id === vdc.id,
+                'is-hover': in_drag == false && mouse_hover_id === vdc.id,
+                'is-panel': isPanel
             }"
-            @click="handle_component_select(id)"
-            @mouseenter="handle_component_hover(id)"
+            @click="handle_component_select"
+            @mouseenter="handle_component_hover(vdc.id)"
             @mouseleave="handle_component_leave">
-                
             <load-component
-                v-if="component"
-                :id="id"
-                :uikey="component.component_key"
-                :template="component.template_name || 'template1'">
+                :vdc="vdc"
+                :id="vdc.id"
+                :uikey="vdc.component_key"
+                :template="vdc.template_name || 'template1'">
+                <slot></slot>
             </load-component>
         </div>
 
-        <!-- <p>组件数据：{{ component }}</p> -->
     </div>
 </template>
 
@@ -41,8 +59,9 @@
 import loadComponent from '../../../system-components/ui-component-load/index.vue';
 
 export default {
-    // 传入组件ID
-    props: ['id'],
+    // 传入组件数据对象
+    // isPanel 是否容器对象
+    props: ['vdc', 'isPanel'],
 
     components: {
         loadComponent
@@ -65,13 +84,9 @@ export default {
         layouts () {
             return this.$store.state.page.layouts;
         },
-        // 返回当前组件
-        component () {
-            return this.$store.state.page.components.filter(x => x.id === this.id)[0];
-        },
         // 装修页选中的组件ID
         design_selected_id () {
-            return this.$store.state.design.selected_id;
+            return this.$store.state.design.selected_vdc.id;
         },
         // 是否在拖拽状态中
         in_drag () {
@@ -82,20 +97,17 @@ export default {
     methods: {
         /**
          * 删除组件
-         * @param {number} id 组件ID
          */
-        handle_component_delete (id) {
-            this.$store.dispatch('design/component_delete', id);
+        handle_component_delete () {
+            this.$emit('onDelete', this.vdc.id);
         },
 
         /**
          * 选择组件
-         * @param {number} id 组件ID
-         * @param {string} component_key 组件的KEY
-         * @param {string} template 组件的模版，默认 template1
          */
-        handle_component_select (id) {
-            this.$store.dispatch('design/form_open', id);
+        handle_component_select () {
+            if (this.isPanel == true) return false;
+            this.$store.dispatch('design/form_open', this.vdc);
         },
 
         /**
@@ -103,6 +115,7 @@ export default {
          * @param {number} id 组件ID
          */
         handle_component_hover (id) {
+            if (this.isPanel == true) return false;
             this.mouse_hover_id = id;
         },
 
@@ -111,6 +124,7 @@ export default {
          * @param {number} id 组件ID
          */
         handle_component_leave () {
+            if (this.isPanel == true) return false;
             this.mouse_hover_id = '';
         }
     }
@@ -150,6 +164,11 @@ export default {
             display: block;
         }
     }
+
+    // 布局容器
+    &.is-panel {
+        background-color: rgba(64, 158, 255, 0.2);
+    }
 }
 
 // 控制栏容器
@@ -160,6 +179,16 @@ export default {
             display: block;
         }
     }
+}
+
+// 布局容器控制栏
+.controller-panel {
+    background-color: #409EFF;
+    color: #fff;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 14px;
+    cursor: pointer;
 }
 
 

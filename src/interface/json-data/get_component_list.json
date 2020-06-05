@@ -1,0 +1,51 @@
+{
+    "code": 0,
+    "data": [
+        {
+            "id": 242,
+            "category_id": 2,
+            "component_key": "U000242",
+            "name": "标题栏",
+            "description": "原生APP标题",
+            "tpl_id": 508,
+            "icon": "ui-component-title"
+        },
+        {
+            "id": 243,
+            "category_id": 2,
+            "component_key": "U000243",
+            "name": "广告轮播",
+            "description": "原生banner",
+            "tpl_id": 509,
+            "icon": "ui-component-banner"
+        },
+        {
+            "id": 244,
+            "category_id": 2,
+            "component_key": "U000245",
+            "name": "商品列表",
+            "description": "原生-商品列表",
+            "tpl_id": 510,
+            "icon": "ui-component-goodslist"
+        },
+        {
+            "id": 245,
+            "category_id": 2,
+            "component_key": "U000248",
+            "name": "属性筛选",
+            "description": "APP - 属性筛选",
+            "tpl_id": 511,
+            "icon": "ui-component-filter"
+        },
+        {
+            "id": 1,
+            "category_id": 1,
+            "component_key": "L000001",
+            "name": "多栏布局",
+            "description": "多栏",
+            "tpl_id": 1,
+            "icon": "ui-component-miaosha",
+            "disabled": 0
+        }
+    ]
+}

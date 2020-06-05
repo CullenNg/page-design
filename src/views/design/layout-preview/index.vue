@@ -5,9 +5,12 @@
 
         <!-- 主要布局，中间，最小宽度 375x667 -->
         <div class="main-layout is-app" :class="{ 'is-empty': layouts.length <= 0}">
+            
+            <nexted :tasks.sync="list" @update-layouts="updateLayouts"></nexted>
 
             <!-- 拖拽区域 -->
             <draggable
+                v-if="false"
                 class="dragArea list-group"
                 v-bind="dragOptions"
                 v-model="layouts"
@@ -25,14 +28,19 @@
 
                     <!-- 引入组件 -->
                     <div class="component-box">
-                        <controller :id="component.id" />
+                        <template v-if="component.component_key == 'L000001'">
+                            asdas
+                        </template>
+                        <template v-else>
+                            <controller :id="component.id" />
+                        </template>
                     </div>
                 </div>
 
             </draggable>
 
             <!-- 空信息 -->
-            <div class="is-empty" v-if="layouts.length <= 0">
+            <div class="is-empty" v-if="list.length <= 0">
                 <img :src="images.emptyImage">
                 哎哟，您还没有放置组件哦~
             </div>
@@ -46,11 +54,14 @@
 import draggable from 'vuedraggable'
 import controller  from './controller.vue';
 import emptyImage from '@/resource/images/empty-preview.png';
+import nexted from './nested';
+
 
 export default {
     components: {
         draggable,
-        controller
+        controller,
+        nexted
     },
 
     data () {
@@ -68,7 +79,9 @@ export default {
             layouts: [], 
             images: {
                 emptyImage 
-            }
+            },
+
+            list: []
         };
     },
 
@@ -91,20 +104,11 @@ export default {
         }
     },
 
-    watch: {
-        // 监听到布局顺序变更
-        page_layouts (newVal) {
-            this.update_layouts(newVal);
-        }
-    },
-
     methods: {
 
         // 更新布局数据
-        update_layouts (layouts) {
-            this.layouts = layouts.map(id => {
-                return { id };
-            });
+        updateLayouts (layouts) {
+            this.$store.dispatch('design/page_update_layout_v2', layouts);
         },
 
         /**
@@ -150,7 +154,7 @@ export default {
 
     created () {
         // 初次数据
-        this.update_layouts(this.page_layouts);
+        // this.update_layouts(this.page_layouts);
     }
 }
 </script>
@@ -258,12 +262,17 @@ export default {
                 height: 100px;
                 line-height: 100px;
                 text-align: center;
-                background:rgba(64,158,255,0.3);
+                background:rgba(64,158,255,0.3) !important;
                 cursor: move;
 
                 i,
                 p,
-                .component-box {
+                .component-box,
+                > .dragArea {
+                    display: none;
+                }
+
+                > * {
                     display: none;
                 }
 
@@ -277,6 +286,7 @@ export default {
                     border: 3px solid rgba(64,158,255,1);
                 }
                 &:after {
+                    top: 0px;
                     content: "我要在这里";
                 }
             }
