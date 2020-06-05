@@ -5,9 +5,19 @@
 [![Ant-deisgn](https://img.shields.io/badge/Antd-v1.3.10-brightgreen)](https://antdv.com/)
 [![Vue.Draggable](https://img.shields.io/badge/Vue.Draggable-v2.23.0-brightgreen)](https://github.com/SortableJS/Vue.Draggable)
 
-#### DEMO:
-https://cullenng.github.io/page-design
 
+## 目录
+* [DEMO](https://cullenng.github.io/page-design)
+* [安装](https://github.com/CullenNg/page-design#安装)
+* [使用](https://github.com/CullenNg/page-design#使用)
+* 目前支持组件列表
+* 1. [标题栏](https://github.com/CullenNg/page-design#标题栏)
+* 2. [轮播图](https://github.com/CullenNg/page-design#轮播图)
+* 3. [商品列表](https://github.com/CullenNg/page-design#商品列表)
+* 4. [分类排序](https://github.com/CullenNg/page-design#分类排序)
+* [新增组件](https://github.com/CullenNg/page-design#新增组件)
+* [组件配置项](https://github.com/CullenNg/page-design#组件配置项)
+* [更新日志](https://github.com/CullenNg/page-design#更新日志)
 
 ## 安装
 ```
@@ -23,4 +33,14 @@ $ npm run dev
 $ npm run build
 ```
 
-## Change log
+## 标题栏
+
+## 商品列表
+
+## 分类排序
+
+## 新增组件
+
+## 组件配置项
+
+## 更新日志
