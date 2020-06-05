@@ -168,10 +168,7 @@ export default {
          * @param {Number} index 组件顺序索引
          */
         async handle_component_copy (id, component_key, index) {
-            this.$store.dispatch('design/component_copy', {
-                id: id,
-                index: index
-            });
+            this.$message.error('功能还没准备好');
         },
 
         /**

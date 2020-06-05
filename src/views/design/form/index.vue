@@ -2,7 +2,7 @@
     <transition name="slide-fade">
         <div class="design-layout-form" v-if="show">
              <!-- 组件标题 -->
-            <h2 class="form-head">{{ component.component_title || 'unknow' }}组件</h2>
+            <h2 class="form-head">{{ component.component_title }}组件</h2>
 
             <!-- 组件表单 -->
             <div class="design-form-body">
@@ -25,7 +25,8 @@
                             :configs="component.config.datas"
                             :rootConfig="component.config.datas"
                             type="datas"
-                            key="datas"/>
+                            key="datas">
+                        </template-config-detail>
 
                         <!-- 残忍的分割线 -->
                         <hr class="form-line" />
@@ -36,7 +37,8 @@
                             :configs="component.config.styles"
                             :rootConfig="component.config.styles"
                             type="styles"
-                            key="styles" />
+                            key="styles">
+                        </template-config-detail>
                             
                     </div>
                 </template>
@@ -76,13 +78,6 @@ export default {
          */
         selected_id () {
             return this.$store.state.design.selected_vdc.id;
-        },
-        
-        /**
-         * 获取所有组件
-         */
-        layouts () {
-            return this.$store.state.page.layouts;
         }
     },
 
@@ -92,7 +87,6 @@ export default {
          */
         selected_id () {
             this.component = this.$store.state.design.selected_vdc;
-            console.log(this.component);
         }
     },
 
@@ -103,14 +97,13 @@ export default {
          * @param {String} 模版标题
          */
         handle_update_template (title, template_id) {
-            this.component.template_title = title;
-            this.component.template_id = template_id;
+            // this.component.template_title = title;
+            // this.component.template_id = template_id;
         }
     },
 
     created () {
         this.component = this.$store.state.design.selected_vdc;
-        console.log(this.component);
     }
 }
 </script>

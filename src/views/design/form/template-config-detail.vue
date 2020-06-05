@@ -180,14 +180,6 @@ export default {
                 this.slideup_group_index.push(index);
             }
         }
-    },
-
-    created () {
-        console.log(this.configs);
-        // 当前tab的配置
-        // this.configs = this.$store.state.page.components.filter(x => x.id === this.id)[0].config[this.type];
-        // 根配置
-        // this.rootConfig = this.$store.state.page.components.filter(x => x.id === this.id)[0].config;
     }
 }
 </script>
