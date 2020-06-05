@@ -164,9 +164,7 @@ export default {
                     const bindStr = this.configs[key].bind;
                     eval('this.configs.' + bindStr + '=' + value);
                 }
-            } catch (err) {
-                console.log(err);
-            }
+            } catch (err) {}
         },
 
         /**

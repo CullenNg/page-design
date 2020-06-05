@@ -64,9 +64,8 @@ export default {
             // 初始化表单状态
             this.$store.state.design.selected_id = null;
             this.$store.state.design.show_component_form = false;
-            
             // 请求页面数据
-            this.$store.dispatch('design/page_load', {});
+            this.$store.dispatch('design/page_load');
         }
     },
 

@@ -34,7 +34,7 @@
             v-else
             :class="{
                 'design-component': true,
-                'is-active': design_selected_id === vdc.id,
+                'is-active': design_selected_id === vdc.id && show_component_form === true,
                 'is-hover': in_drag == false && mouse_hover_id === vdc.id,
                 'is-panel': isPanel
             }"
@@ -88,6 +88,9 @@ export default {
         design_selected_id () {
             return this.$store.state.design.selected_vdc.id;
         },
+        show_component_form () {
+            return this.$store.state.design.show_component_form;
+        },
         // 是否在拖拽状态中
         in_drag () {
             return this.$store.state.design.preview_in_drag;
@@ -106,7 +109,6 @@ export default {
          * 选择组件
          */
         handle_component_select () {
-            if (this.isPanel == true) return false;
             this.$store.dispatch('design/form_open', this.vdc);
         },
 

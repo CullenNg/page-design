@@ -184,7 +184,7 @@ export default {
          * @param {Number} index
          * */
         handleMoreChange (index) {
-            console.log(index);
+            this.$message.error(index);
         },
 
         /**

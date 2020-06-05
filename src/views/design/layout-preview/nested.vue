@@ -69,12 +69,6 @@ export default {
                     this.$store.dispatch('design/form_open', data.added.element);
                 }
             }
-
-            // 排序组件
-            if (data.hasOwnProperty('moved')) {
-                console.log(data);
-                console.log(this.tasks);
-            }
             this.$emit('update-layouts', this.tasks);
         },
 
