@@ -19,6 +19,7 @@
 
                     <template v-for="key in group.groups">
                         <!-- 如果是自定义的组件 -->
+                        <!-- {{ configs[key].type }} -->
                         <component
                             v-if="is_diy(configs[key].type)"
                             v-model="configs[key].value"
@@ -102,7 +103,7 @@ import {
 } from './form-unit/index.js';
 
 export default {
-    props: ['id', 'type', 'layout'],
+    props: ['type', 'layout', 'configs', 'rootConfig'],
 
     data () {
         return {
@@ -117,8 +118,6 @@ export default {
                 page,
                 sort
             },
-            configs: {}, // 配置项详细字段,
-            rootConfig: {}, // 根配置
             slideup_group_index: [], // 记录隐藏的配置集合的索引值，默认全部展开
         }
     },
@@ -184,10 +183,11 @@ export default {
     },
 
     created () {
+        console.log(this.configs);
         // 当前tab的配置
-        this.configs = this.$store.state.page.components.filter(x => x.id === this.id)[0].config[this.type];
+        // this.configs = this.$store.state.page.components.filter(x => x.id === this.id)[0].config[this.type];
         // 根配置
-        this.rootConfig = this.$store.state.page.components.filter(x => x.id === this.id)[0].config;
+        // this.rootConfig = this.$store.state.page.components.filter(x => x.id === this.id)[0].config;
     }
 }
 </script>

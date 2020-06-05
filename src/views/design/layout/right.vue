@@ -107,7 +107,7 @@ export default {
 
     computed: {
         page_layouts () {
-            return this.$store.state.page.layouts || [];
+            return this.$store.state.page.new_layouts || [];
         },
         page_components () {
             return this.$store.state.page.components || [];
@@ -133,10 +133,7 @@ export default {
 
         // 更新数据
         update_layouts (layouts) {
-            this.layouts = layouts.map(id => {
-                const component = this.page_components.filter(x => x.id === id)[0] || {};
-                return component;
-            });
+            this.layouts = layouts;
         },
 
         /**
@@ -151,10 +148,8 @@ export default {
          * 保存排序数据
          */
         save_layouts_sort () {
-            // 获取最新的组件排序
-            const layouts = [...this.layouts];
             // 更新到 store 里面
-            this.$store.dispatch('design/page_update_layout', layouts);
+            this.$store.dispatch('design/page_update_layout_v2', this.layouts);
         },
 
         /**

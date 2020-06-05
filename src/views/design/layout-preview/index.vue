@@ -6,47 +6,18 @@
         <!-- 主要布局，中间，最小宽度 375x667 -->
         <div class="main-layout is-app" :class="{ 'is-empty': layouts.length <= 0}">
             
-            <nexted :tasks.sync="list" @update-layouts="updateLayouts"></nexted>
-
             <!-- 拖拽区域 -->
-            <draggable
-                v-if="false"
-                class="dragArea list-group"
-                v-bind="dragOptions"
-                v-model="layouts"
-                id="canvas"
-                group="people"
-                @start="handle_drag_start"
-                @end="handle_drag_end"
-                @change="handle_drag_change">
-
-                <!-- 组件对象 -->
-                <div
-                    class="list-group-item"
-                    v-for="component in layouts"
-                    :key="component.id">
-
-                    <!-- 引入组件 -->
-                    <div class="component-box">
-                        <template v-if="component.component_key == 'L000001'">
-                            asdas
-                        </template>
-                        <template v-else>
-                            <controller :id="component.id" />
-                        </template>
-                    </div>
-                </div>
-
-            </draggable>
+            <nexted
+                :tasks.sync="list"
+                @update-layouts="updateLayouts">
+            </nexted>
 
             <!-- 空信息 -->
             <div class="is-empty" v-if="list.length <= 0">
                 <img :src="images.emptyImage">
                 哎哟，您还没有放置组件哦~
             </div>
-            
         </div>
-
     </div>
 </template>
 
@@ -55,7 +26,6 @@ import draggable from 'vuedraggable'
 import controller  from './controller.vue';
 import emptyImage from '@/resource/images/empty-preview.png';
 import nexted from './nested';
-
 
 export default {
     components: {
@@ -88,7 +58,7 @@ export default {
     computed: {
         // 页面布局
         page_layouts () {
-            return this.$store.state.page.layouts || [];
+            return this.$store.state.page.new_layouts || [];
         },
         
         // 页面组件数据
@@ -101,6 +71,12 @@ export default {
             const map = ['he'];
             const lang = this.$store.state.page.info.lang || 'en';
             return map.includes(lang) ? 'rtl' : 'ltr';
+        }
+    },
+
+    watch: {
+        page_layouts (val) {
+            this.list = val;
         }
     },
 
@@ -126,25 +102,6 @@ export default {
         },
 
         /**
-         * 拖拽结束事件变更
-         */
-        async handle_drag_change (data) {
-            // 新增组件模式
-            if (data.hasOwnProperty('added')) {
-                // 追加组件数据到 store
-                await this.$store.dispatch('design/component_add', data.added.element);
-                this.$store.dispatch('design/page_update_layout', this.layouts);
-                // 新增后默认打开表单项
-                this.$store.dispatch('design/form_open', data.added.element.id);
-            }
-
-            // 排序组件
-            if (data.hasOwnProperty('moved')) {
-                this.$store.dispatch('design/page_update_layout', this.layouts);
-            }
-        },
-
-        /**
          * 释放组件选中效果
          */
         handle_release_selected () {
@@ -154,7 +111,7 @@ export default {
 
     created () {
         // 初次数据
-        // this.update_layouts(this.page_layouts);
+        this.list = this.page_layouts;
     }
 }
 </script>

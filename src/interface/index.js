@@ -30,7 +30,6 @@ export const design_get_page_info = () => {
         resolve(json);
     });
 };
-// export const design_get_page_info = () => { return get('/design_get_page_info'); }
 
 /**
  * 装修页保存接口
