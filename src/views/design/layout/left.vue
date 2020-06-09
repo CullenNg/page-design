@@ -59,12 +59,12 @@ export default {
             category_list: [
                 {
                     category_id: 1,
-                    category_title: '基础功能',
+                    category_title: '基础组件',
                     components: []
                 },
                 {
                     category_id: 2,
-                    category_title: '组件',
+                    category_title: '进阶功能',
                     components: []
                 }
             ], 

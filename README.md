@@ -28,9 +28,6 @@ $ npm install
 ```
 # develop mode
 $ npm run dev
-
-# production mode
-$ npm run build
 ```
 
 ## 标题栏
