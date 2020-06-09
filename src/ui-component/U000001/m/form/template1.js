@@ -10,12 +10,17 @@ export default {
     // 样式
     styles: [
         {
-            title: '基础布局',
+            title: '外边距 Margin',
             groups: [
                 'margin_top',
                 'margin_bottom',
                 'margin_left',
                 'margin_right',
+            ]
+        },
+        {
+            title: '内边距 Padding',
+            groups: [
                 'padding_top',
                 'padding_bottom',
                 'padding_left',

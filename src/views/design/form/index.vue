@@ -169,6 +169,10 @@ export default {
             width: 148px;
         }
 
+        &.col-4 {
+            width: 70px;
+        }
+
         // 配置项的标题
         > label {
             display: block;

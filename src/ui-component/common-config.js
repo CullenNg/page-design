@@ -6,14 +6,14 @@ class Config {
         this.state = {
             datas: {},
             styles: {
-                margin_top: { title: '组件边距(上)', type: 'number', value: 0, col: 2 },
-                margin_bottom: { title: '组件边距(下)', type: 'number', value: 0, col: 2, },
-                margin_left: { title: '组件边距(左)', type: 'number', value: 0, col: 2 },
-                margin_right: { title: '组件边距(右)', type: 'number', value: 0, col: 2, },
-                padding_top: { title: '内边距(上)', type: 'number', value: 30, col: 2, },
-                padding_bottom: { title: '内边距(下)', type: 'number', value: 30, col: 2, },
-                padding_left: { title: '内边距(左)', type: 'number', value: 0, col: 2, },
-                padding_right: { title: '内边距(右)', type: 'number', value: 0, col: 2, },
+                margin_top: { title: 'top', type: 'number', value: 0, col: 4 },
+                margin_bottom: { title: 'bottom', type: 'number', value: 0, col: 4, },
+                margin_left: { title: 'left', type: 'number', value: 0, col: 4 },
+                margin_right: { title: 'right', type: 'number', value: 0, col: 4, },
+                padding_top: { title: 'top', type: 'number', value: 30, col: 4, },
+                padding_bottom: { title: 'bottom', type: 'number', value: 30, col: 4, },
+                padding_left: { title: 'left', type: 'number', value: 0, col: 4, },
+                padding_right: { title: 'right', type: 'number', value: 0, col: 4, },
             }
         }
     }
