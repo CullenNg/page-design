@@ -1,18 +1,10 @@
 <template>
-    <div
+    <a
         class="component-wrapper u000242"
+        :href="href"
         :style="wrapper_style">
-
-        <a
-            :class="{
-                'bold': styles.text_style == '1'
-            }"
-            :href="datas.jump_link || 'javascript: void(0);'"
-            :style="a_style">
-            {{ datas.title || 'Title' }}
-        </a>
-
-    </div>
+        {{ title }}
+    </a>
 </template>
 
 <script>
@@ -20,7 +12,7 @@ export default {
     props: ['styles', 'datas'],
 
     computed: {
-        // 组件配置
+        /** 样式 */
         wrapper_style () {
             const {
                 margin_top,
@@ -28,7 +20,11 @@ export default {
                 padding_top,
                 padding_bottom,
                 bg_color,
-                bg_img
+                bg_img,
+                text_style,
+                text_align,
+                text_size,
+                text_color
             } = this.styles;
             return `
                 width: 100%;
@@ -40,15 +36,21 @@ export default {
                 background-image: url(${bg_img});
                 background-size: 100% auto;
                 bakcground-position: center;
-            `;
-        },
-        // a标签的样式
-        a_style () {
-            const { text_size, text_color } = this.styles;
-            return `
+                font-weight: ${text_style};
+                text-align: ${text_align};
                 font-size: ${this.$px2rem(text_size)};
                 color: ${text_color};
             `;
+        },
+
+        /** 标题 */
+        title () {
+            return this.datas.title || 'Title';
+        },
+
+        /** 超链接 */
+        href () {
+            return this.datas.href || 'javascript: void(0);';
         }
     },
 
@@ -59,24 +61,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
 .component-wrapper {
+    display: block;
     max-width: 100%;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
-    a {
-        text-decoration: none;
-    }
+    text-decoration: none;
 }
-
-.component-debuger {
-    font-size: 14px;
-    text-align-last: left;
-    background: #333;
-    color: #fff;
-    padding: 10px;
-}
-
 </style>

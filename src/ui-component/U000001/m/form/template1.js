@@ -4,20 +4,30 @@ export default {
     datas: [
         {
             title: '数据配置',
-            groups: ['title', 'jump_link']
+            groups: ['title', 'href']
         }
     ],
     // 样式
     styles: [
-        { 
-            title: '样式配置',
+        {
+            title: '基础布局',
             groups: [
                 'margin_top',
                 'margin_bottom',
+                'margin_left',
+                'margin_right',
                 'padding_top',
                 'padding_bottom',
+                'padding_left',
+                'padding_right',
+            ]
+        },
+        { 
+            title: '样式配置',
+            groups: [
                 'text_size',
                 'text_color',
+                'text_align',
                 'text_style',
                 'bg_color',
                 'bg_img'
