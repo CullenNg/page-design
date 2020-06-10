@@ -11,7 +11,6 @@
             :id="id"
             :styles="styles"
             :datas="datas"
-            :goodsSKU="goodsSKU"
             :languages="languages"
             @loaded="after_componnet_loaded">
             <slot></slot>

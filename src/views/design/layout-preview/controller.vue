@@ -60,7 +60,7 @@ import loadComponent from '../../../system-components/ui-component-load/index.vu
 
 export default {
     // 传入组件数据对象
-    // isPanel 是否容器对象
+    // isPanel 是否容器对象 
     props: ['vdc', 'isPanel'],
 
     components: {

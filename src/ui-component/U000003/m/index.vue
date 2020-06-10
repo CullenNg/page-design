@@ -97,8 +97,33 @@ const css = function () {
     `;
 };
 
+import defaultGoods from '@/resource/images/default-goods.png';
+
+// 默认的商品数据
+const default_goods_item = {
+    goods_sn: "269004202",
+    goods_title: "Asymmetric Striped Slit Shirt Dress - Dark Gree",
+    goods_img: defaultGoods,
+    tsk_price: 9.99, // 秒杀价格
+    shop_price: 9.99, // 销售价
+    market_price: 19.99, // 市场价
+    discount: 50,
+    promotions: [
+        '<span>BUY <em class="special fb">1</em> GET 1 <em class="special fb  ml5" data-orgp="">99%</em> OFF</span>',
+        '<span>BUY <em class="special fb">1</em> GET 1 <em class="special fb  ml5" data-orgp="">99%</em> OFF</span>'
+    ]
+};
+
+// 默认的商品数据列表
+const default_goods_list = [
+    default_goods_item,
+    default_goods_item,
+    default_goods_item,
+    default_goods_item
+];
+
 export default {
-    props: ['id', 'datas', 'styles', 'goodsSKU', 'languages'],
+    props: ['id', 'datas', 'styles', 'languages'],
     computed: {
         css () {
             return '<style>' + css.call(this) + '</style>';
@@ -112,11 +137,7 @@ export default {
             return this.$store.state.page.env;
         },
         list () {
-            try {
-                return this.goodsSKU[0].goodsInfo || [];
-            } catch (err) {
-                return [];
-            }
+            return default_goods_list;
         },
         // 背景整体式
         whole () {
@@ -131,16 +152,8 @@ export default {
         }
     },
 
-    watch: {
-        list () {
-            this.$store.dispatch('global/async_goods_init_2', this);
-        }
-    },
-
     mounted () {
         this.$emit('loaded');
-        // 页面元素初始化
-        this.$store.dispatch('global/async_goods_init_2', this);
     }
 };
 </script>

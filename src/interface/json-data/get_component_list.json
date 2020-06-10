@@ -2,13 +2,31 @@
     "code": 0,
     "data": [
         {
-            "id": 242,
+            "id": 1,
             "category_id": 1,
             "component_key": "U000001",
             "name": "标题栏",
             "description": "标题栏组件",
             "tpl_id": 1,
             "icon": "ui-component-title"
+        },
+        {
+            "id": 2,
+            "category_id": 1,
+            "component_key": "U000002",
+            "name": "广告图",
+            "description": "广告图件",
+            "tpl_id": 2,
+            "icon": "ui-component-banner"
+        },
+        {
+            "id": 3,
+            "category_id": 1,
+            "component_key": "U000003",
+            "name": "商品列表",
+            "description": "商品列表件",
+            "tpl_id": 3,
+            "icon": "ui-component-goodslist"
         }
     ]
 }
