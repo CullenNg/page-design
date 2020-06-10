@@ -19,7 +19,6 @@
 
                     <template v-for="key in group.groups">
                         <!-- 如果是自定义的组件 -->
-                        <!-- {{ configs[key].type }} -->
                         <component
                             v-if="is_diy(configs[key].type)"
                             v-model="configs[key].value"
