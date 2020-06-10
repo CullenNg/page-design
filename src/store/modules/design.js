@@ -39,8 +39,6 @@ const design = {
          * @param {Object} vdc 组件数据对象
          */
         async form_open ({ state }, vdc) {
-            // 避免多次点击
-            if (state.selected_vdc && vdc.id === state.selected_vdc.id) return false;
 
             // 如果组件没有读取配置项，则读取 config.js 文件
             if (vdc.is_loaded_config == false) {
@@ -96,13 +94,7 @@ const design = {
                     site_code: res.siteCode || '',
                     platform: res.platform || 'm',
                     title: res.pageTitle || '',
-                    relations: res.relations.list || [],
                     layouts: [],
-                    pipelines: res.activityInfo.allLangList || [],
-                    activity_id: res.activityInfo.id || '',
-                    languages: res.languages || [],
-                    preview_url: res.preview_url || '',
-                    env: 1,
                     goodsSKU: [],
                 };
                 

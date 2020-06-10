@@ -10,7 +10,7 @@
 
                 <!--渠道-->
                 <div class="channel">
-                    <span class="tip">站点：</span>
+                    <span class="tip">页面：</span>
                     <a-select
                         class="select-channel"
                         :value="current_pipeline"
@@ -24,10 +24,10 @@
                         </a-icon>
 
                         <a-select-option
-                            v-for="(item, index) in select_options.pipelines"
-                            :key="index"
-                            :value="item.pipeline">
-                            {{ item.pipeline_name }}
+                            v-for="item in select_options.pipelines"
+                            :key="item.code"
+                            :value="item.code">
+                            {{ item.name }}
                         </a-select-option>
                     </a-select>
                 </div>
@@ -48,8 +48,8 @@
 
                         <a-select-option
                             v-for="item in select_options.langs"
-                            :key="item.key"
-                            :value="item.key">
+                            :key="item.code"
+                            :value="item.code">
                             {{ item.name }}
                             <template v-if="item.is_default === 1">
                                 <span class="default" style="color: #999;">(默认)</span>
@@ -87,27 +87,10 @@
             </a-col>
 
             <!-- 页面标题 -->
-            <a-col :span="7" class="middle">{{ activity_title }}</a-col>
+            <a-col :span="7" class="middle">{{ title }}</a-col>
 
             <!-- 右侧功能区域 -->
             <a-col :span="6" class="right">
-                <a-select
-                    class="select-channel"
-                    placeholder="更多操作"
-                    :dropdownStyle="selectStyle"
-                    :dropdownMatchSelectWidth="false"
-                    @change="handleMoreChange">
-                    <a-icon
-                        slot="suffixIcon"
-                        type=" iconfont design-arrow-down"></a-icon>
-                    <a-select-option
-                        v-for="(item, index) in more_actions"
-                        :key="index"
-                        :value="item.value">
-                        {{ item.name }}
-                    </a-select-option>
-                </a-select>
-
                 <a href="javascript:void(0);" class="save" @click="handle_page_save">保存并继续</a>
                 <a href="javascript:void(0);" class="release" @click="handle_page_release">发布</a>
             </a-col>
@@ -123,29 +106,28 @@ export default {
     name: 'design-top',
     data () {
         return {
-            activity_title: '', // 活动标题
+            title: '', // 活动标题
 
             current_pipeline: '',  // 当前选择的渠道
             current_lang: '', // 当前选择的语言
             current_platform: '', // 当前选择的端口
 
             select_options: {
-                pipelines: [], // 所有渠道列表
-                langs: [], // 所有语言列表
-                platforms: [], // 所有设备终端列表
+                // 所有渠道列表
+                pipelines: [
+                    { name: 'DEMO', code: 'ZF' }
+                ],
+                // 所有语言列表
+                langs: [
+                    { name: '简体中文', code: 'cn' },
+                    { name: '英文', code: 'en' },
+                ],
+                // 所有设备终端列表
+                platforms: [
+                    { name: 'PC端', code: 'pc', },
+                    { name: '移动端', code: 'wap', },
+                ]
             },
-            
-            // 更多操作
-            more_actions: [
-                {
-                    name: '操作一',
-                    value: 0
-                },
-                {
-                    name: '操作二',
-                    value: 1
-                }
-            ],
 
             // 下拉选项的公共样式配置
             selectStyle: {
@@ -180,14 +162,6 @@ export default {
         },
 
         /**
-         * 更多操作
-         * @param {Number} index
-         * */
-        handleMoreChange (index) {
-            this.$message.error(index);
-        },
-
-        /**
          * 页面保存
          */
         handle_page_save () {
@@ -204,34 +178,14 @@ export default {
 
     mounted () {
         const info = this.$store.state.page.info; // 当前装修页数据
-        const pipelines = this.$store.state.page.pipelines; // 渠道
-        const relations = this.$store.state.page.relations; // 端口
 
         // 页面标题
-        this.activity_title = info.title;
+        this.title = info.title;
 
          // 当前选中的值
         this.current_pipeline = info.pipeline;
         this.current_lang = info.lang;
         this.current_platform = info.platform;
-
-        // 渠道列表
-        this.select_options.pipelines = [...pipelines]; 
-
-        // 语言列表
-        this.select_options.langs = pipelines.filter((item) => {
-            return item.pipeline == this.current_pipeline;
-        })[0].langList;
-
-        // 设备终端列表
-        this.select_options.platforms = Object.keys(relations).map(key => {
-            const item = relations[key];
-            return {
-                name: item.name,
-                code: key,
-                url: item.url
-            }
-        });
     }
 }
 </script>

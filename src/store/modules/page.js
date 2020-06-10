@@ -13,7 +13,6 @@ const page = {
             lang: '',           // 当前页面选中的语种，默认英语,
             site_code: '',      // 站点编码，ZF/RG
             platform: '',       // 设备终端，[pc/m],
-            activity_id: '',    // 活动ID
             od: '',  // 千人千面需求，大数据生成的用户ID
             country_code: '',    // 用户访问的国家,
             bts_unique_id: ''   // 实验分流标示
@@ -70,14 +69,9 @@ const page = {
                 site_code,
                 platform,
                 title,
-                relations,
                 layouts,
-                pipelines,
-                languages,
-                preview_url,
                 env,
-                goodsSKU,
-                activity_id
+                goodsSKU
             } = data;
             // update store value
             state.env = env; // 页面环境变量
@@ -88,12 +82,7 @@ const page = {
             state.info.lang = lang;
             state.info.site_code = site_code;
             state.info.platform = platform;
-            state.info.activity_id = activity_id; // 活动ID
-            state.relations = relations; // 设备终端
             state.layouts = layouts; // 布局
-            state.pipelines = pipelines; // 可用渠道
-            state.languages = languages; // 语言包
-            state.preview_url = preview_url; // 预览链接
             state.goodsSKU = goodsSKU; // 页面的商品数据
         },
 
