@@ -4,12 +4,12 @@
         <div class="color-picker-wrapper">
             <a-input
                 size="large"
-                v-model="color2"
+                v-model="color"
                 @blur="handleInputChange">
                 
                 <ColorPicker
                     slot="addonBefore"
-                    :value="color1"
+                    :value="color"
                     @change="handlePickerChange" />
             </a-input>
         </div>
@@ -23,6 +23,15 @@
 import { ColorPicker } from 'element-ui';
 import 'element-ui/lib/theme-chalk/color-picker.css';
 
+/**
+ * 颜色格式化， 正则判断
+ * @returns {String}
+ */
+const check_formate = (value) => {
+    // 只允许输入完整的十六进制的值
+    return (/^#[A-Fa-f0-9]{6,8}$/.test(value)!= false);
+}
+
 export default {
     props: ['value', 'config'],
 
@@ -30,29 +39,27 @@ export default {
         ColorPicker,
     },
 
-    data () {
-        return {
-            color1: '', // 存放色块的值
-            color2: '', // 文本框的值
-        }
-    },
-
-    created () {
-        this.color1 = this.value;
-        this.color2 = this.value;
-        // 兼容处理
-        if (this.value == '#00000000') {
-            this.color1 = '#ffffff';
+    computed: {
+        color: {
+            get () {
+                return this.value;
+            },
+            set (newValue) {
+                this.$emit('input', newValue);
+            }
         }
     },
 
     methods: {
-
         /**
          * 颜色选择器的值变更
          */
         handlePickerChange (value = '') {
-            this.color_formatter(value);
+            if (check_formate(value) == true) {
+                this.color = value;
+            } else {
+                this.color = '#ffffff';
+            }
         },
 
         /**
@@ -60,29 +67,14 @@ export default {
          */
         handleInputChange (event) {
             let value = event.target.value || '';
-            this.color_formatter(value);
-        },
-
-        /**
-         * 颜色格式化， 正则判断
-         */
-        color_formatter (value) {
-            // 只允许输入完整的十六进制的值
-            if (/^#[A-Fa-f0-9]{6,8}$/.test(value) === false) {
-                this.color1 = '#ffffff';
-                this.color2 = '#00000000';
+            if (check_formate(value) == true) {
+                this.color = value;
             } else {
-                this.color1 = value;
-                this.color2 = value;
+                this.color = '#ffffff';
             }
-            // 透明度兼容APP端
-            if (value === '#00000000') {
-                this.color1 = '#ffffff';
-            }
-            this.$emit('input', this.color2);
         }
     }
-}
+};
 </script>
 
 <style lang="less">
