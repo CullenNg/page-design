@@ -5,7 +5,7 @@
                 :key="template.id"
                 :class="{ 'active': template_id == template.id }"
                 @click="handle_change_template(template)">
-                <i :class="`iconfont icon-${component_key}-${template_name_en}`"></i>
+                <i :class="`iconfont icon`"></i>
             </li>
         </template>
     </ul>
@@ -14,8 +14,8 @@
 <script>
 export default {
     props: {
-        // 组件ID
-        component_id: {
+        value: {
+            type: Number,
             required: true
         },
         // 模版列表
@@ -27,10 +27,8 @@ export default {
 
     data () {
         return {
-            component_key: '',
             // 当前选中的模版ID
             template_id: 0, 
-            template_name_en: 'template1',
         }; 
     },
 
@@ -42,27 +40,17 @@ export default {
          * @param {String} name_en 模版文件夹
          */
         handle_change_template ({ id, name, name_en }) {
-            if (id === this.template_id) return false;
-            this.template_id = id;
-            // 获取组件信息，更新选中的模版值
-            const component_info = this.$store.state.page.components.filter(x => x.id === this.component_id)[0];
-            component_info.template_id = id;
-            component_info.template_name = name_en;
-            component_info.template_title = name;
-            // 获取组件配置信息
-            this.$emit('update', component_info.template_title, component_info.template_id);
+            this.$emit('update', id);
+            this.$emit('onChange', {
+                template_id: id,
+                template_title: name,
+                template_name: name_en
+            });
         }
     },
 
     created () {
-        // 组件信息
-        const component_info = this.$store.state.page.components.filter(x => x.id === this.component_id)[0];
-        this.component_key = component_info.component_key;
-        this.template_name_en = component_info.template_name;
-
-        // 默认选中
-        this.template_id = component_info.template_id;
-        this.$emit('update', component_info.template_title, component_info.template_id);
+        this.template_id = this.value;
     }
 }
 </script>

@@ -94,9 +94,7 @@
                 <a href="javascript:void(0);" class="save" @click="handle_page_save">保存并继续</a>
                 <a href="javascript:void(0);" class="release" @click="handle_page_release">发布</a>
             </a-col>
-
         </a-row>
-
     </div>
 </template>
 

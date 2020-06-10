@@ -10,10 +10,9 @@
                 <!-- 模版样式选择 -->
                 <unit-panel title="组件样式" :desc="component.template_title">
                     <template-selector
-                        v-if="false"
-                        :component_id="component.id"
+                        v-model="component.template_id"
                         :list="component.template_list"
-                        @update="handle_update_template"/>
+                        @onChange="handle_update_template"/>
                 </unit-panel>
             
                 <!-- 循环当前已有的模版列表 -->
@@ -96,9 +95,10 @@ export default {
          * @param {String} 模版名字
          * @param {String} 模版标题
          */
-        handle_update_template (title, template_id) {
-            // this.component.template_title = title;
-            // this.component.template_id = template_id;
+        handle_update_template ({ template_id, template_name, template_title }) {
+            this.component.template_title = template_title;
+            this.component.template_id = template_id;
+            this.component.template_name = template_name;
         }
     },
 
