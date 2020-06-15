@@ -13,15 +13,13 @@
 * 2. 支持[PC/M]端布局（PC模式后续支持）
 * 3. 支持实时预览，所见即所得
 * 4. 支持组件嵌套（后续支持）
-* 5. [支持组件的自定义配置项](#组件配置项)
+* 5. 支持组件的自定义配置项
 * [安装](https://github.com/CullenNg/page-design#安装)
 * [使用](https://github.com/CullenNg/page-design#使用)
 * 目前支持组件列表
 * 1. [标题栏](https://github.com/CullenNg/page-design#标题栏)
 * 2. [广告图](https://github.com/CullenNg/page-design#广告图)
 * 3. [商品列表](https://github.com/CullenNg/page-design#商品列表)
-* [新增组件](https://github.com/CullenNg/page-design#新增组件)
-* [组件配置项](https://github.com/CullenNg/page-design#组件配置项)
 * [更新日志](https://github.com/CullenNg/page-design#更新日志)
 
 ## 安装
