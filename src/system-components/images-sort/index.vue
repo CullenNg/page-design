@@ -4,7 +4,7 @@
         wrapClassName="dialog-images-manager"
         title="图片配置"
         :visible="true"
-        :width="960"
+        :width="500"
         :confirmLoading="loading"
         @isOk="handle_confirm"
         @isCancel="handle_cancel">
@@ -14,6 +14,7 @@
 
             <!-- 图片列表 -->
             <div class="images-list">
+
                 <!-- 拖拽容器 -->
                 <draggable
                     tag="div"
@@ -27,42 +28,20 @@
                         class="images-list-item"
                         v-for="(item, index) in list"
                         :key="index">
-                        <div class="images-list-item-title">图片 {{ index + 1 }}</div>
 
                         <!-- close button -->
                         <div class="remove-button" @click="handle_remove_item(index)">
                             <i>X</i>
                         </div>
-
-                        <!-- 表单 -->
-                        <div class="form-group">
-                            <div class="form-item">
-                                <unit-image
-                                    v-model="item.image"
-                                    :config="options['image']"
-                                    :rootConfig="rootConfig" />
-                            </div>
-                            <div class="form-item">
-                                <label>跳转链接</label>
-                                <a-input v-model="item.link" size="large" placeholder="请输入" />
-                            </div>
-                        </div>
+                        <img :src="item.image" class="image-preview">
                     </div>
                 </draggable>
             </div>
-
-            <!-- new button -->
-            <a-button class="add-button" type="primary" size="large" @click="handle_add_item">+</a-button>
-            
         </div>
-
     </design-dialog>
 </template>
 
 <script>
-
-// 单个图片选择器
-import unitImage from '../../form/form-unit/unit-image.vue';
 
 // 拖拽
 import draggable from 'vuedraggable'
@@ -94,7 +73,6 @@ export default {
     },
 
     components: {
-        unitImage,
         draggable
     },
 
@@ -228,6 +206,10 @@ export default {
     margin-top: 16px;
 }
 
+.image-preview {
+    width: 100%;
+}
+
 // 新增按钮
 .add-button {
     font-size: 24px;
@@ -254,29 +236,4 @@ export default {
     }
 }
 
-// 楼层标题
-.images-list-item-title {
-    font-size: 14px;
-    color: #3F4245;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-// 表单行
-.form-group {
-    display: flex;
-    justify-content: space-between;
-}
-
-// 表单列
-.form-item {
-    width: 425px;
-    label {
-        display: block;
-        margin-bottom: 4px;
-    }
-    > input {
-        width: 100%;
-    }
-}
 </style>

@@ -13,6 +13,7 @@ export const design_get_component_list = () => {
     const json = require('./json-data/get_component_list.json');
     return json;
 };
+
 /**
  * 获取组件模版列表
  */

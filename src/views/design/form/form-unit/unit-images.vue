@@ -1,33 +1,50 @@
 <template>
     <div class="form-item col-1">
         <label>图片配置</label>
-        <div>
-            <a-button
-                class="button-add"
-                size="large"
-                type="primary"
-                @click="handle_dialog_open">
-                已配置图片( {{ current_value.length }} )
-            </a-button>
-        </div>
+
+        <ul class="images-preview-list">
+            <li v-for="(item, index) in current_value" :key="index">
+                <img :src="item.image">
+                <div class="controller-layer">
+                    <button @click="handle_zoom(item.image)">
+                        <a-icon type="zoom-in" />
+                        <label>放大</label>
+                    </button>
+                    <button @click="handle_remove(index)">
+                        <a-icon type="delete" />
+                        <label>删除</label>
+                    </button>
+                </div>
+            </li>
+        </ul>
+
+        <a-button-group class="button-group">
+            <a-button type="primary" @click="handle_open_manager">添加图片</a-button>
+            <a-button @click="handle_dialog_open"> 图片排序( {{ current_value.length }} ) </a-button>
+        </a-button-group>
 
         <!-- 图片管理器 -->
-        <images-manager
-            ref="images-manager"
+        <images-sort
+            ref="images-sort"
             v-if="dialog.visible"
             :value="current_value"
             :options="config.options"
             :rootConfig="rootConfig"
             @confirm="handle_dialog_confirm"
             @cancel="handle_dialog_cancel">
-        </images-manager>
+        </images-sort>
+
+        <images-manager
+            ref="imagesManager"
+            @onSelected="handle_add_image" />
     </div>
 </template>
 
 <script>
 
 // 图片管理弹窗
-import imagesManager from "../../more/images-manager/index";
+import imagesSort from "../../../../system-components/images-sort/index.vue";
+import imagesManager from "../../../../system-components/images-manager/index.vue";
 
 // Main code
 export default {
@@ -48,6 +65,7 @@ export default {
         }
     },
     components: {
+        imagesSort,
         imagesManager
     },
     data () {
@@ -82,17 +100,125 @@ export default {
          */
         handle_dialog_cancel () {
             this.dialog.visible = false;
+        },
+
+        /**
+         * 放大查看
+         * @param {String} url 图片地址
+         */
+        handle_zoom (url) {
+            this.$message.warning('功能还没准备好，别急');
+        },
+
+        /**
+         * 删除图片
+         * @param {Number} index 数组索引
+         */
+        handle_remove (index) {
+            this.current_value.splice(index, 1);
+        },
+
+        /**
+         * 打开素材管理
+         */
+        handle_open_manager () {
+            this.$refs.imagesManager.show();
+        },
+
+        /**
+         * 添加图片
+         * @param {String} url
+         */
+        handle_add_image (url) {
+            this.current_value.push({
+                image: url
+            });
         }
     }
 }
 </script>
 
 <style lang="less" scoped>
-// 选择按钮
-.button-add {
+
+// 排序按钮
+.button-group {
     width: 100%;
     font-size: 14px;
+    display: flex;
+    > button {
+        width: 50%;
+    }
 }
+
+// 预览区域
+.images-preview-list {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    li {
+        position: relative;
+        margin-bottom: 10px;
+    }
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+    li:hover {
+        .controller-layer {
+            display: flex;
+        }
+    }
+    // 预览区域的按钮操作
+    .controller-layer {
+        display: none;
+        position: absolute;
+        background-color: rgba(255, 255, 255, .5);
+        width: 100%;
+        height: 100%;
+        left: 0px;
+        top: 0px;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+
+
+        > button {
+            display: inline-block;
+            width:48px;
+            height:32px;
+            line-height: 30px;
+            margin: 0 6px;
+            border-radius:16px;
+            vertical-align: middle;
+            border:1px solid rgba(64,158,255,1);
+            background-color: #fff;
+            cursor: pointer;
+            outline: none;
+            i {
+                display: block;
+                color: #409EFF;
+                font-size: 22px;
+            }
+            label {
+                display: none;
+
+            }
+        }
+        > button:hover {
+            background:rgba(64,158,255,1);
+            label {
+                display: block;
+                color: #fff;
+                font-size: 12px;
+                cursor: pointer;
+            }
+            i {
+                display: none;
+            }
+        }
+    }
+}
+
 // 编辑区域
 .form-goods {
     display: flex;

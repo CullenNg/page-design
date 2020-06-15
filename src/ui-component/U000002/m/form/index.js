@@ -5,7 +5,11 @@ const datas = {
         type: 'images',
         value: [
             {
-                image: '',
+                image: 'https://uidesign.zafcdn.com/ZF/image/2511/b.jpg?im_scale=w375_2x',
+                link: '',
+            },
+            {
+                image: 'https://uidesign.rglcdn.com/RG/image/z_promo/20190423_9384/m_i.jpg',
                 link: '',
             }
         ],
