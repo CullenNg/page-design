@@ -3,16 +3,7 @@ const datas = {
     list: {
         title: '图片设置',
         type: 'images',
-        value: [
-            {
-                image: 'https://uidesign.zafcdn.com/ZF/image/2511/b.jpg?im_scale=w375_2x',
-                link: '',
-            },
-            {
-                image: 'https://uidesign.rglcdn.com/RG/image/z_promo/20190423_9384/m_i.jpg',
-                link: '',
-            }
-        ],
+        value: [],
         options: {
             image: {
                 title: '轮播图地址',
@@ -31,33 +22,7 @@ const datas = {
 };
 
 // 样式配置
-const styles = {
-    margin_top: {
-        title: '组件边距(上)',
-        type: 'number',
-        value: 0,
-        col: 2,
-    },
-    margin_bottom: {
-        title: '组件边距(下)',
-        type: 'number',
-        value: 0,
-        col: 2,
-    },
-    width: {
-        title: '轮播图(宽)',
-        type: 'number',
-        disabled: true,
-        value: 750,
-        col: 2,
-    },
-    height: {
-        title: '轮播图(高)',
-        type: 'number',
-        value: 360,
-        col: 2,
-    }
-};
+const styles = {};
 
 import template1 from './template1';
 

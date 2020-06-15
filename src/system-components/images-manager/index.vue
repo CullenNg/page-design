@@ -29,8 +29,7 @@
                 <ul>
                     <li v-for="(item, index) in files_list" :key="index">
                         <div class="image-wrapper">
-                            <img :src="item.thumbnail_url" :alt="item.name">
-                            <span>{{ item.width }} x {{ item.height }}</span>
+                            <img :src="item.url" :alt="item.name">
                         </div>
                         <label>{{ item.name }}</label>
                         <button @click="handle_chosen_file(item)">立即使用</button>
@@ -144,7 +143,7 @@ export default {
             }).then(res => {
                 this.loading_files = false;
                 // 过滤 type = 1 的图片素材
-                this.files_list = res.data.list.filter(item => item.type == '1') || [];
+                this.files_list = res.data.list;
             });
         },
 
@@ -169,12 +168,11 @@ export default {
 
         /**
          * 选择素材内容
-         * @param {string} thumbnail_url 缩略图
          * @param {string} url 图片外连
          * @param {String} width 宽度
          * @param {String} Height 高度
          */
-        handle_chosen_file ({ thumbnail_url, url, width, height }) {
+        handle_chosen_file ({ url, width, height }) {
             // 选择文件
             this.visible.material = false;
             this.$emit('onSelected', url);
@@ -332,6 +330,8 @@ export default {
                     img {
                         display: inline-block;
                         vertical-align: middle;
+                        max-height: 100%;
+                        max-width: 100%;
                     }
                     span {
                         position: absolute;

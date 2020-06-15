@@ -116,6 +116,7 @@ export default {
          */
         handle_remove (index) {
             this.current_value.splice(index, 1);
+            this.$message.success('删除成功');
         },
 
         /**

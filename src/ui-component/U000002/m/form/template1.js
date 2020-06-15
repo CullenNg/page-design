@@ -5,15 +5,10 @@ export default {
             title: '数据配置',
             groups: [ 'list' ]
         },
-    ],
-    styles: [
         {
-            title: '基础配置',
-            groups: [ 'margin_top', 'margin_bottom', ]
-        },
-        {
-            title: '常用配置',
-            groups: [ 'width', 'height' ]
+            title: '轮播功能配置',
+            groups: []
         }
-    ]
+    ],
+    styles: []
 };
