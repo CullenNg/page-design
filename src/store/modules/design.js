@@ -122,9 +122,10 @@ const design = {
          * @author Cullen
          * @date 2019-11-26
          */
-        page_save ({ state }) {
+        page_save ({ state, rootState }) {
             // 开启 loading 状态
             state.loading = true;
+            console.log(rootState);
             setTimeout(() => {
                 state.loading = false;
                 message.success('保存成功');

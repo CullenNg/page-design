@@ -5,7 +5,15 @@
         <div class="sortable-aside">
             <button :class="{ active: show }" @click="handle_show_sortable">
                 <i class="iconfont design-sortable"></i>
+                <p>页面</p>
+            </button>
+            <button :class="{ active: show }" @click="handle_show_sortable">
+                <i class="iconfont design-sortable"></i>
                 <p>楼层</p>
+            </button>
+            <button :class="{ active: show }" @click="handle_show_sortable">
+                <i class="iconfont design-sortable"></i>
+                <p>模版</p>
             </button>
         </div>
 
