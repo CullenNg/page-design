@@ -1,6 +1,7 @@
 <template>
     <div class="U000002-template1">
         <img v-if="list.length == 0" :src="defaultUrl" alt="">
+        <img v-if="list.length == 1" :src="list[0].image" alt="">
         <Swiper
             v-else
             :options="swiperOption"
@@ -56,9 +57,13 @@ export default {
 
         // 广告轮播列表
         list () {
-            let list = [...this.datas.list] || [];
-            list = list.filter(item => item.image != '');
-            return list;
+            try {
+                let list = [...this.datas.list] || [];
+                list = list.filter(item => item.image != '');
+                return list;
+            } catch (err) {
+                return [];
+            }
         }
     },
 

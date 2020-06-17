@@ -89,7 +89,6 @@ export default {
     },
 
     components: {
-        // goodsListSkeleton,
         ErrorComponent
     },
 
@@ -118,7 +117,7 @@ export default {
                 });
                 return datas;
             } else {
-                return this.component.data || {};
+                return this.component.remote_data || {};
             }
         },
         // 样式数据
@@ -131,7 +130,7 @@ export default {
                 });
                 return styles;
             } else {
-                return this.component.style || {};
+                return this.component.remote_style || {};
             }
         },
         /**

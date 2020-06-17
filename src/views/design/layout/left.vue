@@ -113,6 +113,9 @@ export default {
                     }
                 });
             });
+
+            // 模版数据存放到store
+            this.$store.commit('design/udpate_component_template_list', template_list.data);
         },
 
         /**

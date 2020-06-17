@@ -127,9 +127,7 @@ export default {
      * 组件初始化
      */
     created () {
-        // 判断是否有数据，有则更新文案
-        const data = this.component_goodsSKU.filter((item) => item.id == this.current_value);
-        data[0] && this.update_tips(data[0]);
+        console.log(this.value);
     }
 }
 </script>

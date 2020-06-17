@@ -3,25 +3,25 @@
 
         <!-- 悬浮按钮 -->
         <div class="sortable-aside">
-            <button :class="{ active: show }" @click="handle_show_sortable">
+            <!-- <button :class="{ active: show }" @click="handle_show_sortable">
                 <i class="iconfont design-sortable"></i>
                 <p>页面</p>
-            </button>
+            </button> -->
             <button :class="{ active: show }" @click="handle_show_sortable">
                 <i class="iconfont design-sortable"></i>
                 <p>楼层</p>
             </button>
-            <button :class="{ active: show }" @click="handle_show_sortable">
+            <!-- <button :class="{ active: show }" @click="handle_show_sortable">
                 <i class="iconfont design-sortable"></i>
                 <p>模版</p>
-            </button>
+            </button> -->
         </div>
 
         <div class="design-layout-sortable-wrapper">
             <!-- 标题 -->
             <h2 class="sortable-head">楼层管理</h2>
 
-            <div class="is-empty" v-if="layouts.length <= 0">
+            <div class="is-empty" v-if="page_components.length <= 0">
                 <img :src="images.emptySort">
                 没有组件，这里空空如也~
             </div>
@@ -43,17 +43,16 @@
                     <!-- 拖拽容器 -->
                     <draggable
                         tag="ul"
-                        v-model="layouts"
+                        :list="page_components"
                         v-bind="dragOptions"
-                        @start="inDrag = true"
-                        @end="handleDragEnd">
+                        @start="inDrag = true">
 
                         <!-- 动画 -->
                         <transition-group type="transition" :name="!inDrag ? 'flip-list' : null">
 
                             <!-- item -->
                             <li
-                                v-for="(item, index) in layouts"
+                                v-for="(item, index) in page_components"
                                 :key="item.id"
                                 :class="{
                                     'in-hover': inHover == item.id
@@ -68,7 +67,7 @@
                                     <span class="ignore-elements" @click.stop="handle_component_copy(item.id, item.component_key, index)">
                                         <i class="iconfont design-copy" />
                                     </span>
-                                    <span class="ignore-elements" @click.stop="handle_component_delete(item.id)">
+                                    <span class="ignore-elements" @click.stop="handle_component_delete(index)">
                                         <i class="iconfont design-delete-2" />
                                     </span>
                                 </div>
@@ -105,8 +104,6 @@ export default {
             },
             inDrag: false, // 是否正在拖拽
             inHover: 0, // 鼠标 hover 的 <li> 的 component_id
-            // 布局数据
-            layouts: [],
             images: {
                 emptySort
             }
@@ -114,22 +111,18 @@ export default {
     },
 
     computed: {
-        page_layouts () {
-            return this.$store.state.page.new_layouts || [];
-        },
-        page_components () {
-            return this.$store.state.page.components || [];
+        // 组件信息
+        page_components: {
+            get () {
+                return this.$store.state.page.components || [];
+            },
+            set (arr) {
+                this.$store.dispatch('design/page_update_layout_v2', arr);
+            }
         },
         // 根据是否展示组件配置项，决定组件排序组件是否展示
         show () {
             return !this.$store.state.design.show_component_form;
-        }
-    },
-
-    watch: {
-        // 监听布局数据变更
-        page_layouts (layouts) {
-            this.update_layouts(layouts);
         }
     },
 
@@ -139,17 +132,11 @@ export default {
 
     methods: {
 
-        // 更新数据
-        update_layouts (layouts) {
-            this.layouts = layouts;
-        },
-
         /**
          * 结束拖拽
          */
-        handleDragEnd () {
+        handleDragEnd (c) {
             this.inDrag = false;
-            this.save_layouts_sort();
         },
 
         /**
@@ -162,11 +149,10 @@ export default {
 
         /**
          * 删除组件
-         * @param {Number} id 组件ID
+         * @param {Number} index 数组索引
          */
-        handle_component_delete (id) {
-            // 调用全局功能
-            this.$store.dispatch('design/component_delete', id);
+        handle_component_delete (index) {
+            this.page_components.splice(index, 1);
         },
 
         /**
@@ -176,7 +162,7 @@ export default {
          * @param {Number} index 组件顺序索引
          */
         async handle_component_copy (id, component_key, index) {
-            this.$message.error('功能还没准备好');
+            this.$message.warning('复制功能还没准备好。');
         },
 
         /**
@@ -208,11 +194,6 @@ export default {
         handle_location_component (floor_index) {
             this.$store.dispatch('design/component_locate_by_floor', floor_index);
         }
-    },
-
-    created () {
-        // 初始化数据
-        this.update_layouts(this.page_layouts);
     }
 }
 </script>

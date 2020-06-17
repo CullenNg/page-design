@@ -32,6 +32,11 @@
                 "id": "6",
                 "name": "test",
                 "url": "https://uidesign.zafcdn.com/ZF/image/2380/ny.jpg"
+            },
+            {
+                "id": "7",
+                "name": "test",
+                "url": "https://uidesign.rglcdn.com/RG/image/2723/banner_enamy.jpg"
             }
         ]
     },

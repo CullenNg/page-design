@@ -1,6 +1,9 @@
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue';
 
+// 组件实例
+import Vdc from '@/core/vdc/vdc';
+
 import {
     design_get_page_info
 } from '../../interface/index.js';
@@ -31,6 +34,18 @@ const design = {
         preview_in_drag: false, // 预览区域是否在拖拽中
         selected_vdc: {}, // 选中的组件数据对象，打开form表单
         show_component_form: false, // 是否展示组件配置项,
+        component_temlate_list: [], // 所有组件的模版列表
+    },
+
+    mutations: {
+        /**
+         * 更新所有组件的模版列表
+         * @param {Object} state 
+         * @param {Array} list 模版列表
+         */
+        udpate_component_template_list (state, list) {
+            state.component_temlate_list = list;
+        }
     },
 
     actions: {
@@ -46,6 +61,13 @@ const design = {
                 const config = await load_component_config(vdc.component_key, vdc.template_name);
                 vdc.update_set('config', config);
             }
+
+            // 如果组件没有模版列表，则加载
+            if (vdc.template_list.length <= 0) {
+                const template_list = state.component_temlate_list.filter(x => x.component_key == vdc.component_key);
+                vdc.update_set('template_list', template_list);
+            }
+
             // 展示 form
             state.selected_vdc = null;
             state.selected_vdc = vdc;
@@ -86,16 +108,13 @@ const design = {
 
                 // 拼装页面数据
                 const res = resource.data;
+                const local_components = JSON.parse(localStorage.getItem('layouts') || '[]');
                 const data = {
                     page_id: res.pageId || '',
-                    group_id: res.groupId || '',
-                    pipeline: res.pipeline || 'zf',
                     lang: res.lang || 'en',
-                    site_code: res.siteCode || '',
                     platform: res.platform || 'm',
                     title: res.pageTitle || '',
-                    layouts: [],
-                    goodsSKU: [],
+                    components: local_components.map(x => new Vdc(x))
                 };
                 
                 // 存储页面数据
@@ -125,9 +144,29 @@ const design = {
         page_save ({ state, rootState }) {
             // 开启 loading 状态
             state.loading = true;
-            console.log(rootState);
+            
             setTimeout(() => {
                 state.loading = false;
+
+                // 删除部分不需要传输到后端的字段
+                let cmpts_arr = JSON.parse(JSON.stringify(rootState.page.components));
+                cmpts_arr = cmpts_arr.map(vdc => {
+                    // config 字段值转换到 remote 字段
+                    Object.keys(vdc.config.datas).map(key => {
+                        vdc.remote_data[key] = vdc.config.datas[key].value;
+                    });
+                    Object.keys(vdc.config.styles).map(key => {
+                        vdc.remote_style[key] = vdc.config.styles[key].value;
+                    });
+                    // 删除字段
+                    delete vdc.is_loaded_config;
+                    delete vdc.lastmodify;
+                    delete vdc.config;
+                    delete vdc.template_list;
+                    return vdc;
+                });
+
+                localStorage.setItem('layouts', JSON.stringify(cmpts_arr));
                 message.success('保存成功');
             }, 200);
         },

@@ -37,7 +37,7 @@ export default class Vdc {
         this.remote_data = Object.assign({}, remote_data);
         this.remote_style = Object.assign({}, remote_style);
         // 创建组件唯一ID
-        this.generate_component_id();
+        if (id == 0) this.generate_component_id();
     }
 
     /**
