@@ -4,39 +4,19 @@
         :visible="visible"
         :width="960"
         wrapClassName="dialog-goods-source-manager"
-        title="数据配置"
+        title="已选商品数据"
         :confirmLoading="loading"
         @isOk="handle_confirm"
         @isCancel="handle_cancel">
 
-        <div class="container-body" :data-id="data_source_id">
+        <div class="container-body">
 
-            <!--数据模式-->
-            <div class="mode-select">
-                <div class="title">数据模式</div>
-                <a-select
-                    v-model="mode"
-                    @change="handle_mode_change">
-                    <template v-for="(item, index) in mode_list">
-                        <a-select-option
-                            v-if="!item.disabled"
-                            :key="index"
-                            :value="item.value">
-                            {{ item.name }}
-                        </a-select-option>
-                    </template>
-                </a-select>
-            </div>
-
-            <!--商品sku-->
-            <div class="content" v-if="mode == 1">
-                <enter-sku
-                    ref="enterSku"
-                    :sku.sync="enterSku.sku"
-                    :value.sync="value"
-                    :loading.sync="loading">
-                </enter-sku>
-            </div>
+            <ul class="goods-list">
+                <li v-for="item in goods_list" :key="item.goods_sn">
+                    <img :src="item.goods_img" alt="">
+                </li>
+            </ul>
+            
         </div>
 
     </design-dialog>
@@ -44,18 +24,13 @@
 
 <script>
 
-// 自填 SKU 模块
-import enterSku from './enter-sku.vue';
+import goodsList from '@/interface/json-data/get_goods_list.json';
+
 
 export default {
     name: 'goods-source-manager',
 
-    components: {
-        enterSku,
-    },
-
     props: {
-        
         // 是否展示
         visible: {
             type: Boolean,
@@ -66,230 +41,31 @@ export default {
         value: {
             required: true,
             default: ''
-        },
-
-        // 可用选项，默认全开
-        able: {
-            type: Array,
-            default () {
-                return [1,2,3]
-            }
         }
     },
 
     data () {
         return {
-            // 数据源ID，默认从 props 里面取
-            data_source_id: this.value,
-            // 绑定的组件ID
-            component_id: 0,
-            // 加载状态
-            loading: false,
-            // 数据模式
-            mode: 1,
-            mode_list: [
-                { name: '商品SKU', value: 1, disabled: false },
-                { name: '其他1', value: 2, disabled: true },
-                { name: '其他2', value: 3, disabled: true }
-            ],
-            // 自填SKU的
-            enterSku: {
-                sku: '',
-            },
-            // 自定义回调函数
-            callback: null
+            goods_list: goodsList.data,
+            loading: false
         };
-    },
-
-    computed: {
-        
-        // 获取store里面的绑定组件ID
-        store_component_id () {
-            return this.$store.state.design.selected_id;
-        },
-
-        // 获取store里面的数据源
-        store_goods_source () {
-            return this.$store.state.page.goodsSKU;
-        }
-    
     },
 
     methods: {
 
         /**
-         * 初始化
-         * params 传参用于老装修页JS调用，原生APP新装修页不需要传参
-         */
-        init (params = {}) {
-            
-            let data = {};
-            data = this.get_store_data_by_id(this.data_source_id);
-            this.component_id = this.store_component_id;
-
-            // 开启模式选择项，props 的数据和传参数据合并
-            const able_merge = this.able.concat(data.able || []);
-            this.init_mode_selection(able_merge);
-
-            // 初始化当前选择的 type 
-            this.init_mode_selected(data.type);
-
-            // 其他参数
-            this.enterSku.sku = data.sku || '';
-
-            // 判断是否有自定义回调
-            if (data.callback) {
-                this.callback = data.callback;
-            }
-        },
-
-        /**
-         * 禁用数据模式的可选项
-         * create by Cullen 2019/12/17
-         * @param {Array} able 可用选项，[1,2,3,4,5,....]
-         * 1=SKU
-         * 2=商品运营平台
-         * 3=秒杀ID
-         */
-        init_mode_selection (able = []) {
-            if (Array.isArray(able) && able.length > 0) {
-                able.map(code => {
-                    this.mode_list.map(mode => {
-                        if (mode.value == code) {
-                            mode.disabled = false;
-                        };
-                    });
-                });
-            }
-        },
-
-        /**
-         * 初始化当前选中的模式，如果选项 disabled 中则取第[0]个可选项
-         * create by Cullen 2019/12/17
-         * @param {Number} type 当前选中的模式
-         * 1=SKU
-         * 2=...
-         * 3=...
-         */
-        init_mode_selected (type = 0) {
-            const selected_type = parseInt(type);
-            const avavible_options = this.mode_list.filter(mode => mode.disabled != true);
-            const avavible_options_value = avavible_options.map(mode => mode.value);
-            // 判断是否可用
-            if (avavible_options_value.includes(selected_type)) {
-                this.mode = selected_type;
-            } else {
-                this.mode = avavible_options_value[0];
-            }
-        },
-
-        /**
-         * 根据 id 来源，获取store的数据源
-         * @param {String} id 数据源ID
-         */
-        get_store_data_by_id (id) {
-            const res = this.$store.state.page.goodsSKU.filter((item) => item.id.toString() == id.toString());
-            return res[0] || {};
-        },
-
-        /**
          * 弹窗按钮 - 确认
          */
-        async handle_confirm () {
-            // 自填 SKU
-            if (this.mode == 1) {
-                this.$refs.enterSku.handle_confirm((res) => {
-                    // 更新数据中心
-                    this.update_store_data(res);
-                });
-            }
+        handle_confirm () {
+            this.$emit('confirm', this.goods_list);
+            this.$emit('update:visible', false);
         },
 
         /**
          * 弹窗按钮 - 取消
          */
         handle_cancel () {
-            // 自填 SKU
-            if (this.mode == 1) {
-                
-            }
-            // 选品系统
-            if (this.mode == 2) {
-                this.$refs.esSystem.handle_cancel();
-            }
             this.$emit('update:visible', false);
-        },
-
-        /**
-         * 数据模式的改变
-         * @param {string} mode 数据模式
-         */
-        handle_mode_change (mode) {
-            this.mode = mode;
-        },
-
-        /**
-         * 更新 store/local 的数据
-         * @param {Number} type 数据模式
-         * @param {String} sku 自填的 SKU
-         * @param {String} sop_rule_name 选品规则名字
-         * @param {String} price_sys_ids 秒杀ID
-         */
-        async update_store_data ({ type = 1, sku = '' }) {
-            this.loading = true;
-
-            // 创建新的数据
-            let data = {
-                id: this.data_source_id || new Date().getTime(),
-                type,
-                component_id: this.component_id, // 绑定的组件ID
-                sku
-            };
-
-            // 统一获取商品数据
-            const res = await this.get_goods_by_type(data);
-
-            // 错误处理
-            if (res.code != 0) {
-                this.$message.error(res.message || '服务器错误');
-                this.loading = false;
-                return false;
-            }
-
-            // 更新数据
-            data.goodsInfo = [...res.data[0].goodsInfo || []];
-
-            // 过滤已存在的
-            this.$store.state.page.goodsSKU = this.$store.state.page.goodsSKU.filter(x => x.id != this.data_source_id);
-            // 追加到 store 里面
-            this.store_goods_source.push(data);
-
-            // 关闭弹窗, 向父组件更新数据源数据
-            this.$emit('confirm', data);
-            // 更新当前控件的数据源ID
-            this.data_source_id = data.id;
-            this.loading = false;
-            this.$emit('update:visible', false);
-
-            // 自定义回调
-            this.callback && this.callback(data);
-        },
-
-        /**
-         * 根据 type 获取商品数据
-         * @returns {Object}
-         */ 
-        async get_goods_by_type (data) {
-            // 判断是否引用 store 模块
-            let request = {
-                page_id: this.$store.state.page.info.page_id,
-                pipeline: this.$store.state.page.info.pipeline,
-                lang: this.$store.state.page.info.lang
-            };
-            return new Promise((resolve, reject) => {
-                const res = {};
-                resolve(res);
-            });
         }
     }
 }
@@ -299,31 +75,23 @@ export default {
 // 容器
 .container-body {
 
-    // 模式选择
-    .mode-select {
+    .goods-list {
+        list-style: none;
+        padding: 0;
+        margin: 0px;
         display: flex;
-        align-items: center;
-        margin-bottom: 16px;
-        .title {
-            color: #3F4245;
-            font-size:14px;
-            margin-right: 10px;
+        flex-wrap: wrap;
+        > li {
+            width: 80px;
+            height: 80px;
+            margin-right: 14px;
+            margin-bottom: 14px;
+            > img {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
         }
-
-        .ant-select {
-            width: 200px;
-        }
-    }
-}
-</style>
-
-<style lang="less">
-// 兼容在老装修页的 antd-css 冲突
-.dialog-goods-source-manager {
-    *,
-    *::before,
-    *::after {
-    box-sizing: border-box;
     }
 }
 </style>

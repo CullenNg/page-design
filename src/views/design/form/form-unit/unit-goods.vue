@@ -31,7 +31,6 @@
             ref="goodsSourceManager"
             :visible.sync="dialog.visible"
             :value.sync="current_value"
-            :able="config.able"
             @confirm="handle_dialog_confirm"/>
     </div>
 </template>
@@ -55,7 +54,7 @@ export default {
             is_data_set: false, // 是否已经设定商品数据
             // 配置数据源的弹窗
             dialog: {
-                visible: false
+                visible: true
             },
             // 提示文案
             tips: ''
@@ -79,17 +78,14 @@ export default {
          */
         handle_open_dialog (type) {
             this.dialog.visible = true;
-            this.$refs.goodsSourceManager.init();
         },
 
         /**
          * 商品数据配置弹窗 - 确认回调
-         * @param {Object} data 具体数据
+         * @param {Array} list 商品数据列表
          */
-        handle_dialog_confirm (data) {
-            this.$emit('input', data.id);
-            this.current_value = data.id;
-            this.update_tips(data);
+        handle_dialog_confirm (list) {
+            this.$emit('input', list);
         },
 
         /**
@@ -121,13 +117,6 @@ export default {
                     break;
             }
         }
-    },
-
-    /**
-     * 组件初始化
-     */
-    created () {
-        console.log(this.value);
     }
 }
 </script>
