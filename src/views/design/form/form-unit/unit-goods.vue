@@ -7,7 +7,7 @@
                     class="button-add"
                     size="large"
                     type="primary"
-                    @click="handle_open_dialog('add')">选择商品数据</a-button>
+                    @click="handle_open_dialog">选择商品数据</a-button>
             </template>
             <!-- 编辑区域 -->
             <template v-else>
@@ -22,16 +22,16 @@
                         class="button-edit"
                         size="large"
                         type="primary"
-                        @click="handle_open_dialog('edit')">重新修改</a-button>
+                        @click="handle_open_dialog">查看</a-button>
                 </div>
             </template>
         </div>
         <!-- 弹窗 -->
         <goods-source-manager
             ref="goodsSourceManager"
-            :visible.sync="dialog.visible"
             :value.sync="current_value"
-            @confirm="handle_dialog_confirm"/>
+            @confirm="handle_dialog_confirm" />
+
     </div>
 </template>
 
@@ -40,24 +40,18 @@
 // 商品数据弹窗
 import goodsSourceManager from '../../more/goods-source-manager/index';
 
+
 // Main code
 export default {
     props: ['value', 'config'],
 
     components: {
-        goodsSourceManager
+        goodsSourceManager,
     },
 
     data () {
         return {
-            current_value: this.value,
-            is_data_set: false, // 是否已经设定商品数据
-            // 配置数据源的弹窗
-            dialog: {
-                visible: true
-            },
-            // 提示文案
-            tips: ''
+            current_value: this.value
         }
     },
 
@@ -66,9 +60,13 @@ export default {
         component_id () {
             return this.$store.state.design.selected_id;
         },
-        // 当前组件goodsSKU
-        component_goodsSKU () {
-            return this.$store.state.page.goodsSKU;
+        // 是否已经设置数据
+        is_data_set () {
+            return this.value.length > 0;
+        },
+        // 提示文案
+        tips () {
+            return `已选择数量: ${this.value.length}个`;
         }
     },
 
@@ -76,8 +74,8 @@ export default {
         /**
          * 打开商品数据配置的弹窗
          */
-        handle_open_dialog (type) {
-            this.dialog.visible = true;
+        handle_open_dialog () {
+            this.$refs.goodsSourceManager.show(this.value);
         },
 
         /**
@@ -86,36 +84,6 @@ export default {
          */
         handle_dialog_confirm (list) {
             this.$emit('input', list);
-        },
-
-        /**
-         * 更新文案展示
-         */
-        update_tips (data) {
-            // 空文案
-            if (!data) {
-                this.tips = '';
-                this.is_data_set = false;
-                return false;
-            };
-            // 根据数据模式去筛选
-            switch (Number(data.type)) {
-                case 1:
-                    // 商品KU
-                    this.tips = '已选择: 商品SKU';
-                    this.is_data_set = data.skus != '';
-                    break;
-                case 2:
-                    // SOP商品运营平台
-                    this.tips = `已选择：规则 ${data.sop_rule_name}`;
-                    this.is_data_set = data.sop_rule_id != '';
-                    break;
-                case 3:
-                    // 秒杀
-                    this.tips = `已选择：秒杀ID`;
-                    this.is_data_set = data.price_sys_ids != '';
-                    break;
-            }
         }
     }
 }

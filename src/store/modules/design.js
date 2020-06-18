@@ -149,21 +149,16 @@ const design = {
                 state.loading = false;
 
                 // 删除部分不需要传输到后端的字段
-                let cmpts_arr = JSON.parse(JSON.stringify(rootState.page.components));
-                cmpts_arr = cmpts_arr.map(vdc => {
-                    // config 字段值转换到 remote 字段
-                    Object.keys(vdc.config.datas).map(key => {
-                        vdc.remote_data[key] = vdc.config.datas[key].value;
-                    });
-                    Object.keys(vdc.config.styles).map(key => {
-                        vdc.remote_style[key] = vdc.config.styles[key].value;
-                    });
+                // let cmpts_arr = JSON.parse(JSON.stringify(rootState.page.components));
+                const cmpts_arr = rootState.page.components.map(vdc => {
+                    vdc.inject_remote_data();
+                    const copy_vdc = JSON.parse(JSON.stringify(vdc));
                     // 删除字段
-                    delete vdc.is_loaded_config;
-                    delete vdc.lastmodify;
-                    delete vdc.config;
-                    delete vdc.template_list;
-                    return vdc;
+                    delete copy_vdc.is_loaded_config;
+                    delete copy_vdc.lastmodify;
+                    delete copy_vdc.config;
+                    delete copy_vdc.template_list;
+                    return copy_vdc;
                 });
 
                 localStorage.setItem('layouts', JSON.stringify(cmpts_arr));

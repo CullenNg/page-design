@@ -6,66 +6,133 @@
         wrapClassName="dialog-goods-source-manager"
         title="已选商品数据"
         :confirmLoading="loading"
-        @isOk="handle_confirm"
-        @isCancel="handle_cancel">
+        @isOk="handleConfirm"
+        @isCancel="handleCancel">
 
         <div class="container-body">
-
-            <ul class="goods-list">
-                <li v-for="item in goods_list" :key="item.goods_sn">
-                    <img :src="item.goods_img" alt="">
-                </li>
-            </ul>
-            
+            <a-table
+                :columns="tableColumns"
+                :data-source="goods_list"
+                bordered>
+                <a slot="goods_img" slot-scope="text">
+                    <img :src="text" height="50px">
+                </a>
+                <span slot="action" slot-scope="record">
+                    <a @click="handleRemoveItem(record)">Delete</a>
+                </span>
+                <template slot="footer">
+                    <a-button @click="openSource">添加商品</a-button>
+                </template>
+            </a-table>
         </div>
+
+        <goods-manager
+            ref="goodsManager"
+            @onComfirm="update_goods_list" />
 
     </design-dialog>
 </template>
 
 <script>
 
-import goodsList from '@/interface/json-data/get_goods_list.json';
-
+// 商品数据
+import goodsManager from '@/system-components/dialog-goods-manager/index.vue';
 
 export default {
     name: 'goods-source-manager',
 
-    props: {
-        // 是否展示
-        visible: {
-            type: Boolean,
-            default: false
-        },
-
-        // 数据源ID
-        value: {
-            required: true,
-            default: ''
-        }
-    },
-
     data () {
         return {
-            goods_list: goodsList.data,
-            loading: false
+            // 是否展示
+            visible: false,
+            loading: false,
+            goods_list: [],
+            tableColumns: [
+                {
+                    dataIndex: 'goods_img',
+                    key: 'goods_img',
+                    title: 'Image',
+                    scopedSlots: { customRender: 'goods_img' },
+                },
+                {
+                    title: 'ID',
+                    key: 'goods_id',
+                    dataIndex: 'goods_id',
+                },
+                {
+                    title: 'Title',
+                    key: 'goods_title',
+                    dataIndex: 'goods_title',
+                },
+                {
+                    title: 'Price',
+                    key: 'shop_price',
+                    dataIndex: 'shop_price',
+                },
+                {
+                    title: 'Sku',
+                    key: 'goods_sn',
+                    dataIndex: 'goods_sn',
+                },
+                {
+                    title: 'Action',
+                    key: 'action',
+                    scopedSlots: { customRender: 'action' },
+                },
+            ]
         };
+    },
+
+    components: {
+        goodsManager
     },
 
     methods: {
 
         /**
+         * 打开弹窗
+         * @param {Array} list 商品列表
+         */
+        show (list = []) {
+            this.visible = true;
+            this.goods_list = [...list];
+        },
+
+        /**
+         * 删除商品
+         */
+        handleRemoveItem (row) {
+            this.goods_list = this.goods_list.filter(x => x.goods_sn != row.goods_sn);
+        },
+
+        /**
          * 弹窗按钮 - 确认
          */
-        handle_confirm () {
+        handleConfirm () {
             this.$emit('confirm', this.goods_list);
-            this.$emit('update:visible', false);
+            this.visible = false;
         },
 
         /**
          * 弹窗按钮 - 取消
          */
-        handle_cancel () {
-            this.$emit('update:visible', false);
+        handleCancel () {
+            this.visible = false;
+        },
+
+        /**
+         * 打开数据源
+         */
+        openSource () {
+            const skus = this.goods_list.map(x => x.goods_sn);
+            this.$refs.goodsManager.show(skus);
+        },
+
+        /**
+         * 更新商品列表
+         */
+        update_goods_list (list) {
+            this.goods_list = [...list];
         }
     }
 }

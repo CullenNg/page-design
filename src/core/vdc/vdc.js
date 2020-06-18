@@ -32,7 +32,10 @@ export default class Vdc {
         this.template_name = template_name;
         this.template_title = template_title;
         this.template_list = template_list;
-        this.config = {};
+        this.config = {
+            datas: {},
+            styles: {},
+        };
         this.is_loaded_config = false;
         this.remote_data = Object.assign({}, remote_data);
         this.remote_style = Object.assign({}, remote_style);
@@ -64,7 +67,7 @@ export default class Vdc {
         // 如果更新了配置项的字段，则插入remote_data数据到config字段
         if (field == 'config') {
             this.is_loaded_config = true;
-            this.inject_remote_data();
+            this.inject_config_data();
         }
 
         // 更新时间
@@ -79,9 +82,9 @@ export default class Vdc {
     }
 
     /**
-     * 插入数据到config字段里面
+     * 把remote_data 和 remote_style 的数据插入到config字段里面
      */
-    inject_remote_data () {
+    inject_config_data () {
         // data 类型
         Object.keys(this.remote_data).map(key => {
             try {
@@ -105,6 +108,18 @@ export default class Vdc {
             } catch (err) {
                 console.warn(`key '${key}' is dosen't exit`);
             }
+        });
+    }
+
+    /**
+     * 把 config 的数据添加到 remote_data 和 remote_style 里面
+     */
+    inject_remote_data () {
+        Object.keys(this.config.datas).map(key => {
+            this.remote_data[key] = this.config.datas[key].value;
+        });
+        Object.keys(this.config.styles).map(key => {
+            this.remote_style[key] = this.config.styles[key].value;
         });
     }
 
