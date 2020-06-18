@@ -5,7 +5,7 @@
 [![Ant-deisgn](https://img.shields.io/badge/Antd-v1.3.10-brightgreen)](https://antdv.com/)
 [![Vue.Draggable](https://img.shields.io/badge/Vue.Draggable-v2.23.0-brightgreen)](https://github.com/SortableJS/Vue.Draggable)
 
-![1.png](https://raw.githubusercontent.com/CullenNg/doc-images/master/page-design/1.png?token=AD2MXTS47NVA6KOXGDKWSS265MPR4)
+![1.png](https://github.com/CullenNg/doc-images/blob/master/page-design/1.png)
 
 ## 目录
 * [查看演示 DEMO](https://cullenng.github.io/page-design)
