@@ -86,7 +86,7 @@ const design = {
          * @param {*} floor_index 楼层索引
          */
         component_locate_by_floor () {
-            message.error('定位功能还没准备好');
+            message.warning('定位功能还没准备好');
         },
 
         /**
@@ -97,25 +97,17 @@ const design = {
             state.loading = true;
 
             // 装修页获取页面数据
-            design_get_page_info().then(resource => {
-                // 3秒后跳回首页
-                if (resource.code == 1) {
-                    setTimeout(() => {
-                        window.location.href = '/';
-                    }, 3000);
-                    return false;
-                }
-
+            design_get_page_info().then(res => {
                 // 拼装页面数据
-                const res = resource.data;
                 const local_components = JSON.parse(localStorage.getItem('layouts') || '[]');
                 const data = {
                     page_id: res.pageId || '',
                     lang: res.lang || 'en',
                     platform: res.platform || 'm',
                     title: res.pageTitle || '',
-                    components: local_components.map(x => new Vdc(x))
+                    components: res.components.map(x => new Vdc(x))
                 };
+                console.log(res);
                 
                 // 存储页面数据
                 dispatch('page/load', data, { root: true });  
@@ -161,7 +153,19 @@ const design = {
                     return copy_vdc;
                 });
 
-                localStorage.setItem('layouts', JSON.stringify(cmpts_arr));
+                // localStorage.setItem('layouts', JSON.stringify(cmpts_arr));
+
+                // 保存的参数
+                const saveParams = {
+                    "pageTitle": rootState.page.info.title,
+                    "lang": rootState.page.info.lang,
+                    "pageId": rootState.page.info.page_id,
+                    "platform": rootState.page.info.platform,
+                    "components": cmpts_arr
+                };
+                console.log(JSON.stringify(saveParams));
+
+                
                 message.success('保存成功');
             }, 200);
         },
