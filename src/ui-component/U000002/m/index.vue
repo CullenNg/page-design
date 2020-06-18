@@ -22,6 +22,7 @@
 // https://www.npmjs.com/package/vue-awesome-swiper
 import 'swiper/css/swiper.css'
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import defaultUrl from '@/resource/images/default-banner.png';
 
 export default {
     props: ['datas', 'styles'],
@@ -40,7 +41,7 @@ export default {
                     clickable: true
                 }
             },
-            defaultUrl: 'https://geshopimg.logsss.com/uploads/SKXE5kTxofP0t2YWAvVJn34sq6aLCzcI.png'
+            defaultUrl
         };
     },
 

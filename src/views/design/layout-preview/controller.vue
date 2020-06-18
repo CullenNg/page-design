@@ -102,7 +102,7 @@ export default {
          * 删除组件
          */
         handle_component_delete () {
-            this.$emit('onDelete', this.vdc.id);
+            this.$emit('onDelete');
         },
 
         /**

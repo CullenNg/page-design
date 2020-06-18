@@ -93,11 +93,11 @@ const design = {
          * 页面加载
          * @param {object} request  页面参数
          */
-        page_load ({ state, dispatch }) {
+        page_load ({ state, dispatch }, page_id) {
             state.loading = true;
 
             // 装修页获取页面数据
-            design_get_page_info().then(res => {
+            design_get_page_info(page_id).then(res => {
                 // 拼装页面数据
                 const local_components = JSON.parse(localStorage.getItem('layouts') || '[]');
                 const data = {
@@ -107,7 +107,6 @@ const design = {
                     title: res.pageTitle || '',
                     components: res.components.map(x => new Vdc(x))
                 };
-                console.log(res);
                 
                 // 存储页面数据
                 dispatch('page/load', data, { root: true });  

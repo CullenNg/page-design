@@ -30,10 +30,8 @@ $ npm install
 ```
 
 ## 启动
-```
-# develop mode
-$ npm run dev
-```
+1. 命令行执行：```npm run dev```
+2. 浏览器打开链接：[localhost:3001](http://localhost:3001)
 
 ## 代码目录
 ```
