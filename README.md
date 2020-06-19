@@ -8,7 +8,7 @@
 ![1.png](https://github.com/CullenNg/doc-images/blob/master/page-design/1.png)
 
 ## 目录
-* [查看演示 DEMO](https://cullenng.github.io/page-design)
+* [查看演示 DEMO](https://cullenng.github.io/page-design/#/home)
 * 特点
 * 1. 自由拖拽组件
 * 2. 支持[M]端布局
@@ -94,3 +94,4 @@ $ npm install
 2. 标题栏组件: 增加 margin, padding, text-align 的配置项
 3. 商品列表组件：调整商品数据的增加方式
 4. 装修页：获取页面数据改为json获取
+5. 增加2个演示页面数据

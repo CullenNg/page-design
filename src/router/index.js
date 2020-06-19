@@ -7,7 +7,7 @@ import base from '@/layout/antd-layout.vue';
 Vue.use(Router);
 
 export const constantRouterMap = [
-    { path: '/', redirect: '/design', },
+    { path: '/', redirect: '/home', },
     {
         path: '/home',
         component: base,
