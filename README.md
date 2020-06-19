@@ -5,9 +5,9 @@
 [![Ant-deisgn](https://img.shields.io/badge/Antd-v1.3.10-brightgreen)](https://antdv.com/)
 [![Vue.Draggable](https://img.shields.io/badge/Vue.Draggable-v2.23.0-brightgreen)](https://github.com/SortableJS/Vue.Draggable)
 
-![1.png](https://github.com/CullenNg/doc-images/blob/master/page-design/1.png)
+![截图1.png](https://github.com/CullenNg/doc-images/blob/master/page-design/1.png)
 
-![2.gif](https://github.com/CullenNg/doc-images/blob/master/page-design/QQ20200619-105646.gif)
+![演示1.gif](https://github.com/CullenNg/doc-images/blob/master/page-design/QQ20200619-105646.gif)
 
 ## 目录
 * [查看演示 DEMO](https://cullenng.github.io/page-design/#/home)
@@ -83,11 +83,14 @@ $ npm install
 
 ## 目前支持组件列表
 
-### 标题栏 U000001
+### 标题栏
+![标题栏演示.gif](https://github.com/CullenNg/doc-images/blob/master/page-design/QQ20200619-105646.gif)
 
-### 广告图 U000002
+### 广告图
+![广告图演示.gif](https://github.com/CullenNg/doc-images/blob/master/page-design/QQ20200619-180450.gif)
 
-### 商品列表 U000003
+### 商品列表
+![商品列表演示.gif](https://github.com/CullenNg/doc-images/blob/master/page-design/QQ20200619-180559.gif)
 
 ## 更新日志 
 
