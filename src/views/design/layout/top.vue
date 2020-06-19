@@ -5,7 +5,7 @@
 
                 <!--logo-->
                 <div class="layout-logo">
-                    <a href="/"><i class="iconfont logo"></i></a>
+                    <a href="/#/home"><i class="iconfont logo"></i></a>
                 </div>
 
                 <!--渠道-->
