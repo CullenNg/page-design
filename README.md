@@ -90,7 +90,7 @@ $ npm install
 ![广告图演示.gif](https://github.com/CullenNg/doc-images/blob/master/page-design/QQ20200619-180450.gif)
 
 ### 商品列表
-![商品列表演示.gif](https://github.com/CullenNg/doc-images/blob/master/page-design/QQ20200619-180559.gif)
+![商品列表演示.gif](https://github.com/CullenNg/doc-images/blob/master/page-design/QQ20200619-181911.gif)
 
 ## 更新日志 
 
