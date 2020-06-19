@@ -137,7 +137,11 @@ export default {
             return this.$store.state.page.env;
         },
         list () {
-            return default_goods_list;
+            if (this.datas.goods.length <= 0) {
+                return default_goods_list;
+            } else {
+                return this.datas.goods;
+            }
         },
         // 背景整体式
         whole () {

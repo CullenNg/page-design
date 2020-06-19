@@ -71,7 +71,6 @@ export default {
     data () {
         return {
             current_value: this.value,
-            // 配置数据源的弹窗
             dialog: {
                 visible: false
             }
@@ -83,7 +82,7 @@ export default {
          * 打开商品数据配置的弹窗
          */
         handle_dialog_open () {
-            this.dialog.visible = true;
+            this.$message.warning('功能还没准备好，别急');
         },
 
         /**

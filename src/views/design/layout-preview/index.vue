@@ -8,12 +8,12 @@
             
             <!-- 拖拽区域 -->
             <nexted
-                :tasks.sync="list"
+                :tasks.sync="components"
                 @update-layouts="updateLayouts">
             </nexted>
 
             <!-- 空信息 -->
-            <div class="is-empty" v-if="list.length <= 0">
+            <div class="is-empty" v-if="components.length <= 0">
                 <img :src="images.emptyImage">
                 哎哟，您还没有放置组件哦~
             </div>
@@ -49,21 +49,19 @@ export default {
             layouts: [], 
             images: {
                 emptyImage 
-            },
-
-            list: []
+            }
         };
     },
 
     computed: {
-        // 页面布局
-        page_layouts () {
-            return this.$store.state.page.new_layouts || [];
-        },
-        
-        // 页面组件数据
-        page_components () {
-            return this.$store.state.page.components || {};
+        // 页面所有组件
+        components: {
+            get () {
+                return this.$store.state.page.components || [];
+            },
+            set (arr) {
+                this.$store.dispatch('design/page_update_layout_v2', arr);
+            }
         },
 
         // 文案方向
@@ -71,12 +69,6 @@ export default {
             const map = ['he'];
             const lang = this.$store.state.page.info.lang || 'en';
             return map.includes(lang) ? 'rtl' : 'ltr';
-        }
-    },
-
-    watch: {
-        page_layouts (val) {
-            this.list = val;
         }
     },
 
@@ -107,11 +99,6 @@ export default {
         handle_release_selected () {
             this.$store.dispatch('design/form_close');
         }
-    },
-
-    created () {
-        // 初次数据
-        this.list = this.page_layouts;
     }
 }
 </script>

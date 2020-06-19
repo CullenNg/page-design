@@ -1,6 +1,9 @@
 import { Modal } from 'ant-design-vue'
 import { message } from 'ant-design-vue';
 
+// 组件实例
+import Vdc from '@/core/vdc/vdc';
+
 import {
     design_get_page_info
 } from '../../interface/index.js';
@@ -31,6 +34,18 @@ const design = {
         preview_in_drag: false, // 预览区域是否在拖拽中
         selected_vdc: {}, // 选中的组件数据对象，打开form表单
         show_component_form: false, // 是否展示组件配置项,
+        component_temlate_list: [], // 所有组件的模版列表
+    },
+
+    mutations: {
+        /**
+         * 更新所有组件的模版列表
+         * @param {Object} state 
+         * @param {Array} list 模版列表
+         */
+        udpate_component_template_list (state, list) {
+            state.component_temlate_list = list;
+        }
     },
 
     actions: {
@@ -46,6 +61,13 @@ const design = {
                 const config = await load_component_config(vdc.component_key, vdc.template_name);
                 vdc.update_set('config', config);
             }
+
+            // 如果组件没有模版列表，则加载
+            if (vdc.template_list.length <= 0) {
+                const template_list = state.component_temlate_list.filter(x => x.component_key == vdc.component_key);
+                vdc.update_set('template_list', template_list);
+            }
+
             // 展示 form
             state.selected_vdc = null;
             state.selected_vdc = vdc;
@@ -64,38 +86,26 @@ const design = {
          * @param {*} floor_index 楼层索引
          */
         component_locate_by_floor () {
-            message.error('定位功能还没准备好');
+            message.warning('定位功能还没准备好');
         },
 
         /**
          * 页面加载
          * @param {object} request  页面参数
          */
-        page_load ({ state, dispatch }) {
+        page_load ({ state, dispatch }, page_id) {
             state.loading = true;
 
             // 装修页获取页面数据
-            design_get_page_info().then(resource => {
-                // 3秒后跳回首页
-                if (resource.code == 1) {
-                    setTimeout(() => {
-                        window.location.href = '/';
-                    }, 3000);
-                    return false;
-                }
-
+            design_get_page_info(page_id).then(res => {
                 // 拼装页面数据
-                const res = resource.data;
+                const local_components = JSON.parse(localStorage.getItem('layouts') || '[]');
                 const data = {
                     page_id: res.pageId || '',
-                    group_id: res.groupId || '',
-                    pipeline: res.pipeline || 'zf',
                     lang: res.lang || 'en',
-                    site_code: res.siteCode || '',
                     platform: res.platform || 'm',
                     title: res.pageTitle || '',
-                    layouts: [],
-                    goodsSKU: [],
+                    components: res.components.map(x => new Vdc(x))
                 };
                 
                 // 存储页面数据
@@ -122,11 +132,39 @@ const design = {
          * @author Cullen
          * @date 2019-11-26
          */
-        page_save ({ state }) {
+        page_save ({ state, rootState }) {
             // 开启 loading 状态
             state.loading = true;
+            
             setTimeout(() => {
                 state.loading = false;
+
+                // 删除部分不需要传输到后端的字段
+                // let cmpts_arr = JSON.parse(JSON.stringify(rootState.page.components));
+                const cmpts_arr = rootState.page.components.map(vdc => {
+                    vdc.inject_remote_data();
+                    const copy_vdc = JSON.parse(JSON.stringify(vdc));
+                    // 删除字段
+                    delete copy_vdc.is_loaded_config;
+                    delete copy_vdc.lastmodify;
+                    delete copy_vdc.config;
+                    delete copy_vdc.template_list;
+                    return copy_vdc;
+                });
+
+                // localStorage.setItem('layouts', JSON.stringify(cmpts_arr));
+
+                // 保存的参数
+                const saveParams = {
+                    "pageTitle": rootState.page.info.title,
+                    "lang": rootState.page.info.lang,
+                    "pageId": rootState.page.info.page_id,
+                    "platform": rootState.page.info.platform,
+                    "components": cmpts_arr
+                };
+                console.log(JSON.stringify(saveParams));
+
+                
                 message.success('保存成功');
             }, 200);
         },

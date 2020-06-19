@@ -1,21 +1,25 @@
 # 可视化页面装修
-基于 ```vue``` + ```ant-design``` + ```vue-draggable``` 实现的可视化页面装修功能
+基于 ```vue``` + ```ant-design``` + ```vue-draggable``` 实现的可视化页面装修功能，基于业务需求和层出不穷的活动营销页面而诞生。
 
 [![Vue](https://img.shields.io/badge/Vue-%5E2.5.16-brightgreen)](https://cn.vuejs.org)
 [![Ant-deisgn](https://img.shields.io/badge/Antd-v1.3.10-brightgreen)](https://antdv.com/)
 [![Vue.Draggable](https://img.shields.io/badge/Vue.Draggable-v2.23.0-brightgreen)](https://github.com/SortableJS/Vue.Draggable)
 
+![1.png](https://github.com/CullenNg/doc-images/blob/master/page-design/1.png)
+
+![2.gif](https://github.com/CullenNg/doc-images/blob/master/page-design/QQ20200619-105646.gif)
 
 ## 目录
-* [DEMO](https://cullenng.github.io/page-design)
-* [特点](#特点)
+* [查看演示 DEMO](https://cullenng.github.io/page-design/#/home)
+* 特点
 * 1. 自由拖拽组件
-* 2. 支持[PC/M]端布局（PC模式后续支持）
+* 2. 支持[M]端布局
 * 3. 支持实时预览，所见即所得
-* 4. 支持组件嵌套（后续支持）
-* 5. 支持组件的自定义配置项
+* 4. 支持业务组件的自定义配置项（JSON）
+* 5. 支持快速创建自定义的业务组件
 * [安装](https://github.com/CullenNg/page-design#安装)
-* [使用](https://github.com/CullenNg/page-design#使用)
+* [启动](https://github.com/CullenNg/page-design#使用)
+* [代码目录](#代码目录)
 * 目前支持组件列表
 * 1. [标题栏](https://github.com/CullenNg/page-design#标题栏)
 * 2. [广告图](https://github.com/CullenNg/page-design#广告图)
@@ -27,128 +31,69 @@
 $ npm install
 ```
 
-## 使用
+## 启动
+1. 命令行执行：```npm run dev```
+2. 浏览器打开链接：[localhost:3001](http://localhost:3001)
+
+## 代码目录
 ```
-# develop mode
-$ npm run dev
+├── README.md
+├── package.json
+├── src
+│   ├── html
+│   ├── interface // 接口
+│   │   ├── core.js
+│   │   ├── index.js
+│   │   ├── json-data
+│   │   │   ├── design_get_page_info.json
+│   │   │   ├── get_component_list.json
+│   │   │   ├── get_component_template_list.json
+│   │   │   ├── get_goods_list.json
+│   │   │   ├── material_folder.json
+│   │   │   └── material_folder_details.json
+│   │   └── material.js
+│   ├── layout
+│   ├── main.js
+│   ├── resource // 图片
+│   ├── router // 路由
+│   ├── store
+│   ├── system-components // 系统公共组件
+│   │   ├── dialog
+│   │   ├── dialog-goods-manager
+│   │   ├── form-unit
+│   │   ├── images-manager
+│   │   ├── images-sort
+│   │   └── ui-component-load
+│   ├── ui-component // 业务组件
+│   │   ├── U000001
+│   │   ├── U000002
+│   │   ├── U000003
+│   │   ├── common-config.js
+│   │   └── component-unit // 业务组件里面公共的元素
+│   └── views // 系统页面
+│       ├── home // 列表页
+│       └── design // 装修页
+├── webpack.common.js
+├── webpack.dev.js
+└── webpack.prod.js
 ```
 
+## 业务组件配置项自定义
+[查看文档](https://github.com/CullenNg/page-design/blob/master/component-config.md)
 
-## 自定义组件配置项
-参考组件 U000001：
+## 目前支持组件列表
 
-目录 | 作用
----|---
-./U000001/m/form/index.js | 配置当前组件的所有字段，以及注册所有模版
-./U000001/m/form/template1.js | 模版一的展示字段
-./U000001/m/form/template2.js | 模版二的展示字段
+### 标题栏 U000001
 
-### index.js
-```
-/** 数据类型的配置 */
-const datas = {
-    field1,
-    field2,
-    field3,
-};
+### 广告图 U000002
 
-/** 样式类型的配置 */
-const styles = {
-    field1,
-    field2,
-    field3,
-};
-```
+### 商品列表 U000003
 
-### field 参考
-格式：
-```
-/** 自行替换[]中的值 */
-[name]: {
-    title: "[配置项的文案]",
-    type: "[配置项的类型]"
-}
-```
-Example: 
-```
-href: {
-    title: '跳转链接',
-    type: 'text'
-},
-```
-通用字段：
-字段名 | 作用 | 可选值
----|---|---
-title | 配置项的展示文案 | -
-type | 配置项的类型 | text, number, color, radio, bar, image
-value | 默认值 | -
+## 更新日志 
 
-### type 可选值：
-
-#### text 文本输入框
-```
-[name]: {
-    title: "[文案]",
-    type: 'text',
-    value: '',
-},
-```
-
-#### number: 数字类型输入框
-```
-[name]: {
-    title: "[文案]",
-    type: 'number',
-    value: 1,
-    max: 100
-},
-```
-
-#### color: 颜色选择器
-```
-[name]: {
-    title: "[文案]",
-    type: 'color',
-    value: '#FFFFFF',
-},
-```
-
-#### radio: 单选
-```
-[name]: {
-    title: '对齐方式',
-    type: 'radio',
-    value: 'center',
-        options: [
-            { label: '左对齐', value: 'left' },
-            { label: '居中对齐', value: 'center' },
-            { label: '右对齐', value: 'right' }
-        ]  
-    },
-```
-
-
-### template1.js 模版一配置
-```
-export default {
-    datas: [
-        {
-            title: '[文案]',
-            groups: [name1, name2, name3]
-        }
-    ],
-    styles: [
-        {
-            title: 'margin配置',
-            groups: ['margin_top', 'margin_bottom']
-        },
-        {
-            title: 'padding配置',
-            groups: ['padding_top', 'padding_bottom']
-        }
-    ]
-}
-```
-
-
-## 更新日志
+### v1.0 [2020-06-15]
+1. 广告图组件: 调整图片加载的方法，优化UI，暂时去除其他配置项
+2. 标题栏组件: 增加 margin, padding, text-align 的配置项
+3. 商品列表组件：调整商品数据的增加方式
+4. 装修页：获取页面数据改为json获取
+5. 增加2个演示页面数据

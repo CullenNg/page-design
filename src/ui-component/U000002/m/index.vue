@@ -1,6 +1,7 @@
 <template>
     <div class="U000002-template1">
         <img v-if="list.length == 0" :src="defaultUrl" alt="">
+        <img v-if="list.length == 1" :src="list[0].image" alt="">
         <Swiper
             v-else
             :options="swiperOption"
@@ -21,6 +22,7 @@
 // https://www.npmjs.com/package/vue-awesome-swiper
 import 'swiper/css/swiper.css'
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
+import defaultUrl from '@/resource/images/default-banner.png';
 
 export default {
     props: ['datas', 'styles'],
@@ -39,7 +41,7 @@ export default {
                     clickable: true
                 }
             },
-            defaultUrl: 'https://geshopimg.logsss.com/uploads/SKXE5kTxofP0t2YWAvVJn34sq6aLCzcI.png'
+            defaultUrl
         };
     },
 
@@ -56,9 +58,13 @@ export default {
 
         // 广告轮播列表
         list () {
-            let list = [...this.datas.list] || [];
-            list = list.filter(item => item.image != '');
-            return list;
+            try {
+                let list = [...this.datas.list] || [];
+                list = list.filter(item => item.image != '');
+                return list;
+            } catch (err) {
+                return [];
+            }
         }
     },
 

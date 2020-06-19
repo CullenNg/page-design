@@ -6,11 +6,11 @@
         group="people"
         @start="handle_drag_start"
         @change="handle_drag_change">
-        <li v-for="el in tasks" :key="el.id">
+        <li v-for="(el, index) in tasks" :key="el.id">
             <controller
                 :vdc="el"
                 :isPanel="!!el.tasks"
-                @onDelete="handleDeleteComponent">
+                @onDelete="handleDeleteComponent(index)">
                 <nested-draggable
                     :isPanel="!!el.tasks"
                     :tasks.sync="el.tasks"
@@ -78,17 +78,17 @@ export default {
 
         /**
          * 删除组件
-         * @param {Number} vdc.id 商品组件ID
+         * @param {Number} index 组件索引
          */
-        handleDeleteComponent (id) {
+        handleDeleteComponent (index) {
             const that = this;
             // 弹层
             this.$confirm({
                 title: '确认删除该组件？',
                 onOk () {
-                    const arr = that.tasks.filter(x => x.id != id);
-                    that.$emit('update:tasks', arr);
+                    that.tasks.splice(index, 1);
                     that.$store.dispatch('design/form_close');
+                    that.$message.success('删除组件成功');
                 }
             });
             
