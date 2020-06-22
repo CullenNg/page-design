@@ -7,7 +7,6 @@
 
 ![截图1.png](https://github.com/CullenNg/doc-images/blob/master/page-design/1.png)
 
-![演示1.gif](https://github.com/CullenNg/doc-images/blob/master/page-design/QQ20200619-105646.gif)
 
 ## 目录
 * [查看演示 DEMO](https://cullenng.github.io/page-design/#/home)
