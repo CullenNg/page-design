@@ -7,7 +7,7 @@ export default {
         },
         {
             title: '轮播功能配置',
-            groups: []
+            groups: [ 'effect', 'delay' ]
         }
     ],
     styles: []
