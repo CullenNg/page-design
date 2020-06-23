@@ -77,6 +77,12 @@ export default {
         }
     },
 
+    watch: {
+        value (newVal) {
+            this.current_value = this.value;
+        }
+    },
+
     methods: {
         /**
          * 打开商品数据配置的弹窗
