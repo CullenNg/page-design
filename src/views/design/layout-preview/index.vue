@@ -1,5 +1,6 @@
 <template>
     <div
+        id="design-middle-layout"
         :class="`design-layout-preview page-site-zf ${text_direction}`"
         @click.self="handle_release_selected">
 

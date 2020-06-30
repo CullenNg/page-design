@@ -1,6 +1,6 @@
 <template>
     <div
-        :data-id="id"
+        :id="id"
         :data-key="uikey"
         :data-theme="template"
         ref="dom">

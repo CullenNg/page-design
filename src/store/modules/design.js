@@ -83,10 +83,20 @@ const design = {
 
         /**
          * 中间预览区域，定位到对应的组件楼层
-         * @param {*} floor_index 楼层索引
+         * @param {Vdc} component 组件
+         * @param {Number} index 组件楼层
          */
-        component_locate_by_floor () {
-            message.warning('定位功能还没准备好');
+        component_locate_by_floor ({}, {component, index}) {
+            const dom = document.getElementById(component.id);
+            const middleDom = document.getElementById('design-middle-layout');
+            // 获取元素的纵坐标（相对于窗口）
+            function getTop (e) {
+                var offset=e.offsetTop;
+                if(e.offsetParent!=null) offset+=getTop(e.offsetParent);
+                return offset;
+            }
+            const top = index == 0 ? 0 : getTop(dom) - 50;
+            middleDom.scrollTop = top;
         },
 
         /**

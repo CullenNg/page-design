@@ -57,7 +57,7 @@
                                 :class="{
                                     'in-hover': inHover == item.id
                                 }"
-                                @click="handle_location_component(index)"
+                                @click="handle_location_component(item, index)"
                                 @mousemove="inHover = item.id"
                                 @mouseleave="inHover = ''">
                                 <p>{{ item.component_title || '未知组件' }} - {{ item.template_title || '未知模版' }}</p>
@@ -189,10 +189,10 @@ export default {
 
         /**
          * 中间预览区域，定位到点击的组件
-         * @param {string} floor_index 楼层索引
+         * @param {Vdc} component 组件对象
          */
-        handle_location_component (floor_index) {
-            this.$store.dispatch('design/component_locate_by_floor', floor_index);
+        handle_location_component (component, index) {
+            this.$store.dispatch('design/component_locate_by_floor', { component, index });
         }
     }
 }
