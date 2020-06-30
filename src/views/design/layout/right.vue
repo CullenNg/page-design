@@ -64,7 +64,7 @@
 
                                 <div class="buttons">
                                     <!-- 删除 -->
-                                    <span class="ignore-elements" @click.stop="handle_component_copy(item.id, item.component_key, index)">
+                                    <span class="ignore-elements" @click.stop="handle_component_copy(page_components, item, index)">
                                         <i class="iconfont design-copy" />
                                     </span>
                                     <span class="ignore-elements" @click.stop="handle_component_delete(index)">
@@ -156,21 +156,19 @@ export default {
         },
 
         /**
-         * 复制组件
-         * @param {Number} id 组件ID
-         * @param {String} component_key 组件编码
-         * @param {Number} index 组件顺序索引
+         * 复制粘贴组件
+         * @param {Array} page_components 所有组件列表
+         * @param {Vdc} component 组件
+         * @param {Number} index 组件楼层索引
          */
-        async handle_component_copy (id, component_key, index) {
-            this.$message.warning('复制功能还没准备好。');
-        },
-
-        /**
-         * 粘贴组件
-         * @param {Number} id 组件ID
-         */
-        handle_component_paste (id) {
-            this.$store.dispatch('design/component_paste', id);
+        async handle_component_copy (page_components, component, index) {
+            try {
+                const vdc = component.duplicate();
+                page_components.splice(index + 1, 0, vdc);
+                this.$message.success('复制组件成功！');
+            } catch (err) {
+                this.$message.error('复制组件失败！');
+            }
         },
 
         /**

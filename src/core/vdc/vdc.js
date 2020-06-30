@@ -33,6 +33,7 @@ export default class Vdc {
         this.template_title = template_title;
         this.template_list = template_list;
         this.config = {
+            layout: [],
             datas: {},
             styles: {},
         };
@@ -129,7 +130,10 @@ export default class Vdc {
      */
     duplicate () {
         const vdc = new Vdc(this);
-        vdc.update_set('config', this.config);
+        vdc.generate_component_id();
+        if (this.is_loaded_config == true) {
+            vdc.update_set('config', this.config);
+        }
         return vdc;
     }
 }
