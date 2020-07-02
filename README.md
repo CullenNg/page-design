@@ -1,12 +1,19 @@
 # 可视化页面装修
-基于 ```vue``` + ```ant-design``` + ```vue-draggable``` 实现的可视化页面装修功能，基于业务需求和层出不穷的活动营销页面而诞生。
-
 [![Vue](https://img.shields.io/badge/Vue-%5E2.5.16-brightgreen)](https://cn.vuejs.org)
 [![Ant-deisgn](https://img.shields.io/badge/Antd-v1.3.10-brightgreen)](https://antdv.com/)
 [![Vue.Draggable](https://img.shields.io/badge/Vue.Draggable-v2.23.0-brightgreen)](https://github.com/SortableJS/Vue.Draggable)
 
+基于 ```vue``` + ```ant-design``` + ```vue-draggable``` 实现的可视化页面装修功能，基于业务需求和层出不穷的活动营销页面而诞生。  
+
+```类似的还有：有赞、百度H5、京东等等```
+
 ![截图1.png](https://github.com/CullenNg/doc-images/blob/master/page-design/1.png)
 
+操作指引：
+1. 左侧组件区域拖拽至中间布局区域
+2. 中间区域的组件支持上下拖拽排序，删除组件
+3. 点击中间区域的组件，右侧会打开组件支持的配置项
+4. 右侧楼层管理支持组件的排序、复制、删除、定位等
 
 ## 目录
 * [查看演示 DEMO](https://cullenng.github.io/page-design/#/home)
