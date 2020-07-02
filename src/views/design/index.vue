@@ -20,6 +20,9 @@
 
             <!-- 组件顺序 -->
             <layout-sortable />
+
+            <!-- 放大缩小 -->
+            <zoom />
         </template>
     </div>
 </template>
@@ -35,6 +38,7 @@ import layoutPreview from './layout-preview/index.vue'; // 组件预览区域
 import layoutForm from './form/index.vue'; // 组件表单区域
 import layoutComponentList from './layout/left.vue'; // 组件列表区域
 import layoutSortable from './layout/right.vue'; // 组件顺序区域
+import zoom from './layout/zoom.vue'; // 放大缩小
 
 export default {
     components: {
@@ -43,6 +47,7 @@ export default {
         layoutForm,
         layoutComponentList,
         layoutSortable,
+        zoom
     },
 
     computed: {

@@ -119,7 +119,7 @@ export default {
     .main-layout {
         position: relative;
         margin: 0 auto;
-        width: 375px;
+        width: 10rem;
         min-height: 667px;
         background: #fff;
         box-shadow:-10px 20px 30px 0px rgba(192,197,205,0.8);
