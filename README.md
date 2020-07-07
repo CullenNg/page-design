@@ -4,9 +4,10 @@
 [![Vue.Draggable](https://img.shields.io/badge/Vue.Draggable-v2.23.0-brightgreen)](https://github.com/SortableJS/Vue.Draggable)
 
 基于 ```vue``` + ```ant-design``` + ```vue-draggable``` 实现的可视化页面装修功能，基于业务需求和层出不穷的活动营销页面而诞生。  
-[点我查看演示DEMO](https://cullenng.github.io/page-design/#/home)
+```类似的还有：有赞、百度H5、京东等等```, 后续会通过 [page-design-ssr](https://github.com/CullenNg/page-design-ssr) 服务来生成静态页面，这样就可以支持SSR需求拉
 
-```类似的还有：有赞、百度H5、京东等等```
+[点我点我，查看演示DEMO](https://cullenng.github.io/page-design/#/home)
+
 
 ![截图1.png](https://github.com/CullenNg/doc-images/blob/master/page-design/1.png)
 
