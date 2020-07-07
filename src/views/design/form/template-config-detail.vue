@@ -79,6 +79,17 @@
                                     <a-checkbox value="E">E</a-checkbox>
                                 </a-checkbox-group>
                             </template>
+
+                            <!-- 时间配置 -->
+                            <template v-if="configs[key].type === 'time'">
+                                <a-range-picker
+                                    style="width:100%"
+                                    v-model="configs[key].value"
+                                    :show-time="{ format: 'HH:mm' }"
+                                    format="YYYY-MM-DD HH:mm"
+                                    size="large"
+                                    :placeholder="['Start Time', 'End Time']" />
+                            </template>
                         </div>
                     </template>
                 </div>

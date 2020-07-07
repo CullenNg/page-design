@@ -214,6 +214,14 @@ export default {
                 background: #fff;
             }
         }
+
+        // 时间选择器
+        .ant-calendar-picker {
+            .ant-input-lg {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
     }
 }
 </style>

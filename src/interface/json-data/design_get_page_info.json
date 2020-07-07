@@ -25,6 +25,14 @@
             "platform":"wap",
             "banner": "",
             "components": []
+        },
+        {
+            "pageTitle":"倒计时组件参考",
+            "lang":"en",
+            "pageId":4,
+            "platform":"wap",
+            "banner": "https://github.com/CullenNg/doc-images/blob/master/page-design/page-4.png",
+            "components": [{"id":1594101007770,"component_key":"U000004","component_title":"倒计时","template_id":4,"template_name":"template1","template_title":"模版一","remote_data":{"title":"FLASH SALE","time":[]},"remote_style":{"margin_top":0,"margin_bottom":0,"bg_color":"#A93131","text_color":"#FFFFFF","time_text_bg_color":"#FFFFFF","time_text_color":"#000000"}},{"id":1594101008979,"component_key":"U000004","component_title":"倒计时","template_id":4,"template_name":"template1","template_title":"模版一","remote_data":{"title":"FLASH SALE","time":["2020-07-11T05:50:08.342Z","2020-07-12T05:50:08.342Z"]},"remote_style":{"margin_top":0,"margin_bottom":0,"bg_color":"#FFFFFF","text_color":"#333333","time_text_bg_color":"#333333","time_text_color":"#FFFFFF"}},{"id":1594101011302,"component_key":"U000004","component_title":"倒计时","template_id":4,"template_name":"template1","template_title":"模版一","remote_data":{"title":"Hello world","time":["2020-07-01T05:50:08.342Z","2020-07-31T05:50:08.342Z"]},"remote_style":{"margin_top":0,"margin_bottom":0,"bg_color":"#5085B0","text_color":"#FFFFFF","time_text_bg_color":"#FFFFFF","time_text_color":"#333333"}}]
         }
     ]
 }
