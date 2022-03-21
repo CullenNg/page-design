@@ -140,7 +140,6 @@ const design = {
                     const copy_vdc = JSON.parse(JSON.stringify(vdc));
                     // 删除字段
                     delete copy_vdc.is_loaded_config;
-                    delete copy_vdc.lastmodify;
                     delete copy_vdc.config;
                     delete copy_vdc.template_list;
                     return copy_vdc;

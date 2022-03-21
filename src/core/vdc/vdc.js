@@ -4,8 +4,17 @@ import formGlobalConfig from '/src/ui-component-form/global.js'
  * Virtual component for design
  */
 export default class Vdc {
+
     /**
-     * 
+     * 模拟生成组件ID
+     * @returns {Timestamp} 简单使用时间戳模拟唯一ID
+     */
+    static generate_id () {
+        return new Date().getTime()
+    }
+
+    /**
+     * 构造器
      * @param {Number} id 组件唯一ID
      * @param {String} component_key 组件唯一KEY
      * @param {String} component_title 组件名字
@@ -27,7 +36,7 @@ export default class Vdc {
         remote_data = {},
         remote_style = {},
     }) {
-        this.id = id;
+        this.id = id || Vdc.generate_id();
         this.component_key = component_key;
         this.component_title = component_title;
         this.template_id = Number(template_id);
@@ -42,8 +51,6 @@ export default class Vdc {
         this.is_loaded_config = false;
         this.remote_data = Object.assign({}, remote_data);
         this.remote_style = Object.assign({}, remote_style);
-        // 创建组件唯一ID
-        if (id == 0) this.generate_component_id();
     }
 
     /**
@@ -72,16 +79,6 @@ export default class Vdc {
             this.is_loaded_config = true;
             this.inject_config_data();
         }
-
-        // 更新时间
-        this.update_lastmodiy();
-    }
-
-    /**
-     * 最后更新时间
-     */
-    update_lastmodiy () {
-        this.lastmodify = new Date().getTime();
     }
 
     /**
@@ -102,12 +99,6 @@ export default class Vdc {
             try {
                 // 普通赋值
                 this.config.styles[key].value = JSON.parse(JSON.stringify(this.remote_style[key]));
-                // 判断是否有绑定其他字段的关联关系
-                if (this.config.styles[key].hasOwnProperty('bind') === true) {
-                    const bindStr = this.config.styles[key].bind;
-                    const value = this.config.styles[key].value;
-                    eval('this.config.styles.' + bindStr + '=' + value);
-                }
             } catch (err) {
                 console.warn(`key '${key}' is dosen't exit`);
             }
@@ -118,12 +109,13 @@ export default class Vdc {
      * 把 config 的数据添加到 remote_data 和 remote_style 里面
      */
     inject_remote_data () {
-        Object.keys(this.config.datas).map(key => {
-            this.remote_data[key] = this.config.datas[key].value;
-        });
-        Object.keys(this.config.styles).map(key => {
-            this.remote_style[key] = this.config.styles[key].value;
-        });
+        const { datas, styles } = this.config
+        Object.entries(datas).map(([key, obj]) => {
+            this.remote_data[key] = obj.value
+        })
+        Object.entries(styles).map(([key, obj]) => {
+            this.remote_style[key] = obj.value
+        })
     }
 
     /**
@@ -131,8 +123,8 @@ export default class Vdc {
      * @returns {Vdc}
      */
     duplicate () {
-        const vdc = new Vdc(this);
-        vdc.generate_component_id();
+        const vdc = new Vdc(this)
+        vdc.id = Vdc.generate_id()
         if (this.is_loaded_config == true) {
             vdc.update_set('config', this.config);
         }
