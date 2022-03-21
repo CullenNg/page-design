@@ -45,7 +45,6 @@
                                     placeholder="请输入"
                                     :maxLength="configs[key].max || 200"
                                 />
-                                </a-input>
                             </template>
 
                             <!-- 数字输入框 -->
