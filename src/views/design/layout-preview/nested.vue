@@ -11,6 +11,7 @@
                     <!-- {{el}} -->
                     <component
                         :is="el.component_key"
+                        :id="el.id"
                         :styles="el | styleFormate"
                         :datas="el | dataFormate"
                     />

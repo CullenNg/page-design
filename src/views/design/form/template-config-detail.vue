@@ -42,8 +42,9 @@
                                 <a-input
                                     v-model="configs[key].value"
                                     size="large"
-                                    :maxlength="configs[key].max || 200"
-                                    placeholder="请输入">
+                                    placeholder="请输入"
+                                    :maxLength="configs[key].max || 200"
+                                />
                                 </a-input>
                             </template>
 
