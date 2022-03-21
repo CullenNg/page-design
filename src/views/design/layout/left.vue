@@ -26,8 +26,6 @@
                     :sort="false"
                     :clone="createCloneComponent"
                     :group="{ name: 'people', pull: 'clone', put: false }">
-
-                    <!-- 子项 -->
                     <li
                         v-for="(item, index) in category.components"
                         :key="index"
@@ -37,13 +35,11 @@
                     </li>
                 </draggable>
             </div>
-
         </a-spin>
     </div>
 </template>
 
 <script>
-import Vdc from '@/core/vdc/vdc';
 import draggable from 'vuedraggable'
 
 import {
@@ -133,23 +129,11 @@ export default {
         /**
          * 开始拖拽，复制拖拽对象
          * @param {Object} dragData 拖拽对象数据
-         * @returns {Vdc} 返回复制的对象
          */
         createCloneComponent (dragData) {
-            // 创建组件实例
-            const vdc = new Vdc({
-                component_key: dragData.component_key,
-                component_title: dragData.component_title,
-                template_id: dragData.template_id,
-                template_name: dragData.template_name,
-                template_title: dragData.template_title,
-                template_list: dragData.template_list
-            });
-            if (vdc.component_key == 'L000001') {
-                vdc['tasks'] = [];
-            }
-            return vdc;
-        }
+            const {component_key} = dragData
+            return component_key;
+        },
     },
 
     async created () {

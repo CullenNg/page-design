@@ -1,17 +1,14 @@
 <template>
     <div
         id="design-middle-layout"
-        :class="`design-layout-preview page-site-zf ${text_direction}`"
-        @click.self="handle_release_selected">
+        class="design-layout-preview"
+        @click.self="$store.dispatch('design/form_close')">
 
         <!-- 主要布局，中间，最小宽度 375x667 -->
-        <div class="main-layout is-app" :class="{ 'is-empty': layouts.length <= 0}">
+        <div class="main-layout is-app">
             
             <!-- 拖拽区域 -->
-            <nexted
-                :tasks.sync="components"
-                @update-layouts="updateLayouts">
-            </nexted>
+            <nexted />
 
             <!-- 空信息 -->
             <div class="is-empty" v-if="components.length <= 0">
@@ -23,12 +20,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import draggable from 'vuedraggable'
 import controller  from './controller.vue';
 import emptyImage from '@/resource/images/empty-preview.png';
 import nexted from './nested';
 
 export default {
+
     components: {
         draggable,
         controller,
@@ -46,8 +45,6 @@ export default {
                 dragClass: "sortable-drag",
                 filter: ".controller-title, .controller-aside", // 不允许此元素拖拽
             },
-            // 当前页面布局信息
-            layouts: [], 
             images: {
                 emptyImage 
             }
@@ -55,31 +52,12 @@ export default {
     },
 
     computed: {
-        // 页面所有组件
-        components: {
-            get () {
-                return this.$store.state.page.components || [];
-            },
-            set (arr) {
-                this.$store.dispatch('design/page_update_layout_v2', arr);
-            }
-        },
-
-        // 文案方向
-        text_direction () {
-            const map = ['he'];
-            const lang = this.$store.state.page.info.lang || 'en';
-            return map.includes(lang) ? 'rtl' : 'ltr';
-        }
+        ...mapState({
+            components: state => state.design.components
+        }),
     },
 
     methods: {
-
-        // 更新布局数据
-        updateLayouts (layouts) {
-            this.$store.dispatch('design/page_update_layout_v2', layouts);
-        },
-
         /**
          * 开始拖拽
          */
@@ -92,13 +70,6 @@ export default {
          */
         handle_drag_end () {
             this.$store.state.design.preview_in_drag = false;
-        },
-
-        /**
-         * 释放组件选中效果
-         */
-        handle_release_selected () {
-            this.$store.dispatch('design/form_close');
         }
     }
 }
@@ -123,19 +94,13 @@ export default {
         min-height: 667px;
         background: #fff;
         box-shadow:-10px 20px 30px 0px rgba(192,197,205,0.8);
-        // 为空
-        &.is-empty {
-            .is-empty {
-                display: block;
-            }
-        }
+   
         // 空数据的样式
         .is-empty {
             position: absolute;
             left: 0px;
             top: 270px;
             right: 0px;
-            display: none;
             text-align: center;
             color: #C7DCFF;
             font-size: 14px;

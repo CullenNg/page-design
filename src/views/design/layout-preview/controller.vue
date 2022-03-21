@@ -1,134 +1,57 @@
 <template>
-    <div class="component-controller" v-if="vdc">
+    <div class="component-controller">
         <!-- 组件标题 -->
-        <div class="controller-title">
-            {{ vdc.component_title }}-{{ vdc.template_title }}
-        </div>
+        <div class="controller-title">{{title}}</div>
 
         <!-- 组件删除 -->
         <div class="controller-aside">
-            <button class="button-remove" @click="handle_component_delete">
+            <button class="button-remove" @click="$store.dispatch('design/delete_page_component', id);">
                 <i class="iconfont design-delete"></i>
             </button>
         </div>
 
-        <!-- 布局组件的控制器 -->
-
-        <template v-if="isPanel">
-            <div
-                class="controller-panel"
-                @click="handle_component_select">
-                拖拽区域
-            </div>
-            <load-component
-                :vdc="vdc"
-                :id="vdc.id"
-                :uikey="vdc.component_key"
-                :template="vdc.template_name || 'template1'">
-                <slot></slot>
-            </load-component>
-        </template>
-
         <!-- UI组件的入口 -->
         <div
-            v-else
             :class="{
                 'design-component': true,
-                'is-active': design_selected_id === vdc.id && show_component_form === true,
-                'is-hover': in_drag == false && mouse_hover_id === vdc.id,
-                'is-panel': isPanel
+                'is-active': design_selected_id === id && show_component_form === true,
+                'is-hover': in_drag == false && mouse_hover_id === id,
             }"
-            @click="handle_component_select"
-            @mouseenter="handle_component_hover(vdc.id)"
-            @mouseleave="handle_component_leave">
-            <load-component
-                :vdc="vdc"
-                :id="vdc.id"
-                :uikey="vdc.component_key"
-                :template="vdc.template_name || 'template1'">
-                <slot></slot>
-            </load-component>
+            @click="$store.dispatch('design/form_open', id);"
+            @mouseenter="mouse_hover_id = id"
+            @mouseleave="mouse_hover_id = ''">
+            <slot />
         </div>
-
     </div>
 </template>
 
 <script>
-
-// 组件加载主体
-import loadComponent from '../../../system-components/ui-component-load/index.vue';
+import { mapState } from 'vuex'
 
 export default {
-    // 传入组件数据对象
-    // isPanel 是否容器对象 
-    props: ['vdc', 'isPanel'],
-
-    components: {
-        loadComponent
+    props: {
+        id: {
+            type: Number,
+            required: true
+        },
+        title: {
+            type: String,
+            default: '未命名组件'
+        }
     },
 
     data () {
         return {
-            mouse_hover_id: 0, // 鼠标经过的ID,
-            // 真实组件
-            component_module: null,
-            dataset: {
-                datas: {},
-                styles: {}
-            }
+            mouse_hover_id: 0, // 鼠标经过的ID
         };
     },
 
     computed: {
-        // 页面所有组件
-        layouts () {
-            return this.$store.state.page.layouts;
-        },
-        // 装修页选中的组件ID
-        design_selected_id () {
-            return this.$store.state.design.selected_vdc.id;
-        },
-        show_component_form () {
-            return this.$store.state.design.show_component_form;
-        },
-        // 是否在拖拽状态中
-        in_drag () {
-            return this.$store.state.design.preview_in_drag;
-        }
-    },
-
-    methods: {
-        /**
-         * 删除组件
-         */
-        handle_component_delete () {
-            this.$emit('onDelete');
-        },
-
-        /**
-         * 选择组件
-         */
-        handle_component_select () {
-            this.$store.dispatch('design/form_open', this.vdc);
-        },
-
-        /**
-         * 鼠标经过组件，增加虚线
-         * @param {number} id 组件ID
-         */
-        handle_component_hover (id) {
-            if (this.isPanel == true) return false;
-            this.mouse_hover_id = id;
-        },
-
-        /**
-         * 鼠标离开组件，删除虚线
-         * @param {number} id 组件ID
-         */
-        handle_component_leave () {
-            if (this.isPanel == true) return false;
-            this.mouse_hover_id = '';
-        }
+        ...mapState({
+            design_selected_id: state => state.design.selected_id,  // 装修页选中的组件ID
+            show_component_form: state => state.design.show_component_form,
+            in_drag: state => state.design.preview_in_drag // 是否在拖拽状态中
+        }),
     }
 };
 </script>
@@ -165,11 +88,6 @@ export default {
             border: solid 3px #409EFF;
             display: block;
         }
-    }
-
-    // 布局容器
-    &.is-panel {
-        background-color: rgba(64, 158, 255, 0.2);
     }
 }
 

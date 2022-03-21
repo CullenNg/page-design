@@ -30,12 +30,8 @@ Vue.prototype.$api = api;
 import All_form_unit from './system-components/form-unit/index.js';
 Vue.use(All_form_unit);
 
-import All_ui_unit from './ui-component/component-unit/index.js'; // 所有的UI组件的公共控件
-Vue.use(All_ui_unit);
-
-// 组件级别懒加载
-import VueLazyComponent from '@xunlei/vue-lazy-component';
-Vue.use(VueLazyComponent);
+// 加载业务组件，批量导入并注册
+import './ui-component/autoImport.js'
 
 // pixel 转 rem
 Vue.prototype.$px2rem = function (pixel = 0) {

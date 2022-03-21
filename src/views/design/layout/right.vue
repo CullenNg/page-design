@@ -3,25 +3,17 @@
 
         <!-- 悬浮按钮 -->
         <div class="sortable-aside">
-            <!-- <button :class="{ active: show }" @click="handle_show_sortable">
-                <i class="iconfont design-sortable"></i>
-                <p>页面</p>
-            </button> -->
             <button :class="{ active: show }" @click="handle_show_sortable">
                 <i class="iconfont design-sortable"></i>
                 <p>楼层</p>
             </button>
-            <!-- <button :class="{ active: show }" @click="handle_show_sortable">
-                <i class="iconfont design-sortable"></i>
-                <p>模版</p>
-            </button> -->
         </div>
 
         <div class="design-layout-sortable-wrapper">
             <!-- 标题 -->
             <h2 class="sortable-head">楼层管理</h2>
 
-            <div class="is-empty" v-if="page_components.length <= 0">
+            <div class="is-empty" v-if="components.length <= 0">
                 <img :src="images.emptySort">
                 没有组件，这里空空如也~
             </div>
@@ -37,13 +29,13 @@
 
                     <!-- 删除所有组件 -->
                     <div style="text-align: right;">
-                        <span class="button-clear-all" @click="handle_page_reset">清除所有组件</span>
+                        <span class="button-clear-all" @click="$store.dispatch('design/page_reset')">清除所有组件</span>
                     </div>
 
                     <!-- 拖拽容器 -->
                     <draggable
                         tag="ul"
-                        :list="page_components"
+                        :list="components"
                         v-bind="dragOptions"
                         @start="inDrag = true">
 
@@ -52,7 +44,7 @@
 
                             <!-- item -->
                             <li
-                                v-for="(item, index) in page_components"
+                                v-for="(item, index) in components"
                                 :key="item.id"
                                 :class="{
                                     'in-hover': inHover == item.id
@@ -64,7 +56,7 @@
 
                                 <div class="buttons">
                                     <!-- 删除 -->
-                                    <span class="ignore-elements" @click.stop="handle_component_copy(page_components, item, index)">
+                                    <span class="ignore-elements" @click.stop="handle_component_copy(item, index)">
                                         <i class="iconfont design-copy" />
                                     </span>
                                     <span class="ignore-elements" @click.stop="handle_component_delete(index)">
@@ -73,21 +65,17 @@
                                 </div>
                             </li>
                         </transition-group>
-
                     </draggable>
-
                 </div>
             </a-spin>
-
         </div>
-
-
     </div>
 </template>
 
 <script>
 import draggable from 'vuedraggable';
 import emptySort from '@/resource/images/empty-sort.png';
+import { mapState } from 'vuex';
 
 export default {
     data () {
@@ -111,19 +99,10 @@ export default {
     },
 
     computed: {
-        // 组件信息
-        page_components: {
-            get () {
-                return this.$store.state.page.components || [];
-            },
-            set (arr) {
-                this.$store.dispatch('design/page_update_layout_v2', arr);
-            }
-        },
-        // 根据是否展示组件配置项，决定组件排序组件是否展示
-        show () {
-            return !this.$store.state.design.show_component_form;
-        }
+        ...mapState({
+            components: state => state.design.components || [],
+            show: state => !state.design.show_component_form
+        })
     },
 
     components: {
@@ -131,51 +110,27 @@ export default {
     },
 
     methods: {
-
-        /**
-         * 结束拖拽
-         */
-        handleDragEnd (c) {
-            this.inDrag = false;
-        },
-
-        /**
-         * 保存排序数据
-         */
-        save_layouts_sort () {
-            // 更新到 store 里面
-            this.$store.dispatch('design/page_update_layout_v2', this.layouts);
-        },
-
         /**
          * 删除组件
          * @param {Number} index 数组索引
          */
         handle_component_delete (index) {
-            this.page_components.splice(index, 1);
+            this.components.splice(index, 1);
         },
 
         /**
          * 复制粘贴组件
-         * @param {Array} page_components 所有组件列表
          * @param {Vdc} component 组件
          * @param {Number} index 组件楼层索引
          */
-        async handle_component_copy (page_components, component, index) {
+        async handle_component_copy (component, index) {
             try {
                 const vdc = component.duplicate();
-                page_components.splice(index + 1, 0, vdc);
+                this.components.splice(index + 1, 0, vdc);
                 this.$message.success('复制组件成功！');
             } catch (err) {
                 this.$message.error('复制组件失败！');
             }
-        },
-
-        /**
-         * 删除所有组件
-         */
-        handle_page_reset () {
-            this.$store.dispatch('design/page_reset');
         },
 
         /**

@@ -53,10 +53,10 @@ const styles = {
 // 布局
 import template1 from './template1';
 
-export const config = {
+export default {
     datas,
     styles,
     layout: [
         template1
     ]
-};
+}

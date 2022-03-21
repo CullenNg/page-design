@@ -1,114 +1,98 @@
 <template>
     <draggable
-        :class="{'dragArea': true, 'is-panel': isPanel}"
-        :list="tasks"
+        class="dragArea"
         tag="ul"
-        group="people"
-        @start="handle_drag_start"
+        :group="{ name: 'people' }"
+        :list="list"
         @change="handle_drag_change">
-        <li v-for="(el, index) in tasks" :key="el.id">
-            <controller
-                :vdc="el"
-                :isPanel="!!el.tasks"
-                @onDelete="handleDeleteComponent(index)">
-                <nested-draggable
-                    :isPanel="!!el.tasks"
-                    :tasks.sync="el.tasks"
-                    @update-layouts="updateLayouts" />
-            </controller>
+        <li v-for="el in list" :key="el.id">
+            <template v-if="el.id">
+                <controller :id="el.id" :title="el.component_title">
+                    {{el}}
+                    <component
+                        :is="el.component_key"
+                        :styles="el | styleFormate"
+                        :datas="el | dataFormate"
+                    />
+                <!-- <load-component
+                    :vdc="vdc"
+                    :id="id"
+                    :uikey="vdc.component_key"
+                    :template="vdc.template_name || 'template1'">
+                </load-component> -->
+                </controller>
+            </template>    
+            <template v-else>
+                waiting
+            </template>
         </li>
     </draggable>
 </template>
 <script>
 import controller  from './controller.vue';
 import draggable from "vuedraggable";
+import { mapState } from 'vuex';
 
 export default {
-    props: {
-        tasks: {
-            required: true,
-            type: Array
-        },
-        isPanel: {
-            type: Boolean,
-            default: false
-        }
-    },
+    name: "nested-draggable",
     components: {
         controller,
         draggable
     },
-
-    data () {
-        return {
-            before_drag_tasks: []
-        }
+    computed: {
+        ...mapState({
+            list: state => state.design.components
+        }),
     },
-
-    name: "nested-draggable",
-
     methods: {
-        /**
-         * 开始拖拽前，记录拖拽前的数据
-         */
-        handle_drag_start () {
-            this.before_drag_tasks = [...this.tasks];
-        },
         /**
          * 拖拽结束事件变更
          */
         async handle_drag_change (data) {
             // 新增组件模式
             if (data.hasOwnProperty('added')) {
-                const isPanel = data.added.element.hasOwnProperty('tasks');
-                if (this.isPanel == true && isPanel == true) {
-                    this.$emit('update:tasks', [...this.before_drag_tasks]);
-                } else {
-                    this.before_drag_tasks = [...this.tasks];
-                    // 新增后默认打开表单项
-                    this.$store.dispatch('design/form_open', data.added.element);
-                }
+                this.$store.dispatch('design/add_page_component', {
+                    component_key: data.added.element,
+                    index: data.added.newIndex,
+                });
             }
-            this.$emit('update-layouts', this.tasks);
         },
+    },
 
-        updateLayouts () {
-            this.$emit('update-layouts', this.tasks);
+    filters: {
+        // 功能数据
+        dataFormate (conponent) {
+            // 如果有配置项的话
+            if (conponent.is_loaded_config && conponent.hasOwnProperty('config')) {
+                const datas = {};
+                Object.keys(conponent.config.datas).map(key => {
+                    datas[key] = conponent.config.datas[key].value;
+                });
+                return datas;
+            } else {
+                return conponent.remote_data || {};
+            }
         },
-
-        /**
-         * 删除组件
-         * @param {Number} index 组件索引
-         */
-        handleDeleteComponent (index) {
-            const that = this;
-            // 弹层
-            this.$confirm({
-                title: '确认删除该组件？',
-                onOk () {
-                    that.tasks.splice(index, 1);
-                    that.$store.dispatch('design/form_close');
-                    that.$message.success('删除组件成功');
-                }
-            });
-            
-        }
-    }
+        // 样式数据
+        styleFormate (conponent) {
+            // 如果有配置项的话
+            if (conponent.is_loaded_config && conponent.hasOwnProperty('config')) {
+                const styles = {};
+                Object.keys(conponent.config.styles).map(key => {
+                    styles[key] = conponent.config.styles[key].value;
+                });
+                return styles;
+            } else {
+                return conponent.remote_style || {};
+            }
+        },
+    },
 };
 </script>
 
 <style scoped lang="less">
-
 ul.dragArea {
     padding-left: 0px;
     list-style: none;
 }
-
-ul.dragArea.is-panel {
-    min-height: 100px;
-    padding: 10px;
-    background-color: rgba(64, 158, 255, 0.2);
-}
-
-
 </style>

@@ -1,3 +1,5 @@
+import formGlobalConfig from '/src/ui-component-form/global.js'
+
 /**
  * Virtual component for design
  */
@@ -126,7 +128,7 @@ export default class Vdc {
 
     /**
      * 复制自身
-     * @returns {vdc}
+     * @returns {Vdc}
      */
     duplicate () {
         const vdc = new Vdc(this);
@@ -135,5 +137,36 @@ export default class Vdc {
             vdc.update_set('config', this.config);
         }
         return vdc;
+    }
+
+    /**
+     * 加载组件表单配置项
+     * @return {Promise}
+     */
+    initFormConfig () {
+        const self = this
+        const { component_key, is_loaded_config } = this
+        const mergeConfig = (source, data) => {
+            const copyData = JSON.parse(JSON.stringify(data))
+            Object.keys(source).map(key => {
+                copyData[key] = Object.assign(copyData[key], source[key]);
+            });
+            return copyData;
+        }
+        return new Promise((resolve, reject) => {
+            if (is_loaded_config === true) {
+                return resolve()
+            } else {
+                // 读取 config 配置文件
+                require([`/src/ui-component-form/library/${component_key}/index.js`], (module) => {
+                    // deep clone object
+                    const data = JSON.parse(JSON.stringify(module.default));
+                    const mergeData = mergeConfig(formGlobalConfig, data);
+                    Vdc.prototype.update_set.call(self, 'config', mergeData);
+                    Vdc.prototype.update_set.call(self, 'is_loaded_config', true)
+                    resolve();
+                });
+            }
+        });
     }
 }

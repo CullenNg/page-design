@@ -2,7 +2,6 @@ import discount from './discount/index.vue';
 import shopPrice from './shop_price/index.vue';
 import marketPrice from './market_price/index.vue';
 import goodsImage from './image_goods/index.vue';
-import loadMore from './load_more/index.vue';
 import fixedTop from './fixed_top/index.vue';
 
 // 所有组件列表
@@ -11,7 +10,6 @@ const components = [
     shopPrice,
     marketPrice,
     goodsImage,
-    loadMore,
     fixedTop,
 ];
 

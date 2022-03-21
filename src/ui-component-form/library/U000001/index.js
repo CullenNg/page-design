@@ -1,5 +1,3 @@
-// 公共配置项
-import commonConfig from '../../../common-config';
 // 模版
 import template1 from './template1';
 
@@ -31,10 +29,10 @@ const styles = {
     bg_img: { title: '背景图片', type: 'image', value: '', }
 };
 
-export const config = commonConfig.merge({
+export default {
     datas,
     styles,
     layout: [
         template1
     ]
-});
+}

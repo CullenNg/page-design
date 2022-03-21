@@ -1,29 +1,9 @@
-import { Modal } from 'ant-design-vue'
-import { message } from 'ant-design-vue';
+import { Modal, message } from 'ant-design-vue'
 
 // 组件实例
 import Vdc from '@/core/vdc/vdc';
 
-import {
-    design_get_page_info
-} from '../../interface/index.js';
-
-/**
- * 获取组件配置项方法
- * @param {string} key 组件KEY, 对应数据库字段 component_key
- * @param {string} template 组件模版，默认 template1
- * @returns promise
- */
-const load_component_config = (key, template = 'template1') => {
-    return new Promise((resolve, reject) => {
-        // 读取 config 配置文件
-        require([`../../ui-component/${key}/m/form/index.js`], (module) => {
-            // deep clone object
-            const data = JSON.parse(JSON.stringify(module.config));
-            resolve(data);
-        });
-    });
-}
+import { design_get_page_info } from '../../interface/index.js';
 
 // 装修页模块
 const design = {
@@ -35,6 +15,8 @@ const design = {
         selected_vdc: {}, // 选中的组件数据对象，打开form表单
         show_component_form: false, // 是否展示组件配置项,
         component_temlate_list: [], // 所有组件的模版列表
+
+        components: []
     },
 
     mutations: {
@@ -45,32 +27,39 @@ const design = {
          */
         udpate_component_template_list (state, list) {
             state.component_temlate_list = list;
+        },
+        
+        /**
+         * 添加页面组件
+         * @param {Number} index 
+         * @param {Vdc} component 
+         */
+        add_page_component (state, { index, component }) {
+            state.components.splice(index, 1, component)
         }
     },
 
     actions: {
         /**
          * 打开form表单
-         * @param {Object} vdc 组件数据对象
+         * @param {Number} id 组件ID
          */
-        async form_open ({ state }, vdc) {
+        async form_open ({ state }, id) {
+            // 根据ID找到对应的组件
+            const target = state.components.find(x => x.id === id)
 
-            // 如果组件没有读取配置项，则读取 config.js 文件
-            if (vdc.is_loaded_config == false) {
-                // 读取组件的配置项
-                const config = await load_component_config(vdc.component_key, vdc.template_name);
-                vdc.update_set('config', config);
-            }
+            // 加载配置文件
+            await target.initFormConfig()
 
             // 如果组件没有模版列表，则加载
-            if (vdc.template_list.length <= 0) {
-                const template_list = state.component_temlate_list.filter(x => x.component_key == vdc.component_key);
-                vdc.update_set('template_list', template_list);
+            if (target.template_list.length <= 0) {
+                const template_list = state.component_temlate_list.filter(x => x.component_key == target.component_key);
+                target.update_set('template_list', template_list);
             }
 
             // 展示 form
             state.selected_vdc = null;
-            state.selected_vdc = vdc;
+            state.selected_vdc = target;
             state.show_component_form = true;
         },
 
@@ -88,6 +77,7 @@ const design = {
          */
         component_locate_by_floor ({}, {component, index}) {
             const dom = document.getElementById(component.id);
+            if (!dom) return false
             const middleDom = document.getElementById('design-middle-layout');
             // 获取元素的纵坐标（相对于窗口）
             function getTop (e) {
@@ -109,26 +99,20 @@ const design = {
             // 装修页获取页面数据
             design_get_page_info(page_id).then(res => {
                 // 拼装页面数据
-                const local_components = JSON.parse(localStorage.getItem('layouts') || '[]');
                 const data = {
                     page_id: res.pageId || '',
                     lang: res.lang || 'en',
                     platform: res.platform || 'm',
                     title: res.pageTitle || '',
-                    components: res.components.map(x => new Vdc(x))
                 };
                 
                 // 存储页面数据
                 dispatch('page/load', data, { root: true });  
 
-                // 11-10 通过 API 获取当前页面组件的商品数据 - Cullen
-                dispatch('page/load_remote_goods_data', {
-                    is_first: 1
-                }, { root: true }); 
-
                 // 更新状态
                 state.loading = false;
                 state.first_loaded = true;
+                state.components = res.components.map(x => new Vdc(x))
             }, (err) => {
                 err.message && message.error(err.message);
                 setTimeout(() => {
@@ -182,23 +166,46 @@ const design = {
         /**
          * 清除页面组件
          */
-        page_reset ({ rootState }) {
+        page_reset ({ state }) {
             // 弹层
             Modal.confirm({
                 title: '确认删除所有组件？',
                 onOk () {
-                    rootState.page.new_layouts = [];
-                    rootState.page.goodsSKU = [];
+                    state.components = []
                 }
             });
         },
 
         /**
-         * 装修页更新页面布局排序
-         * @param {Array} layouts 所有组件数据
+         * 删除1个页面组件
+         * @param {Int} component_id 
          */
-        page_update_layout_v2 ({ commit }, layouts) {
-            commit('page/update_new_layout', layouts, { root: true });
+        delete_page_component ({ state, dispatch }, component_id) {
+            Modal.confirm({
+                title: '确认删除该组件？',
+                onOk () {
+                    state.components = state.components.filter(x => x.id !== component_id);
+                    dispatch('form_close');
+                    message.success('删除组件成功');
+                }
+            });
+        },
+
+        /**
+         * 页面插入1个组件
+         * @param {String} component_key 组件编码
+         * @param {Number} index 位置
+         */
+        add_page_component ({ commit, dispatch }, { component_key, index }) {
+            const newComponent = new Vdc({
+                component_key,
+                template_id: 1
+            })
+            commit('add_page_component', {
+                index,
+                component: newComponent
+            })
+            dispatch('form_open', newComponent.id)
         }
     }
 };
