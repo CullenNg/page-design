@@ -8,18 +8,12 @@
         <li v-for="el in list" :key="el.id">
             <template v-if="el.id">
                 <controller :id="el.id" :title="el.component_title">
-                    {{el}}
+                    <!-- {{el}} -->
                     <component
                         :is="el.component_key"
                         :styles="el | styleFormate"
                         :datas="el | dataFormate"
                     />
-                <!-- <load-component
-                    :vdc="vdc"
-                    :id="id"
-                    :uikey="vdc.component_key"
-                    :template="vdc.template_name || 'template1'">
-                </load-component> -->
                 </controller>
             </template>    
             <template v-else>

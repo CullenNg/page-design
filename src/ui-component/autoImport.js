@@ -6,7 +6,7 @@ import Vue from 'vue'
  * @returns {String} component_name
  */
 const getComponentName = (filePath) => {
-    const name = filePath.match(/\/\S*\//)[0].replace(/\//g, '')
+    const name = filePath.match(/\/\S*\//)[0].replace(/\//g, '').replace(/\_/g, '-')
     return name
 }
 
@@ -19,15 +19,17 @@ const units = require.context('./unit/', true, /index.vue$/);
 /**
  * 加载组件
  * @param {Fn} resolve 
+ * @param {String} namePrefix 注册组件名字的前缀
  */
-const requireComponent = (resolve) => {
+const requireComponent = (resolve, namePrefix = '') => {
     resolve.keys().map(filePath => {
-        const component_name = getComponentName(filePath)
+        const component_name = namePrefix + getComponentName(filePath)
         const componentConfig = resolve(filePath)
         Vue.component(component_name, componentConfig.default || componentConfig);
     })
 }
 
 Vue.use(() => {
-    [libraries, units].forEach(item => requireComponent(item))
+    requireComponent(libraries);
+    requireComponent(units, 'unit-');
 })
