@@ -119,9 +119,10 @@ const second_to_date = (s) => {
     return t;
 };
 
-export default {
-    props: ['id', 'datas', 'styles'],
+import mixins from '../../mixins'
 
+export default {
+    mixins: [mixins],
     data () {
         return {
             // 定时器钩子
@@ -212,9 +213,8 @@ export default {
     },
 
     mounted () {
-        // 初始化
+        // 初始化倒计时
         this.init();
-        this.$emit('loaded');
     }
 };
 </script>

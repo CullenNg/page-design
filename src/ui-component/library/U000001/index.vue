@@ -8,9 +8,10 @@
 </template>
 
 <script>
-export default {
-    props: ['styles', 'datas'],
+import mixins from '../../mixins'
 
+export default {
+    mixins: [mixins],
     computed: {
         /** 样式 */
         wrapper_style () {
@@ -52,10 +53,6 @@ export default {
         href () {
             return this.datas.href || 'javascript: void(0);';
         }
-    },
-
-    mounted () {
-        this.$emit('loaded');
     }
 };
 </script>

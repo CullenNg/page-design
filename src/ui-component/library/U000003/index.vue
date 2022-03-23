@@ -122,8 +122,10 @@ const default_goods_list = [
     default_goods_item
 ];
 
+import mixins from '../../mixins'
+
 export default {
-    props: ['id', 'datas', 'styles', 'languages'],
+    mixins: [mixins],
     computed: {
         css () {
             return '<style>' + css.call(this) + '</style>';
@@ -133,15 +135,8 @@ export default {
             this.whole && name.push('is-whole');
             return name;
         },
-        env () {
-            return this.$store.state.page.env;
-        },
         list () {
-            if (this.datas.goods.length <= 0) {
-                return default_goods_list;
-            } else {
-                return this.datas.goods;
-            }
+            return this.datas.goods || default_goods_list
         },
         // 背景整体式
         whole () {
@@ -154,10 +149,6 @@ export default {
         px2rem (val = 0) {
             return (val / 75) + 'rem';
         }
-    },
-
-    mounted () {
-        this.$emit('loaded');
     }
 };
 </script>

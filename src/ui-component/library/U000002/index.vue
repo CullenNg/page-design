@@ -19,15 +19,14 @@
 </template>
 
 <script>
-// https://www.npmjs.com/package/vue-awesome-swiper
 import 'swiper/css/swiper.css'
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import defaultUrl from '@/resource/images/default-banner.png';
+import mixins from '../../mixins'
 
 export default {
-    props: ['datas', 'styles'],
+    mixins: [mixins],
     data () {
-        const self = this;
         return {
             // 轮播图设置
             swiperOption: {
@@ -55,7 +54,6 @@ export default {
         swiper () {
             return this.$refs.mySwiper.swiper;
         },
-
         // 广告轮播列表
         list () {
             try {
@@ -73,10 +71,6 @@ export default {
         px2rem (val = 0) {
             return (val / 75) + 'rem';
         }
-    },
-
-    mounted () {
-        this.$emit('loaded');
     }
 };
 </script>
